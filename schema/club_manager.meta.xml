@@ -1,0 +1,233 @@
+<schemaMeta>
+<!--
+<schemaMeta xsi:noNamespaceSchemaLocation="http://schemaspy.sourceforge.net/xmlschema/2011/02/05/schemaspy.meta.xsd">
+<schemaMeta xsi:noNamespaceSchemaLocation="/home/clemens/SchemaSpy/schemaspy.meta.xsd">
+-->
+  <comments>
+    Database for the ClubManager project
+  </comments>
+  <tables>
+
+<!-- ********************************************************************** -->
+<!--                           User Administration                          -->
+<!-- ********************************************************************** -->
+    <table name="profiles">
+      <column name="user_id">
+        <foreignKey table="users" column="id"/>
+      </column>
+      <column name="salutation_id">
+        <foreignKey table="salutations" column="id"/>
+      </column>
+      <column name="storage_id">
+        <foreignKey table="storages" column="id"/>
+      </column>
+    </table>
+    <table name="profiles_titles">
+      <column name="profile_id">
+        <foreignKey table="profiles" column="id"/>
+      </column>
+      <column name="title_id">
+        <foreignKey table="titles" column="id"/>
+      </column>
+    </table>
+    <table name="privilegs_users">
+      <column name="privileg_id">
+        <foreignKey table="privilegs" column="id"/>
+      </column>
+      <column name="user_id">
+        <foreignKey table="users" column="id"/>
+      </column>
+    </table>
+
+<!-- ********************************************************************** -->
+<!--                          Club Administration                           -->
+<!-- ********************************************************************** -->
+
+    <table name="memberships">
+      <column name="profile_id">
+        <foreignKey table="profiles" column="id"/>
+      </column>
+      <column name="state_id">
+        <foreignKey table="states" column="id"/>
+      </column>
+    </table>
+
+    <table name="administrations">
+      <column name="membership_id">
+        <foreignKey table="memberships" column="id"/>
+      </column>
+    </table>
+    <table name="groups">
+      <column name="privileg_id">
+        <foreignKey table="privilegs" column="id"/>
+      </column>
+      <column name="storage_id">
+        <foreignKey table="storages" column="id"/>
+      </column>
+      <column name="kind_id">
+        <foreignKey table="kinds" column="id"/>
+      </column>
+    </table>
+    <table name="groups_memberships">
+      <column name="group_id">
+        <foreignKey table="groups" column="id"/>
+      </column>
+      <column name="membership_id">
+        <foreignKey table="memberships" column="id"/>
+      </column>
+    </table>
+    <table name="availabilities">
+      <column name="membership_id">
+        <foreignKey table="memberships" column="id"/>
+      </column>
+      <column name="event_id">
+        <foreignKey table="events" column="id"/>
+      </column>
+    </table>
+    <table name="events">
+      <column name="group_id">
+        <foreignKey table="groups" column="id"/>
+      </column>
+      <column name="mode_id">
+        <foreignKey table="modes" column="id"/>
+      </column>
+      <column name="user_id">
+        <foreignKey table="users" column="id"/>
+      </column>
+    </table>
+    <table name="events_resources">
+      <column name="event_id">
+        <foreignKey table="events" column="id"/>
+      </column>
+      <column name="resource_id">
+        <foreignKey table="resources" column="id"/>
+      </column>
+    </table>
+    <table name="tracks">
+      <column name="event_id">
+        <foreignKey table="events" column="id"/>
+      </column>
+      <column name="musicsheet_id">
+        <foreignKey table="sheets" column="id"/>
+      </column>
+    </table>
+    <table name="musicsheets">
+      <column name="composer_profile_id">
+        <foreignKey table="profiles" column="id"/>
+      </column>
+      <column name="arranger_profile_id">
+        <foreignKey table="profiles" column="id"/>
+      </column>
+      <column name="publisher_id">
+        <foreignKey table="publishers" column="id"/>
+      </column>
+    </table>
+    <table name="sheets">
+      <column name="book_id">
+        <foreignKey table="books" column="id"/>
+      </column>
+      <column name="musicsheet_id">
+        <foreignKey table="sheets" column="id"/>
+      </column>
+    </table>
+
+
+<!-- ********************************************************************** -->
+<!--                           Optional features                            -->
+<!-- ********************************************************************** -->
+    <table name="uploads">
+      <column name="user_id">
+        <foreignKey table="users" column="id"/>
+      </column>
+      <column name="type_id">
+        <foreignKey table="types" column="id"/>
+      </column>
+      <column name="storage_id">
+        <foreignKey table="storages" column="id"/>
+      </column>
+    </table>
+    <table name="photos">
+      <column name="gallery_id">
+        <foreignKey table="galleries" column="id"/>
+      </column>
+      <column name="user_id">
+        <foreignKey table="users" column="id"/>
+      </column>
+      <column name="orig_storage_id">
+        <foreignKey table="storages" column="id"/>
+      </column>
+      <column name="marked_storage_id">
+        <foreignKey table="storages" column="id"/>
+      </column>
+      <column name="thumb_storage_id">
+        <foreignKey table="storages" column="id"/>
+      </column>
+    </table>
+    <table name="galleries">
+      <column name="user_id">
+        <foreignKey table="users" column="id"/>
+      </column>
+    </table>
+    <table name="blogs">
+      <column name="user_id">
+        <foreignKey table="users" column="id"/>
+      </column>
+      <column name="storage_id">
+        <foreignKey table="storages" column="id"/>
+      </column>
+    </table>
+    <table name="blogs_tags">
+      <column name="blog_id">
+        <foreignKey table="blogs" column="id"/>
+      </column>
+      <column name="tag_id">
+        <foreignKey table="tags" column="id"/>
+      </column>
+    </table>
+    <table name="comments">
+      <column name="user_id">
+        <foreignKey table="users" column="id"/>
+      </column>
+      <column name="blog_id">
+        <foreignKey table="blogs" column="id"/>
+      </column>
+    </table>
+    <table name="votes">
+      <column name="user_id">
+        <foreignKey table="users" column="id"/>
+      </column>
+    </table>
+    <table name="blogs_votes">
+      <column name="blog_id">
+        <foreignKey table="blogs" column="id"/>
+      </column>
+      <column name="votes_id">
+        <foreignKey table="tags" column="id"/>
+      </column>
+    </table>
+    <table name="comments_votes">
+      <column name="comment_id">
+        <foreignKey table="comments" column="id"/>
+      </column>
+      <column name="votes_id">
+        <foreignKey table="tags" column="id"/>
+      </column>
+    </table>
+    <table name="galleries_votes">
+      <column name="gallery_id">
+        <foreignKey table="galleries" column="id"/>
+      </column>
+      <column name="votes_id">
+        <foreignKey table="tags" column="id"/>
+      </column>
+    </table>
+    <table name="photos_votes">
+      <column name="photo_id">
+        <foreignKey table="photos" column="id"/>
+      </column>
+      <column name="votes_id">
+        <foreignKey table="tags" column="id"/>
+      </column>
+    </table>
+  </tables>
+</schemaMeta>

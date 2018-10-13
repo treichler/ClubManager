@@ -1,0 +1,136 @@
+<?php
+// app/Controller/TracksController.php
+class TracksController extends AppController {
+
+  public function isAuthorized($user) {
+    $privilegs = $this->getUser();
+
+    // club-members are allowed to access 'index'
+    if ($this->action === 'index') {
+      $profile = $this->getProfile();
+      if (!empty($profile) && !empty($profile['Membership']['id'])) {
+        return true;
+      }
+    }
+
+    // users with privileg 'Track' are allowed to call 'add' and 'delete'
+    if (($this->action === 'add' || $this->action === 'delete') &&
+        array_has_key_val($privilegs['Privileg'], 'name', 'Track'))
+      return true;
+  }
+
+
+  public $components = array('RequestHandler');
+  public $helpers = array('Html', 'Form', 'Js' => array('Jquery'));
+
+  public function index () {
+    $event_id = null;
+    if(isset($this->params['url']['event_id']))
+      $event_id = $this->params['url']['event_id'];
+
+    // add event
+    $this->Track->Event->contain();
+    $this->Track->Event->id = $event_id;
+    $this->set('event', $this->Track->Event->read());
+
+    // add tracks wich belong to the event
+    $this->Track->contain('Musicsheet.title');
+    $tracks = $this->Track->find('all', array(
+      'conditions' => array('Track.event_id' => $event_id)
+    ));
+    $this->set(compact('tracks'));
+
+    // add all books to the instant variable
+    $this->Track->Musicsheet->Sheet->Book->contain();
+    $books = $this->Track->Musicsheet->Sheet->Book->find('list',array('fields'=>array('id','title')));
+    $this->set(compact('books'));
+
+    // add all sheets to the instant variable
+    $this->Track->Musicsheet->Sheet->contain('Book.title', 'Musicsheet.title');
+    $sheets = $this->Track->Musicsheet->Sheet->find('all', array(
+      'order' => array('Sheet.page' => 'asc')
+    ));
+    $this->set(compact('sheets'));
+
+/*
+    // add all musicsheets to the instant variable
+    $this->Track->Musicsheet->contain();
+    $musicsheets = $this->Track->Musicsheet->find('list',array('fields'=>array('id','title')));
+    $this->set(compact('musicsheets'));
+*/
+  }
+
+  public function add() {
+    $response = '';
+    if ($this->request->is('post') && $this->request->is('ajax')) {
+//      $response = print_r($this->request->data);
+//      $response = 'true';
+
+      $this->Track->Event->contain();
+      $event = $this->Track->Event->findById($this->request->data['Track']['event_id']);
+      if ($event['Event']['tracks_checked']) {
+        $response = json_encode(array(
+          'state' => 'false',
+          'message' => 'Hinzufügen nicht möglich, da die Liste der gespielten Musikstück bereits bestätigt wurde.'
+        ));
+      } else {
+        $this->Track->create();
+        if ($this->Track->save($this->request->data)) {
+          $this->Track->contain('Musicsheet.title');
+          $response = json_encode(array('state' => 'true', 'data' => $this->Track->read()));
+        } else {
+          $response = json_encode(array('state' => 'false', 'message' => 'Musikstück konnte nicht gespeichert werden.'));
+        }
+      }
+
+/*
+      $this->Blog->create();
+      if ($this->Blog->save($this->request->data))
+      {
+        $this->Session->setFlash('Blog wurde gespeichert.');
+//        $this->Session->setFlash(print_r($this->request->data));
+        $this->redirect(array('action' => 'index'));
+      }
+      else
+      {
+        $this->Session->setFlash('Blog konnte nicht gespeichert werden.');
+      }
+*/
+
+    } else {
+      $response = json_encode(array('state' => 'false', 'message' => 'Nothing to do.'));
+    }
+    $this->response->type('json');
+    $this->response->body($response);
+    return $this->response;
+  }
+
+  public function delete($id) {
+    if ($this->request->is('get')) {
+      throw new MethodNotAllowedException();
+    }
+    $response = '';
+
+    $this->Track->contain('Event');
+    $track = $this->Track->findById($id);
+    if ($track['Event']['tracks_checked']) {
+      $response = json_encode(array(
+        'state' => 'false',
+        'message' => 'Löschen nicht möglich, da die Liste der gespielten Musikstück bereits bestätigt wurde.'
+      ));
+    } else {
+      if ($this->request->is('ajax')) {
+        if ($this->Track->delete($id)) {
+          $response = json_encode(array('state' => 'true'));
+        } else {
+          $response = json_encode(array('state' => 'false', 'message' => 'Seite konnte nicht gelöscht werden'));
+        }
+      }
+    }
+    $this->response->type('json');
+    $this->response->body($response);
+    return $this->response;
+  }
+
+}
+
