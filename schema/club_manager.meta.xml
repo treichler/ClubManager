@@ -1,8 +1,4 @@
 <schemaMeta>
-<!--
-<schemaMeta xsi:noNamespaceSchemaLocation="http://schemaspy.sourceforge.net/xmlschema/2011/02/05/schemaspy.meta.xsd">
-<schemaMeta xsi:noNamespaceSchemaLocation="/home/clemens/SchemaSpy/schemaspy.meta.xsd">
--->
   <comments>
     Database for the ClubManager project
   </comments>

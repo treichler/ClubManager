@@ -100,11 +100,9 @@ class StatisticsController extends AppController {
         }
         if ($availability['was_available']) {
           if (!isset($names['groups'][ $event['Event']['group_id'] ])) {
-            $names['groups'][ $event['Event']['group_id'] ] = 'Stadtkapelle';
             $names['groups'][ $event['Event']['group_id'] ] = $event['Group']['name'];
           }
           if (!isset($names['modes'][ $event['Event']['mode_id'] ])) {
-            $names['modes'][ $event['Event']['mode_id'] ] = 'Probe';
             $names['modes'][ $event['Event']['mode_id'] ] = $event['Mode']['name'];
           }
           if (!isset($data[ $availability['membership_id'] ][ $event['Event']['group_id'] ][ $event['Event']['mode_id'] ])) {

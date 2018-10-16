@@ -486,5 +486,4 @@ CREATE TABLE photos_votes (
 /*****************************************************************************/
 
 -- source data.sql
---source /opt/lampp/htdocs/stadtkapelle/additional_project_data/data.sql
 

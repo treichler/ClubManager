@@ -3,7 +3,7 @@
 Configure::write('debug', 0);
 
 $this->set('channel', array(
-  'title' => __("Stadtkapelle Bad Radkersburg - Aktuelles"),
+  'title' => __(Configure::read('club.name') . " - Aktuelles"),
 //  'link' => $this->Html->url('/', true),
   'link' => $this->Html->url(array('controller' => 'blogs', 'action' => 'index.rss'), true),
   'description' => __("Aktuelle Informationen"),

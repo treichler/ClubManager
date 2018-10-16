@@ -11,8 +11,7 @@ $pdf = new XTCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8'
 
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
-$pdf->SetAuthor('Stadtkapelle Bad Radkersburg');
-//$pdf->SetTitle('TCPDF Example 001');
+$pdf->SetAuthor(Configure::read('club.name'));
 $pdf->SetTitle($title_for_layout);
 //$pdf->SetSubject('TCPDF Tutorial');
 //$pdf->SetKeywords('TCPDF, PDF, example, test, guide');

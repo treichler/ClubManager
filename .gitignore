@@ -20,6 +20,7 @@
 #/dist
 #/tags
 
+/error.log
 /.editorconfig
 /.travis.yml
 
@@ -32,8 +33,6 @@
 /app/webroot/img/photo_marked.jpg
 /app/webroot/img/photo_marked.png
 /app/webroot/img/test.jpg
-
-/app/webroot/css/stadtkapelle.css
 
 
 # OS generated files #
