@@ -37,7 +37,8 @@
     if ($event['Location']['show_on_map'] &&
         $event['Location']['latitude'] != null &&
         $event['Location']['longitude'] != null) {
-      $show_map = true;
+// FIXME map disabled due to API restrictions
+//      $show_map = true;
       $map_link = '<a class="map-location" href="javascript:void(0)" ' .
                   'title="Veranstaltungsort auf Karte zeigen"' .
                   '" info="' . $info .
