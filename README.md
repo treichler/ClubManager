@@ -9,26 +9,27 @@ The whole application is powered by CakePHP (current version: 2.3.1).
 Setup
 -----
 
-Get ClubManager
-
-Create following files according to your requirements, take a look at the *.example files
+Create following files according to your requirements, take a look at the *.example files:
 * /app/config/bootstrap.php  (application specific settings)
 * /app/config/core.php       (debug-level, cache, security values,...)
 * /app/config/database.php
 * /app/config/email.php
 
 
-Adapt database settings according to your provider's requirements
+Adapt database settings according to your provider's requirements:
 * /schema/schema.sql
 * /app/config/database.php
 
 
-Create database by loading
+Create database by loading:
 * /schema/schema.sql
 * /schema/data.sql
 
 
-Change the apperience of ClubManager
+ClubManager's apperience
+------------------------
+
+Change the apperience of 
 * /app/webroot/css/style.css
 * /app/webroot/img/default_blog_img.png
 * /app/webroot/img/default_profile_img.png

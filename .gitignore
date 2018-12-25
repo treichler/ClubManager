@@ -24,11 +24,7 @@
 /.editorconfig
 /.travis.yml
 
-/app/webroot/storage/Blog/*
-/app/webroot/storage/Group/*
-/app/webroot/storage/Photo/*
-/app/webroot/storage/Profile/*
-/app/webroot/storage/Upload/*
+/app/webroot/storage
 
 /app/webroot/img/photo_marked.jpg
 /app/webroot/img/photo_marked.png
