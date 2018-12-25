@@ -12,7 +12,7 @@
     <th>Privilegs</th>
     <th>Created</th>
     <th>Modified</th>
-    <th>Blog Votes</th>
+<!--    <th>Blog Votes</th> -->
   </tr>
 
   <?php foreach ($users as $user): ?>
@@ -30,7 +30,12 @@
     ?></td>
     <td><?php echo $user['User']['created']; ?></td>
     <td><?php echo $user['User']['modified']; ?></td>
-    <td><?php echo $user['Vote']['blog_votes']; ?></td>
+<!--    <td><?php echo $user['Vote']['blog_votes']; ?></td> -->
+    <td class="td icon-edit"><?php
+        echo $this->Html->link('bearbeiten',
+        array('controller' => 'users', 'action' => 'edit', $user['User']['id']),
+        array('title' => 'Benutzer bearbeiten'));
+    ?></td>
     <td class="icon-delete"><?php
         echo $this->Form->postLink('löschen',
         array('action' => 'delete', $user['User']['id']),

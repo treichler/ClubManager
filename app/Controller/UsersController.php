@@ -24,6 +24,8 @@ class UsersController extends AppController {
     if (array_has_key_val($this->getUser()['Privileg'], 'name', 'Administrator')) {
       return true;
     }
+
+    return false;
   }
 
   public function login() {
@@ -216,8 +218,17 @@ class UsersController extends AppController {
       throw new NotFoundException('Ungültiger Benutzer');
     }
     if ($this->request->is('post') || $this->request->is('put')) {
-      if ($this->User->save($this->request->data)) {
-        $this->Session->setFlash('Benutzer wurde gespeichert', 'default', array('class' => 'success'));
+      $update_user = array('User' => array(
+        'id'               => $this->request->data['User']['id'],
+        'username'         => $this->request->data['User']['username'],
+        'email'            => $this->request->data['User']['email'],
+      ));
+      if ($this->request->data['User']['password1']) {
+        $update_user['User']['password1'] = $this->request->data['User']['password1'];
+        $update_user['User']['password2'] = $this->request->data['User']['password2'];
+      }
+      if ($this->User->save($update_user)) {
+        $this->Session->setFlash('Benutzerdaten wurde gespeichert', 'default', array('class' => 'success'));
         $this->redirect(array('action' => 'index'));
       } else {
         $this->Session->setFlash('Benutzer konnte nicht gespeichert werden, bitte nochmals versuchen');
