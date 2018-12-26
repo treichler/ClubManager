@@ -1,7 +1,7 @@
 ClubManager
 ===========
 
-ClubManager is a web-application to represent and organise a club, respectively a music-club.
+ClubManager is a web-application to represent and organize a club, respectively a music-club.
 
 The whole application is powered by CakePHP (current version: 2.3.1).
 
@@ -26,33 +26,16 @@ Create database by loading:
 * /schema/data.sql
 
 
-ClubManager's apperience
+ClubManager's appearance
 ------------------------
 
-Change the apperience of 
+Change the appearance of 
 * /app/webroot/css/style.css
 * /app/webroot/img/default_blog_img.png
 * /app/webroot/img/default_profile_img.png
 * /app/webroot/img/logo_PDF.png
 * /app/webroot/img/logo_web.png
 * /app/webroot/img/watermark.png
-
-
-
-<!---
-Get CakePHP 2.3.1 and put ClubManager into the same directory.
-
-Create following directories for all the upload stuff:
-* /app/webroot/storage/Blog
-* /app/webroot/storage/Group/
-* /app/webroot/storage/Photo/
-* /app/webroot/storage/Profile/
-* /app/webroot/storage/Upload/
-<!---
-
-<!---
-Get Plupload and copy to /app/webroot/plupload
--->
 
 
 Some Handy Links
