@@ -486,6 +486,22 @@ div.galleryItem div.galleryInfo {
 
 
 /*------------------------------------------------------------------------*/
+/*  Location Edit
+/*------------------------------------------------------------------------*/
+#LocationInputFields {
+  float:left;
+}
+
+#LocationMapCanvas {
+  height: 300px;
+  width: 600px;
+  float: right;
+  margin: 0px;
+  padding: 0px;
+}
+
+
+/*------------------------------------------------------------------------*/
 /*  event table
 /*------------------------------------------------------------------------*/
 
@@ -634,7 +650,7 @@ a#logo div {
   padding: 0;
   position: absolute;
   width: 160px;
-  z-index: 99;
+  z-index: 999;
 	background: #333;
 }
 

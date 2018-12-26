@@ -292,6 +292,12 @@ function initTinyNav() {
           </li>
           <?php endif; ?>
 
+          <?php if ($this->Html->hasPrivileg($this_user, array('Location create', 'Location modify', 'location delete'))): ?>
+          <li <?php echo ($this->params['controller'] == 'locations') ? 'class="current"' : ''; ?>>
+            <?php echo $this->Html->link('Orte', array('controller' => 'locations', 'action' => 'index')); ?>
+          </li>
+          <?php endif; ?>
+
           <?php if ($this->Html->hasPrivileg($this_user, array('Music database'))): ?>
           <li <?php echo ($this->params['controller'] == 'publishers') ? 'class="current"' : ''; ?>>
             <?php echo $this->Html->link('Verlage', array('controller' => 'publishers', 'action' => 'index')); ?>

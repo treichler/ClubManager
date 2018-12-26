@@ -37,14 +37,13 @@
     if ($event['Location']['show_on_map'] &&
         $event['Location']['latitude'] != null &&
         $event['Location']['longitude'] != null) {
-// FIXME map disabled due to API restrictions
-//      $show_map = true;
       $map_link = '<a class="map-location" href="javascript:void(0)" ' .
-                  'title="Veranstaltungsort auf Karte zeigen"' .
-                  '" info="' . $info .
-                  '" lat="' . $event['Location']['latitude'] .
-                  '" lng="' . $event['Location']['longitude'] .
-                  '" rad="' . $event['Location']['radius'] . '">Karte</a>';
+                  'title="Veranstaltungsort auf Karte zeigen" ' .
+                  'event_name="' . h($event['Event']['name']) . '" ' .
+                  'event_location="' . h($event['Event']['location']) . '" ' .
+                  'lat="' . $event['Location']['latitude'] . '" ' .
+                  'lng="' . $event['Location']['longitude'] . '" ' .
+                  'rad="' . $event['Location']['radius'] . '">Karte</a>';
     } else {
       $map_link = '';
     }
@@ -81,78 +80,61 @@ $('#iCalShowHide').click(function(){
 });
 </script>
 
-<?php if ($show_map): ?>
+
+<?php // if ($show_map): ?>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/leaflet.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/leaflet.js"></script>
+
 <div id="map-canvas"></div>
 
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-
 <script type="text/javascript">
-$(".map-location").click(function(event) {
-  lat = parseFloat(event.target.attributes['lat'].value);
-  lng = parseFloat(event.target.attributes['lng'].value);
-  if (isNaN(lat) || isNaN(lng))
-    return false;
+  // format the popup content
+  function formatPopupContent (name, location) {
+    content = "<strong>" + name + "</strong>";
+    if( location )
+      content += "<br>" + location;
+    return content;
+  }
 
-  // scroll to center of map
-  obj = $("#map-canvas");
-  $('html,body').animate({ scrollTop: obj.offset().top - ( $(window).height() - obj.outerHeight(true) ) / 2  }, 200);
+  // click function
+  $(".map-location").click(function(event) {
+    lat = parseFloat(event.target.attributes['lat'].value);
+    lng = parseFloat(event.target.attributes['lng'].value);
+    if (isNaN(lat) || isNaN(lng))
+      return false;
 
-  // set marker and center map to coordinate
-  pos = new google.maps.LatLng(lat, lng);
-  marker.setPosition(pos);
-//  marker.setTitle(event.target.attributes['info'].value);
-  marker.setVisible(true);
-  infoWindow.setContent(event.target.attributes['info'].value);
-  map.setCenter(pos);
-//  map.setZoom(14);
-});
+    // scroll to center of map
+    obj = $("#map-canvas");
+    $('html,body').animate({ scrollTop: obj.offset().top - ( $(window).height() - obj.outerHeight(true) ) / 2  }, 200);
 
+    // set marker and center map to coordinate
+    marker.setLatLng( {lat : lat, lng : lng} );
+    var info = formatPopupContent( event.target.attributes['event_name'].value, event.target.attributes['event_location'].value);
+    marker.setPopupContent( info );
+    map.setView( {lat : lat, lng : lng} )
+  });
 
-var map;
-var marker;
-var infoWindow;
-var circle;
-
-function initialize() {
-  // default coordinate and title
+  // club's home data
   latitude  = <?php echo Configure::read('club.latitude'); ?>;
   longitude = <?php echo Configure::read('club.longitude'); ?>;
   building  = "<?php echo Configure::read('club.building'); ?>";
   name      = "<?php echo Configure::read('club.name'); ?>";
-  var myLatlng = new google.maps.LatLng(latitude, longitude);
-  var title = name + ', ' + building;
 
-  // create map centered to default coordinate
-  var mapOptions = {
-    zoom: 15,
-    center: myLatlng
-  };
-  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
-  // create marker
-  marker = new google.maps.Marker({
-    position: myLatlng,
-//    title: title,
-    map: map,
-    draggable: false,
+  // initialize the map on the "map-canvas" div with a given center and zoom
+  var map = L.map('map-canvas', {
+      center: [latitude, longitude],
+      zoom: 16
   });
 
-  // create info window
-  infoWindow =  new google.maps.InfoWindow({
-    content: title,
-    map: map
-  });
+  // load layer
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-  // link info window to marker
-  infoWindow.open(map, marker);
+  // set marker to home destination
+  var marker = L.marker([latitude, longitude]).addTo(map);
 
-  // add "open info window" as click function to marker
-  marker.addListener('click', function() {
-    infoWindow.open(map, marker);
-  });
-}
-
-google.maps.event.addDomListener(window, 'load', initialize);
+  // put a popup text to the marker
+  marker.bindPopup( formatPopupContent(name, building) ).openPopup();
 </script>
-<?php endif; ?>
+<?php // endif; ?>
+
 
