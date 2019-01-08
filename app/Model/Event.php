@@ -206,7 +206,7 @@ class Event extends AppModel {
   }
 
 
-  public function afterSave($created) {
+  public function afterSave( $created, $options = array() ) {
     // create availabilities at create and if mode and membership set_availability is true
     $event = $this->read();
     if ($created && $event['Mode']['set_availability']) {

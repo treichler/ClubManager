@@ -76,7 +76,7 @@ class Membership extends AppModel {
     }
   }
 
-  public function afterSave($created) {
+  public function afterSave( $created, $options = array() ) {
     // if groups_memberships or state changed, create/destroy availabilities.
     $membership = $this->findById($this->id);
 

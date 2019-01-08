@@ -3,7 +3,7 @@ ClubManager
 
 ClubManager is a web-application to represent and organize a club, respectively a music-club.
 
-The whole application is powered by CakePHP (current version: 2.3.1).
+The whole application is powered by CakePHP (current version: 2.10.14).
 
 
 Setup

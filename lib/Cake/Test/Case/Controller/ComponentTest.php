@@ -2,20 +2,18 @@
 /**
  * ComponentTest file
  *
- * PHP 5
- *
- * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <https://book.cakephp.org/2.0/en/development/testing.html>
+ * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
  *
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ * @link          https://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Controller
  * @since         CakePHP(tm) v 1.2.0.5436
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('Controller', 'Controller');
@@ -29,18 +27,14 @@ App::uses('Component', 'Controller');
 class ParamTestComponent extends Component {
 
 /**
- * name property
- *
- * @var string 'ParamTest'
- */
-	public $name = 'ParamTest';
-
-/**
  * components property
  *
  * @var array
  */
-	public $components = array('Banana' => array('config' => 'value'));
+	public $components = array(
+		'Apple' => array('enabled' => true),
+		'Banana' => array('config' => 'value'),
+	);
 }
 
 /**
@@ -49,13 +43,6 @@ class ParamTestComponent extends Component {
  * @package       Cake.Test.Case.Controller
  */
 class ComponentTestController extends Controller {
-
-/**
- * name property
- *
- * @var string 'ComponentTest'
- */
-	public $name = 'ComponentTest';
 
 /**
  * uses property
@@ -83,7 +70,7 @@ class AppleComponent extends Component {
 /**
  * testName property
  *
- * @var mixed null
+ * @var mixed
  */
 	public $testName = null;
 
@@ -146,7 +133,7 @@ class BananaComponent extends Component {
 /**
  * testField property
  *
- * @var string 'BananaField'
+ * @var string
  */
 	public $testField = 'BananaField';
 
@@ -206,7 +193,6 @@ class SomethingWithEmailComponent extends Component {
  */
 	public $components = array('Email');
 }
-
 
 /**
  * ComponentTest class
@@ -301,6 +287,19 @@ class ComponentTest extends CakeTestCase {
 
 		$this->assertInstanceOf('SomethingWithEmailComponent', $Controller->SomethingWithEmail);
 		$this->assertInstanceOf('EmailComponent', $Controller->SomethingWithEmail->Email);
+	}
+
+/**
+ * Test lazy loading of components inside components and both explicit and
+ * implicit 'enabled' setting.
+ *
+ * @return void
+ */
+	public function testGet() {
+		$Collection = new ComponentCollection();
+		$ParamTest = $Collection->load('ParamTest');
+		$this->assertTrue($ParamTest->Apple->settings['enabled']);
+		$this->assertFalse($ParamTest->Banana->settings['enabled']);
 	}
 
 }

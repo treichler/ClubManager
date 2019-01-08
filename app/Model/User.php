@@ -157,7 +157,7 @@ class User extends AppModel {
     return true;
   }
 
-  public function afterSave($created) {
+  public function afterSave( $created, $options = array() ) {
     if ($created) {
       // create vote table
       $this->Vote->create();
