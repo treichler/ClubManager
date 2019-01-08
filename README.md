@@ -14,6 +14,12 @@ Create following files according to your requirements, take a look at the *.exam
 * /app/config/core.php       (debug-level, cache, security values,...)
 * /app/config/database.php
 * /app/config/email.php
+* /app/webroot/css/style.css
+* /app/webroot/img/default_blog_img.png
+* /app/webroot/img/default_profile_img.png
+* /app/webroot/img/logo_PDF.png
+* /app/webroot/img/logo_web.png
+* /app/webroot/img/watermark.png
 
 
 Adapt database settings according to your provider's requirements:
@@ -29,7 +35,7 @@ Create database by loading:
 ClubManager's appearance
 ------------------------
 
-Change the appearance of 
+Adapt following files according to your style requirements
 * /app/webroot/css/style.css
 * /app/webroot/img/default_blog_img.png
 * /app/webroot/img/default_profile_img.png
