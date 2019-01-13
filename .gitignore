@@ -13,11 +13,7 @@ TODO.txt
 /app/Config/email.php
 
 /app/webroot/css/style.css
-/app/webroot/img/default_blog_img.png
-/app/webroot/img/default_profile_img.png
-/app/webroot/img/logo_PDF.png
-/app/webroot/img/logo_web.png
-/app/webroot/img/watermark.png
+/app/webroot/img
 
 /app/tmp
 /lib/Cake/Console/Templates/skel/tmp/

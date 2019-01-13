@@ -10,38 +10,31 @@ Setup
 -----
 
 Create following files according to your requirements, take a look at the *.example files:
-* /app/config/bootstrap.php  (application specific settings)
-* /app/config/core.php       (debug-level, cache, security values,...)
-* /app/config/database.php
-* /app/config/email.php
-* /app/webroot/css/style.css
-* /app/webroot/img/default_blog_img.png
-* /app/webroot/img/default_profile_img.png
-* /app/webroot/img/logo_PDF.png
-* /app/webroot/img/logo_web.png
-* /app/webroot/img/watermark.png
+* `/app/config/bootstrap.php`  (application specific settings)
+* `/app/config/core.php`       (debug-level, cache, security values,...)
+* `/app/config/database.php`   (database settings)
+* `/app/config/email.php`      (email settings)
+* `/app/webroot/css/style.css` (the web-application's appearance)
+
+Also copy the directory `/app/webroot/img.example` to `/app/webroot/img`.
 
 
 Adapt database settings according to your provider's requirements:
-* /schema/schema.sql
-* /app/config/database.php
+* `/schema/schema.sql`
+* `/app/config/database.php`
 
 
 Create database by loading:
-* /schema/schema.sql
-* /schema/data.sql
+* `/schema/schema.sql`
+* `/schema/data.sql`
 
 
 ClubManager's appearance
 ------------------------
 
-Adapt following files according to your style requirements
-* /app/webroot/css/style.css
-* /app/webroot/img/default_blog_img.png
-* /app/webroot/img/default_profile_img.png
-* /app/webroot/img/logo_PDF.png
-* /app/webroot/img/logo_web.png
-* /app/webroot/img/watermark.png
+Adapt the style-sheet and the style related images according to your requirements
+* `/app/webroot/css/style.css`
+* `/app/webroot/img/*`
 
 
 Some Handy Links
