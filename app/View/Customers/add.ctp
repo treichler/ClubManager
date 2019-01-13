@@ -4,7 +4,7 @@
 
 <h1>Neuen Veranstalter / Kunden hinzuf&uuml;gen</h1>
 <?php
-  echo $this->Form->create('Customer', array('action' => 'add'));
+  echo $this->Form->create('Customer', array('url' => 'add'));
   echo $this->element('customer_form');
   echo $this->Form->end('Speichern');
 ?>

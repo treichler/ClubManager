@@ -13,7 +13,7 @@
 </p>
 
 <?php
-  echo $this->Form->create('Gallery', array('action' => 'edit'));
+  echo $this->Form->create('Gallery', array('url' => 'edit'));
   echo $this->element('gallery_form');
 //  echo $this->Form->input('photo_id', array('label' => 'Titelbild', 'empty' => true));
   echo $this->Form->input('id', array('type' => 'hidden'));

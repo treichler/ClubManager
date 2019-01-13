@@ -154,7 +154,7 @@
 </section>
 <?php endif; ?>
 
-
+<!--
 <section id="respond">
 <?php if (empty($this_user['User']['id'])): ?>
   <p>Um einen Kommentar verfassen zu k&ouml;nnen, m&uuml;ssen Sie angemeldet sein</p>
@@ -162,7 +162,7 @@
   <h6 class="section-title">Kommentar verfassen</h6>
   <p class="textarea-block">
     <?php
-      echo $this->Form->create('Comment', array('action' => 'add', $blog['Blog']['id']));
+      echo $this->Form->create('Comment', array('url' => 'add', $blog['Blog']['id']));
       echo $this->Form->input('blog_id', array('type' => 'hidden', 'default' => $blog['Blog']['id']));
       echo $this->Form->input('body', array('label' => 'Kommentar'));
     //  echo $this->Form->input('id', array('type' => 'hidden'));
@@ -174,7 +174,7 @@
   <div class="clear"></div>
 <?php endif; ?>
 </section>
-
+-->
 
 <script type="text/javascript">
 

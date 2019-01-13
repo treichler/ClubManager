@@ -11,7 +11,7 @@
 <div id="smsInfo">161 Zeichen, 2 SMS</div>
 
 <?php
-  echo $this->Form->create('Contact', array('action' => 'sms'));
+  echo $this->Form->create('Contact', array('url' => 'sms'));
   echo $this->Form->input('text', array('rows' => '3', 'label' => 'Text'));
   echo $this->element('contact_form');
   echo $this->Form->end('Senden');

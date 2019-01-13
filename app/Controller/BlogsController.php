@@ -184,7 +184,7 @@ class BlogsController extends AppController
     // prepare Open Graph Metadata
     $body_text = preg_replace('=\(.*?\)=is', '', $blog['Blog']['body']);
     $body_text = strip_tags($body_text);
-    $body_text = String::truncate($body_text, 250, array(
+    $body_text = CakeText::truncate($body_text, 250, array(
       'ending' => '...',
       'exact' => true,
       'html' => true,

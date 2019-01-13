@@ -4,7 +4,7 @@
 
 <h1>Neue Gruppe anlegen</h1>
 <?php
-  echo $this->Form->create('Group', array('action' => 'add', 'type' => 'file'));
+  echo $this->Form->create('Group', array('url' => 'add', 'type' => 'file'));
   echo $this->element('group_form');
   echo $this->Form->end('Speichern');
 ?>

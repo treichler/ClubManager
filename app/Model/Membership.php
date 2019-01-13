@@ -35,7 +35,7 @@ class Membership extends AppModel {
       return false;
     }
     if (empty($membership['Membership']['calendar_link'])) {
-      $membership['Membership']['calendar_link'] = String::uuid();
+      $membership['Membership']['calendar_link'] = CakeText::uuid();
       $groups = array('Group' => []);
       foreach ($membership['Group'] as $group) {
         $groups['Group'][] = $group['id'];

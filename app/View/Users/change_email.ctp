@@ -5,7 +5,7 @@
 <h1>E-Mail Adresse &auml;ndern</h1>
 
 <?php
-  echo $this->Form->create('User', array('action' => 'change_email'));
+  echo $this->Form->create('User', array('url' => 'change_email'));
   echo $this->Form->input('email');
 //  echo $this->Form->input('password', array('type' => 'password', 'label' => 'Passwort'));
   echo $this->Form->end('Speichern');

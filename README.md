@@ -53,6 +53,8 @@ Some Handy Links
 
 [Galleria](http://galleria.io/) - JavaScript gallery
 
+[Leaflet](https://leafletjs.com/) - an open-source JavaScript library for interactive maps
+
 [TCPDF](http://www.tcpdf.org/) - PHP class for generating PDF documents
 
 [CKEditor](http://ckeditor.com/) - Web text editor
@@ -62,5 +64,4 @@ Some Handy Links
 [d3](http://d3js.org/) - Data-Driven Documents 
 
 [jQuery](http://jquery.com/) - JavaScript library
-
 

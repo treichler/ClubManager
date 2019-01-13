@@ -36,7 +36,7 @@ class Storage extends AppModel {
 //      $this->data[$this->name]['folder'] = ...
 
       // use unique id for the filename to avoid collissions
-      $uuid = String::uuid();
+      $uuid = CakeText::uuid();
       $storage = [];
       if (isset($this->data[$this->name]['id']) && $this->data[$this->name]['id'])
         $storage = $this->findById($this->data[$this->name]['id']);

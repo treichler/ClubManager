@@ -9,7 +9,7 @@
 <p>Nach Abschluss der Registrierung bitte anmelden.</p>
 
 <?php
-  echo $this->Form->create('User', array('action' => 'add'));
+  echo $this->Form->create('User', array('url' => 'add'));
   echo $this->Form->input('username', array('label' => 'Benutzername'));
   echo $this->Form->input('email', array('label' => 'E-Mail'));
   echo $this->Form->input('password1', array('type' => 'password', 'label' => 'Passwort'));

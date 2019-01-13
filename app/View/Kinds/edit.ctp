@@ -5,7 +5,7 @@
 <h1>Art der Gruppe bearbeiten</h1>
 
 <?php
-  echo $this->Form->create('Kind', array('action' => 'edit'));
+  echo $this->Form->create('Kind', array('url' => 'edit'));
   echo $this->element('kind_form');
   echo $this->Form->input('id', array('type' => 'hidden'));
   echo $this->Form->end('Speichern');

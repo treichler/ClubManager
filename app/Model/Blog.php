@@ -120,7 +120,7 @@ class Blog extends AppModel {
     // Save the comma separated list as tags
     if(isset($this->data[$this->name]['temp_tags'])) {
 //      $tags = explode(",", $this->data[$this->name]['temp_tags']);
-      $tags = String::tokenize($this->data[$this->name]['temp_tags']);
+      $tags = CakeText::tokenize($this->data[$this->name]['temp_tags']);
       unset($this->data[$this->name]['temp_tags']);
       if (!empty($tags)) {
         foreach($tags as $tag) {

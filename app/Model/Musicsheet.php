@@ -81,7 +81,7 @@ class Musicsheet extends AppModel {
         // XXX Workarround: Use the Profile-Model since it's not possible to save data as Arranger.
         $Profile = ClassRegistry::init('Profile');
         foreach ($this->data['new']['Arranger'] as $arranger) {
-          $tmp = String::tokenize($arranger['name']);
+          $tmp = CakeText::tokenize($arranger['name']);
           if ((count($tmp) < 2) || (count($tmp) > 3))
             continue;
           $old_arranger = $this->Arranger->find('first', array('conditions' => array(
@@ -118,7 +118,7 @@ class Musicsheet extends AppModel {
         // XXX Workarround: Use the Profile-Model since it's not possible to save data as Composer.
         $Profile = ClassRegistry::init('Profile');
         foreach ($this->data['new']['Composer'] as $composer) {
-          $tmp = String::tokenize($composer['name']);
+          $tmp = CakeText::tokenize($composer['name']);
           if ((count($tmp) < 2) || (count($tmp) > 3))
             continue;
           $old_composer = $this->Composer->find('first', array('conditions' => array(

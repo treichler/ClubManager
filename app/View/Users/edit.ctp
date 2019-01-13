@@ -5,7 +5,7 @@
 <h1>Benutzerdaten bearbeiten</h1>
 
 <?php
-  echo $this->Form->create('User', array('action' => 'edit'));
+  echo $this->Form->create('User', array('url' => 'edit'));
 
   echo $this->Form->input('username', array('label' => 'Benutzername'));
   echo $this->Form->input('email', array('label' => 'E-Mail Adresse'));
