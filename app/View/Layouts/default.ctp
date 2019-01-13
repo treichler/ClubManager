@@ -292,7 +292,13 @@ function initTinyNav() {
           </li>
           <?php endif; ?>
 
-          <?php if ($this->Html->hasPrivileg($this_user, array('Location create', 'Location modify', 'location delete'))): ?>
+          <?php if ($this->Html->hasPrivileg($this_user, array('Customer create', 'Customer modify', 'Customer delete'))): ?>
+          <li <?php echo ($this->params['controller'] == 'customers') ? 'class="current"' : ''; ?>>
+            <?php echo $this->Html->link('Kunden', array('controller' => 'customers', 'action' => 'index')); ?>
+          </li>
+          <?php endif; ?>
+
+          <?php if ($this->Html->hasPrivileg($this_user, array('Location create', 'Location modify', 'Location delete'))): ?>
           <li <?php echo ($this->params['controller'] == 'locations') ? 'class="current"' : ''; ?>>
             <?php echo $this->Html->link('Orte', array('controller' => 'locations', 'action' => 'index')); ?>
           </li>
