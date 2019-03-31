@@ -16,7 +16,7 @@ class Comment extends AppModel {
 
   public $validate = array(
     'body' => array(
-      'rule' => 'notEmpty',
+      'rule' => 'notBlank',
       'message' => 'Bitte Kommentar eingeben.'
     )
   );

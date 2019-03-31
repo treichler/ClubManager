@@ -79,7 +79,7 @@
 
 <!-- Customer -->
 <div class="input text">
-  <label for="CustomerName">Veranstalter</label>
+  <label for="CustomerName">Kunde / Veranstalter</label>
   <input name="data[new][Customer][name]" list="customerList" id="CustomerName">
 </div>
 
@@ -88,7 +88,7 @@
   echo $this->Form->input('customer_id', array('type' => 'hidden', 'empty' => true));
 //  echo $this->Form->input('location_id', array('type' => 'text', 'empty' => true));
   echo $this->Form->input('location_id', array('type' => 'hidden', 'empty' => true));
-  echo $this->Form->input('Resource.Resource', array('empty'=>true));
+  echo $this->Form->input('Resource.Resource', array('label' => 'Ressourcen / Equipment', 'empty' => true));
 ?>
 
 <script type="text/javascript">

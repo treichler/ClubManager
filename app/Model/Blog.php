@@ -21,12 +21,12 @@ class Blog extends AppModel {
 
   public $validate = array(
     'title' => array(
-      'rule' => 'notEmpty',
+      'rule' => 'notBlank',
       'message' => 'Bitte Titel eingeben.'
     ),
 /*
     'body' => array(
-      'rule' => 'notEmpty',
+      'rule' => 'notBlank',
       'message' => 'Bitte Text eingeben.'
     ),
 */

@@ -7,7 +7,7 @@
 <p><?php echo $this->Html->link('zurück', array('controller' => 'uploads', 'action' => 'index')); ?></p>
 
 <?php
-  echo $this->Form->create('Upload', array('url' => 'add', 'type' => 'file'));
+  echo $this->Form->create('Upload', array('type' => 'file'));
   echo $this->element('upload_form');
   echo $this->Form->end('Speichern');
 ?>

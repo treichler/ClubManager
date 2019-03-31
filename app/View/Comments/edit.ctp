@@ -5,7 +5,7 @@
 <h1>Kommentar bearbeiten</h1>
 
 <?php
-  echo $this->Form->create('Comment', array('url' => 'add'));
+  echo $this->Form->create('Comment', array());
   echo $this->Form->input('blog_id', array('type' => 'hidden'));
   echo $this->Form->input('body');
   echo $this->Form->input('id', array('type' => 'hidden'));

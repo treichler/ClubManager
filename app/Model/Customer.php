@@ -9,19 +9,19 @@ class Customer extends AppModel {
 /*
   public $validate = array(
     'name' => array(
-      'rule' => 'notEmpty',
+      'rule' => 'notBlank',
       'message' => 'Bitte Name eintragen.'
     ),
     'street' => array(
-      'rule' => 'notEmpty',
+      'rule' => 'notBlank',
       'message' => 'Bitte Straße eintragen.'
     ),
     'postal_code' => array(
-      'rule' => 'notEmpty',
+      'rule' => 'notBlank',
       'message' => 'Bitte Postleitzahl eintragen.'
     ),
     'town' => array(
-      'rule' => 'notEmpty',
+      'rule' => 'notBlank',
       'message' => 'Bitte Straße eintragen.'
     )
   );

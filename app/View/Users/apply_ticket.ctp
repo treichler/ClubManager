@@ -10,7 +10,7 @@
 </ul>
 
 <?php
-  echo $this->Form->create('User', array('url' => 'apply_ticket'));
+  echo $this->Form->create('User', array());
   echo $this->Form->input('password1', array('type' => 'password', 'label' => 'Passwort'));
   echo $this->Form->input('password2', array('type' => 'password', 'label' => 'Passwort wiederholen'));
   echo $this->Form->input('ticket', array('type' => 'hidden'));

@@ -30,26 +30,26 @@ class Profile extends AppModel {
   public $validate = array(
     'salutation_id' => array(
       'required' => array(
-        'rule' => array('notEmpty'),
+        'rule' => array('notBlank'),
         'message' => 'Bitte Anrede auswählen',
       )
     ),
     'first_name' => array(
       'required' => array(
-        'rule' => array('notEmpty'),
+        'rule' => array('notBlank'),
         'message' => 'Bitte Vorname(n) eintragen'
       )
     ),
     'last_name' => array(
       'required' => array(
-        'rule' => array('notEmpty'),
+        'rule' => array('notBlank'),
         'message' => 'Bitte Familienname eintragen'
       )
     ),
 /*
     'birthday' => array(
       'required' => array(
-        'rule' => array('notEmpty'),
+        'rule' => array('notBlank'),
 // TODO show format of birthday in message
 //      validate format of birthday
         'message' => 'Bitte Geburtstag eintragen'

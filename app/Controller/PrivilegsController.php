@@ -6,8 +6,8 @@ class PrivilegsController extends AppController {
     // only users with privileg 'Administrator' and the user 'admin'
     // are allowed to access 'index' and 'assign'
     if (($this->action === 'index' || $this->action === 'assign') &&
-        (array_has_key_val($this->getUser()['Privileg'], 'name', 'Administrator')) ||
-         $user['username'] === 'admin') {
+        (array_has_key_val($this->getUser()['Privileg'], 'name', 'Administrator') ||
+         $user['username'] === 'admin')) {
       return true;
     }
   }
@@ -46,7 +46,9 @@ class PrivilegsController extends AppController {
     }
 
     $this->set(compact('users'));
-    if ($this->request->is('post')) {
+    if ($this->request->is('get')) {
+      $this->request->data = $privileg;
+    } else {
       if ($privileg) {
         $this->request->data['Privileg']['name'] = $privileg['Privileg']['name'];
         if ($this->Privileg->save($this->request->data)) {
@@ -58,8 +60,6 @@ class PrivilegsController extends AppController {
       } else {
         $this->Session->setFlash('Benutzerrecht existiert nicht.');
       }
-    } else {
-      $this->request->data = $privileg;
     }
   }
 

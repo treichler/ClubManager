@@ -6,7 +6,7 @@
 
 <?php
   if ($contactpeople_available) {
-    echo $this->Form->create('Contact', array('url' => 'contact'));
+    echo $this->Form->create('Contact', array());
     echo $this->Form->input('email', array('label' => 'Ihre E-Mail Addresse (damit wir antworten können)'));
     echo $this->Form->input('subject', array('label' => 'Betreff'));
     echo $this->Form->input('text', array('rows' => '7', 'label' => 'Text'));

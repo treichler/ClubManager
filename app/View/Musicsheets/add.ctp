@@ -5,7 +5,7 @@
 <h1>Musikst&uuml;ck anlegen</h1>
 
 <?php
-  echo $this->Form->create('Musicsheet', array('url' => 'add', 'autocomplete' => 'off'));
+  echo $this->Form->create('Musicsheet', array('autocomplete' => 'off'));
   echo $this->element('musicsheet_form');
   echo $this->Form->end('Speichern');
 ?>

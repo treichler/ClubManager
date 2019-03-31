@@ -5,7 +5,7 @@
 <h1>Benutzerrechte zuweisen für <b><?php echo $this->Html->value('Privileg')['name']; ?></b></h1>
 
 <?php
-  echo $this->Form->create('Privileg', array('url' => 'assign'));
+  echo $this->Form->create('Privileg', array());
 
   // HABTM field: multiple select
 //  echo $this->Form->input('User.User', array('empty'=>true));

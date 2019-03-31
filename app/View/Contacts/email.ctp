@@ -5,7 +5,7 @@
 <h1>E-Mail</h1>
 
 <?php
-  echo $this->Form->create('Contact', array('url' => 'email'));
+  echo $this->Form->create('Contact', array());
   echo $this->Form->input('subject', array('label' => 'Betreff'));
   echo $this->Form->input('text', array('rows' => '7', 'label' => 'Text'));
   echo $this->element('contact_form');

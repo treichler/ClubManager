@@ -40,6 +40,14 @@
   <li><b>Ersteller:</b> <?php echo h($admin); ?></li>
   <li><b>Gruppe:</b> <?php echo h($event['Group']['name']); ?></li>
   <li><b>Art des Termins:</b> <?php echo h($event['Mode']['name']); ?></li>
+<?php if ($event['Event']['customer_id']): ?>
+  <li><b>Kunde:</b> <?php
+  echo $event['Customer']['name'];
+  if ($event['Customer']['address']) {
+    echo ', ' . $event['Customer']['address'];
+  }
+?></li>
+<?php endif; ?>
 </ul>
 
 <?php if (count($event['Resource'])): ?>
@@ -171,18 +179,6 @@ foreach ($memberships as $membership):
     ?><br />
   </div>
 </p>
-
-<?php if ($event['Event']['customer_id']): ?>
-<p>
-  <b>Kunde:</b><br />
-<?php
-  echo $event['Customer']['name'];
-  if ($event['Customer']['address']) {
-    echo ', ' . $event['Customer']['address'];
-  }
-?>
-</p>
-<?php endif; ?>
 
 
 <script type="text/javascript">

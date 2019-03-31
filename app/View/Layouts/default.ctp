@@ -205,7 +205,10 @@ function initTinyNav() {
                       $this->params['controller'] == 'statistics' ||
                       $this->params['controller'] == 'privilegs' ||
                       ($this->params['controller'] == 'users' && $this->params['action'] == 'index') ||
+                      ($this->params['controller'] == 'contactpeople' && $this->params['action'] != 'index') ||
                       $this->params['controller'] == 'profiles' ||
+                      $this->params['controller'] == 'customers' ||
+                      $this->params['controller'] == 'locations' ||
                       $this->params['controller'] == 'publishers' ||
                       $this->params['controller'] == 'musicsheets' ||
                       $this->params['controller'] == 'books' ||

@@ -16,7 +16,7 @@ der E-Mail Adresse ein neues Ticket generieren, welches wieder für eine Stunde 
 </p>
 
 <?php
-  echo $this->Form->create('User', array('url' => 'create_ticket'));
+  echo $this->Form->create('User', array());
   echo $this->Form->input('email');
 
   echo '<div id="recaptcha_div"></div>';

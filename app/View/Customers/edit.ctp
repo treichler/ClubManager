@@ -4,7 +4,7 @@
 
 <h1>Veranstalter / Kunde bearbeiten</h1>
 <?php
-  echo $this->Form->create('Customer', array('url' => 'edit'));
+  echo $this->Form->create('Customer', array());
   echo $this->element('customer_form');
   echo $this->Form->input('id', array('type' => 'hidden'));
   echo $this->Form->end('Speichern');

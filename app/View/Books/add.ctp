@@ -5,7 +5,7 @@
 <h1>Musikbuch/Mappe erstellen</h1>
 
 <?php
-  echo $this->Form->create('Book', array('url' => 'add'));
+  echo $this->Form->create('Book', array());
   echo $this->element('book_form');
   echo $this->Form->end('Speichern');
 ?>

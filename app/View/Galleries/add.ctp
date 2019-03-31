@@ -5,7 +5,7 @@
 <h1>Neue Galerie anlegen</h1>
 
 <?php
-  echo $this->Form->create('Gallery', array('url' => 'add'));
+  echo $this->Form->create('Gallery', array());
   echo $this->element('gallery_form');
   echo $this->Form->end('Speichern');
 ?>

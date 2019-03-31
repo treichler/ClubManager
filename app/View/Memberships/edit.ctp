@@ -9,7 +9,7 @@ Mitglied:
 <?php echo $profile['Profile']['birthday'] ?>
 
 <?php
-  echo $this->Form->create('Membership', array('url' => 'edit'));
+  echo $this->Form->create('Membership', array());
   echo $this->element('membership_form');
   echo $this->Form->input('id', array('type' => 'hidden'));
   echo $this->Form->end('Speichern');

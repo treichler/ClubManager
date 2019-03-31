@@ -7,7 +7,7 @@
 <p><?php echo $book['Book']['description'] ?></p>
 
 
-<?php echo $this->Form->create('Book', array('url' => 'content')); ?>
+<?php echo $this->Form->create('Book', array()); ?>
 <?php echo $this->Form->input('Book.id', array('type' => 'hidden', 'value' => $book['Book']['id'])); ?>
 
 <table id="bookSheetsTable">

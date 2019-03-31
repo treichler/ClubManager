@@ -4,7 +4,7 @@
 
 <h1>Profil anlegen</h1>
 <?php
-  echo $this->Form->create('Profile', array('url' => 'add', 'type' => 'file'));
+  echo $this->Form->create('Profile', array('type' => 'file'));
   echo $this->element('profile_form');
   echo $this->Form->end('Speichern');
 ?>

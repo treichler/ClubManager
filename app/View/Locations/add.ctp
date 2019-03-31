@@ -4,7 +4,7 @@
 
 <h1>Neuen Ort hinzuf&uuml;gen</h1>
 <?php
-  echo $this->Form->create('Location', array('url' => 'add'));
+  echo $this->Form->create('Location', array());
   echo $this->element('location_form');
 ?>
 

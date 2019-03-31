@@ -5,7 +5,7 @@
 <h1>Ressource erstellen</h1>
 
 <?php
-  echo $this->Form->create('Resource', array('url' => 'add'));
+  echo $this->Form->create('Resource', array());
   echo $this->element('resource_form');
   echo $this->Form->end('Speichern');
 ?>

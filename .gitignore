@@ -14,6 +14,7 @@ TODO.txt
 
 /app/webroot/css/style.css
 /app/webroot/img
+/app/webroot/storage
 
 /app/tmp
 /lib/Cake/Console/Templates/skel/tmp/
@@ -22,11 +23,6 @@ TODO.txt
 /.editorconfig
 /.travis.yml
 
-/app/webroot/storage
-
-/app/webroot/img/photo_marked.jpg
-/app/webroot/img/photo_marked.png
-/app/webroot/img/test.jpg
 
 
 # OS generated files #

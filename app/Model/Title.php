@@ -22,13 +22,13 @@ class Title extends AppModel {
   public $validate = array(
     'name' => array(
       'required' => array(
-        'rule' => array('notEmpty'),
+        'rule' => array('notBlank'),
         'message' => 'Bitte eine Bezeichnung für den Titel eingeben'
       )
     ),
     'acronym' => array(
       'required' => array(
-        'rule' => array('notEmpty'),
+        'rule' => array('notBlank'),
         'message' => 'Bitte eine Abkürzung für den Titel eingeben'
       )
     ),

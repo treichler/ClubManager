@@ -23,11 +23,11 @@ class Event extends AppModel {
 
   public $validate = array(
     'group_id' => array(
-      'rule' => 'notEmpty',
+      'rule' => 'notBlank',
       'message' => 'Bitte eine Gruppe auswählen.'
     ),
     'mode_id' => array(
-      'rule' => 'notEmpty',
+      'rule' => 'notBlank',
       'message' => 'Bitte Art des Termins auswählen.'
     )
   );

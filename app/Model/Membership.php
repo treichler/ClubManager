@@ -16,13 +16,13 @@ class Membership extends AppModel {
   public $validate = array(
     'profile_id' => array(
       'required' => array(
-        'rule' => array('notEmpty'),
+        'rule' => array('notBlank'),
         'message' => 'Bitte Benutzerprofil auswählen',
       )
     ),
     'state_id' => array(
       'required' => array(
-        'rule' => array('notEmpty'),
+        'rule' => array('notBlank'),
         'message' => 'Bitte Zustand der Mitgliedschaft auswählen',
       )
     )

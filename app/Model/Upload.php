@@ -20,7 +20,7 @@ class Upload extends AppModel {
     'file' => array(
 
       'required' => array(
-        'rule' => array('notEmpty'),
+        'rule' => array('notBlank'),
         'message' => 'Keine Datei vorhanden.'
       ),
 

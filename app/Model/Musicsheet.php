@@ -28,7 +28,7 @@ class Musicsheet extends AppModel {
   public $validate = array(
     'title' => array(
       'required' => array(
-        'rule' => array('notEmpty'),
+        'rule' => array('notBlank'),
         'message' => 'Bitte Titel des Musikstücks eingeben.'
       ),
 /*
@@ -40,15 +40,15 @@ class Musicsheet extends AppModel {
     ),
 /* 
    'composer_id' => array(
-      'rule' => 'notEmpty',
+      'rule' => 'notBlank',
       'message' => 'Bitte Komponist auswählen.'
     ),
     'arranger_id' => array(
-      'rule' => 'notEmpty',
+      'rule' => 'notBlank',
       'message' => 'Bitte Arrangeur auswählen.'
     ),
     'publisher_id' => array(
-      'rule' => 'notEmpty',
+      'rule' => 'notBlank',
       'message' => 'Bitte Verlag auswählen.'
     ),
 */

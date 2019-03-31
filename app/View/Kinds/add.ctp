@@ -5,7 +5,7 @@
 <h1>Neue Art der Gruppe erstellen</h1>
 
 <?php
-  echo $this->Form->create('Kind', array('url' => 'add'));
+  echo $this->Form->create('Kind', array());
   echo $this->element('kind_form');
   echo $this->Form->end('Speichern');
 ?>

@@ -14,7 +14,7 @@ class Group extends AppModel {
   public $validate = array(
     'kind_id' => array(
       'required' => array(
-        'rule' => array('notEmpty'),
+        'rule' => array('notBlank'),
         'message' => 'Bitte Art der Gruppe auswählen',
       )
     )

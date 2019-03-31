@@ -2,8 +2,23 @@ ClubManager
 ===========
 
 ClubManager is a web-application to represent and organize a club, respectively a music-club.
+The application is powered by CakePHP (current version: 2.10.14).
 
-The whole application is powered by CakePHP (current version: 2.10.14).
+
+Features
+--------
+
+Here are just a few highlights of ClubManager:
+* Blog, gallery and public event calendar to keep the world informed about your club's activities
+* Organize all events within a single calendar
+* Dedicated calendar for every club-member
+* Organize your club's resources and its usage
+* Optionally organize musicsheets and playlists
+* Interface to SMS gateway and email to contact members
+* Login area for members only
+
+Take a look at [Stadtkapelle Bad Radkersburg](https://stadtkapellebadradkersburg.at)
+to see an example in production.
 
 
 Setup
