@@ -187,16 +187,6 @@ foreach ($memberships as $membership):
   </div>
 </p>
 
-<style>
-pre {
-  font-size: 12px;
-}
-</style>
-<pre>
-<?php
-  echo print_r($memberships);
-?>
-</pre>
 
 <script type="text/javascript">
 var _availabilities_path = '<?php echo Router::url(array('controller' => 'availabilities'), true) . "/"; ?>';
