@@ -66,10 +66,24 @@ class MembershipsController extends AppController {
   }
 
   public function index() {
+    if( array_has_key_val($this->getUser()['Privileg'], 'name', 'Administrator') ) {
+      $find_condition = array(
+        'order' => array(
+          'State.id' => 'asc',
+          'Profile.first_name' => 'asc',
+        )
+      );
+    } else {
+      $find_condition = array(
+        'conditions' => array('State.is_member' => true),
+        'order' => array(
+          'State.id' => 'asc',
+          'Profile.first_name' => 'asc',
+        )
+      );
+    }
     $this->Membership->contain('Profile', 'Group', 'State');
-    $memberships = $this->Membership->find('all', array(
-      'order' => array('Profile.first_name' => 'asc')
-    ));
+    $memberships = $this->Membership->find('all', $find_condition);
     $this->set(compact('memberships'));
   }
 

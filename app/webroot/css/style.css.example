@@ -157,6 +157,9 @@ textarea {
   resize: both;
 }
 
+.availability label, .event label {
+  display: none;
+}
 
 /*------------------------------------------------------------------------*/
 /*  Symboles for standard links
