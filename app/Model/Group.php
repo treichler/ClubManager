@@ -6,9 +6,10 @@ class Group extends AppModel {
 
   public $belongsTo = array('Kind', 'Privileg', 'Storage');
 
-  public $hasMany = array('Event');
-
-  public $hasAndBelongsToMany = array('Membership');
+  public $hasAndBelongsToMany = array(
+    'Event',
+    'Membership'
+  );
 
 
   public $validate = array(

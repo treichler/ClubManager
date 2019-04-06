@@ -38,7 +38,14 @@
   <li><b>Ort:</b> <?php echo $event['Event']['location']; ?></li>
   <li><b>Info:</b> <?php echo h($event['Event']['info']); ?></li>
   <li><b>Ersteller:</b> <?php echo h($admin); ?></li>
-  <li><b>Gruppe:</b> <?php echo h($event['Group']['name']); ?></li>
+  <li><b>Gruppe(n):</b> <?php
+      $groups = [];
+      foreach($event['Group'] as $group) {
+        $groups[] = h($group['name']);
+      }
+      unset($group);
+      echo implode(', ', $groups);
+  ?></li>
   <li><b>Art des Termins:</b> <?php echo h($event['Mode']['name']); ?></li>
 <?php if ($event['Event']['customer_id']): ?>
   <li><b>Kunde:</b> <?php
@@ -180,6 +187,16 @@ foreach ($memberships as $membership):
   </div>
 </p>
 
+<style>
+pre {
+  font-size: 12px;
+}
+</style>
+<pre>
+<?php
+  echo print_r($memberships);
+?>
+</pre>
 
 <script type="text/javascript">
 var _availabilities_path = '<?php echo Router::url(array('controller' => 'availabilities'), true) . "/"; ?>';

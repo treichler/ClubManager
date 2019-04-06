@@ -220,8 +220,21 @@ class EventsController extends AppController {
       $this->request->data['Event']['user_id'] = $this->Auth->user('id');
 
       // check if user has the privileg to create event for the selected group
-      $group = $this->Event->Group->findById($this->request->data['Event']['group_id']);
-      if (isset($group['Group']['id']) && array_has_key_val($this->getUser()['Privileg'], 'id', $group['Privileg']['id'])) {
+      $groups = $this->Event->Group->find('all', array(
+        'conditions' => array('Group.id' => $this->request->data['Group']['Group'])
+      ));
+      $nr_of_hits = 0;
+      foreach ($groups as $group) {
+        if (array_has_key_val($this->getUser()['Privileg'], 'id', $group['Privileg']['id']))
+          $nr_of_hits += 1;
+      }
+      $user_has_groups_privilegs = false;
+      if ($nr_of_hits == sizeof($groups))
+        $user_has_groups_privilegs = true;
+
+//$this->Session->setFlash( 'nr_of_hits: ' . $nr_of_hits . ', user_has_groups_privilegs: ' . $user_has_groups_privilegs );
+
+      if ($user_has_groups_privilegs) {
         $this->Event->create;
         if ($this->Event->save($this->request->data)) {
           $this->Session->setFlash('Termin wurde gespeichert.', 'default', array('class' => 'success'));
@@ -238,22 +251,37 @@ class EventsController extends AppController {
         }
       }
     }
+
     // add drop down lists to the instant variable
     $this->fetchDropDownLists();
   }
 
   public function edit($id = null) {
-    $this->Event->id = $id;
-    $event = $this->Event->read();
-
-    // TODO add all users who are admins of the related group
-    $group = $this->Event->Group->find('first', array(
-      'conditions' => array('Group.id' => $event['Event']['group_id']),
-      'contain'    => array('Privileg' => array('User'))
+    $event = $this->Event->find('first', array(
+      'conditions' => array('Event.id' => $id),
+      'contain' => array(
+        'Group' => array('Privileg' => array('User')),
+        'Customer', 'Location', 'Resource', 'Mode'
+      ),
     ));
+
+    // add all users who are admins of the related groups
+    $group_user_ids_counts = [];
+    $group_user_names      = [];
+    foreach ($event['Group'] as $group) {
+      foreach ($group['Privileg']['User'] as $user) {
+        if (isset($group_user_ids_counts[$user['id']])) {
+          $group_user_ids_counts[$user['id']] += 1;
+        } else {
+          $group_user_names[$user['id']] = $user['name'];
+          $group_user_ids_counts[$user['id']] = 1;
+        }
+      }
+    }
     $users = [];
-    foreach ($group['Privileg']['User'] as $user) {
-      $users[$user['id']] = $user['name'];
+    foreach ($group_user_ids_counts as $user_id => $count) {
+      if ($count == sizeof($event['Group']))
+        $users[$user_id] = $group_user_names[$user_id];
     }
     $this->set(compact('users'));
 
@@ -263,7 +291,7 @@ class EventsController extends AppController {
     if ($this->request->is('get')) {
       $this->request->data = $event;
     } else {
-      $this->request->data['Event']['group_id'] = $event['Event']['group_id'];
+//      $this->request->data['Event']['group_id'] = $event['Event']['group_id'];
       $this->request->data['Event']['mode_id'] = $event['Event']['mode_id'];
 //      $this->request->data['Event']['user_id'] = $event['Event']['user_id'];
       if ($this->Event->save($this->request->data)) {

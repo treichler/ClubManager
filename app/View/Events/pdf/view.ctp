@@ -6,7 +6,12 @@
   // set the document's title
   $this->set('title', h($event['Event']['name']));
   // set additional information for the document
-  $this->set('information', $event['Group']['name'] . '
+  $groups = [];
+  foreach($event['Group'] as $group) {
+    $groups[] = h($group['name']);
+  }
+  unset($group);
+  $this->set('information', implode(', ', $groups) . '
     Beginn: ' . $this->Html->getDateTime($event['Event']['start'], array('year' => true)) . '
     Ende: ' . $this->Html->getDateTime($event['Event']['stop'], array('year' => true)) . '
     Ort: ' . h($event['Event']['location']));

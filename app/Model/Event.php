@@ -12,20 +12,18 @@ class Event extends AppModel {
 
   public $belongsTo = array(
     'Customer',
-    'Group',
     'Location',
     'Mode',
     'User' => array('counterCache' => true)
   );
 
-  public $hasAndBelongsToMany = array('Resource');
+  public $hasAndBelongsToMany = array(
+    'Group',
+    'Resource'
+  );
 
 
   public $validate = array(
-    'group_id' => array(
-      'rule' => 'notBlank',
-      'message' => 'Bitte eine Gruppe auswählen.'
-    ),
     'mode_id' => array(
       'rule' => 'notBlank',
       'message' => 'Bitte Art des Termins auswählen.'
@@ -208,21 +206,39 @@ class Event extends AppModel {
 
   public function afterSave( $created, $options = array() ) {
     // create availabilities at create and if mode and membership set_availability is true
+    $this->contain('Group.id', 'Mode');
     $event = $this->read();
     if ($created && $event['Mode']['set_availability']) {
       $this->Group->contain('Membership');
-      $group = $this->Group->findById($event['Event']['group_id']);
-      foreach($group['Membership'] as $membership) {
-        $state = $this->Group->Membership->State->findById($membership['state_id']);
-        if ($state['State']['set_availability']) {
-          $this->Availability->create();
-          $this->Availability->save(array(
-            'membership_id' => $membership['id'],
-            'event_id'      => $this->id,
-            'is_available'  => $state['State']['is_available'],
-            'was_available' => $state['State']['is_available']
-          ));
+      $group_ids = [];
+      foreach ($event['Group'] as $group) {
+        $group_ids[] = $group['id'];
+      }
+      $groups = $this->Group->find('all', array(
+        'conditions' => array('Group.id' => $group_ids)
+      ));
+      $membership_ids = [];
+      foreach ($groups as $group) {
+        foreach ($group['Membership'] as $membership) {
+          if (!in_array($membership['id'], $membership_ids))
+            $membership_ids[] = $membership['id'];
         }
+      }
+      $this->Group->Membership->contain('State');
+      $memberships = $this->Group->Membership->find('all', array(
+        'conditions' => array(
+          'Membership.id' => $membership_ids,
+          'State.set_availability' => true,
+        ),
+      ));
+      foreach ($memberships as $membership) {
+        $this->Availability->create();
+        $this->Availability->save(array(
+          'membership_id' => $membership['Membership']['id'],
+          'event_id'      => $this->id,
+          'is_available'  => $membership['State']['is_available'],
+          'was_available' => $membership['State']['is_available']
+        ));
       }
     }
   }

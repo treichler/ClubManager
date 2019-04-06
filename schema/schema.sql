@@ -179,7 +179,6 @@ CREATE TABLE availabilities (
 
 CREATE TABLE events (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Primary key',
-  group_id INT(11) NOT NULL,
   mode_id INT(11) NOT NULL,
   user_id INT(11) NOT NULL,
   customer_id INT(11) DEFAULT NULL COMMENT 'Points to the customer of an event.',
@@ -198,6 +197,11 @@ CREATE TABLE events (
   created DATETIME DEFAULT NULL,
   modified DATETIME DEFAULT NULL
 );
+
+CREATE TABLE events_groups (
+  event_id INT(11) NOT NULL,
+  group_id INT(11) NOT NULL
+)COMMENT 'This join-table resolves the HABTM relation between events and groups';
 
 CREATE TABLE modes (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Primary key',

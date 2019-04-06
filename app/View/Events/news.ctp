@@ -59,7 +59,14 @@
         if (!$this->Html->isSameDay($event)) echo (' - ' . $this->Html->getDate($event['Event']['stop'], array('year' => true)));
     ?></td>
     <td><?php echo $info; ?></td>
-    <td><?php echo h($event['Group']['name']); ?></td>
+    <td><?php
+        $groups = [];
+        foreach($event['Group'] as $group) {
+          $groups[] = h($group['name']);
+        }
+        unset($group);
+        echo implode(', ', $groups);
+    ?></td>
     <td class="icon-map"><?php echo $map_link; ?></td>
   </tr>
 <?php

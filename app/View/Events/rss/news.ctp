@@ -23,8 +23,13 @@ foreach ($events as $event) {
   if (!$this->Html->isSameDay($event))
     $bodyText .= ' - ' . $this->Html->getDate($event['Event']['stop'], array('year' => true));
   $bodyText .= ': ' . h($event['Event']['name']);
+  $groups = [];
+  foreach($event['Group'] as $group) {
+    $groups[] = h($group['name']);
+  }
+  unset($group);
   echo $this->Rss->item(array(), array(
-    'title' => h($event['Group']['name']),
+    'title' => implode(', ', $groups),
 //    'link'  => array('controller' => 'events', 'action' => 'news'),
 //    'link' => $post_link,
 //    'guid' => array('url' => $post_link, 'isPermaLink' => 'true'),
