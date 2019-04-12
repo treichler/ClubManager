@@ -115,10 +115,21 @@
 
     // summary
     echo  "SUMMARY:" . prepareString($event['Event']['name']);
-    if (isset($event['Event']['Group']['name'])) {
-      echo  " (" . $event['Event']['Group']['name'] . ")";
-    } elseif (isset($event['Group']['name'])) {
-      echo  " (" . $event['Group']['name'] . ")";
+    if (isset($event['Event']['Group'])) {
+      $groups = [];
+      foreach($event['Event']['Group'] as $group) {
+        $groups[] = h($group['name']);
+      }
+      unset($group);
+    } elseif (isset($event['Group'])) {
+      $groups = [];
+      foreach($event['Group'] as $group) {
+        $groups[] = h($group['name']);
+      }
+      unset($group);
+    }
+    if (!empty($groups)) {
+      echo " (" . implode(', ', $groups) . ")";
     }
     echo  "\r\n";
 
@@ -129,8 +140,9 @@
 
     // status
     if ($calendar_settings['show_status']) {
-      echo  "STATUS:" . ($event['Availability']['is_available'] ? 'CONFIRMED' : 'TENTATIVE') . "\r\n" .
-            "TRANSP:" . ($event['Availability']['is_available'] ? 'OPAQUE' : 'TRANSPARENT') . "\r\n";
+      echo  "STATUS:"   . ($event['Availability']['is_available'] ? 'CONFIRMED' : 'TENTATIVE') . "\r\n";
+      echo  "TRANSP:"   . ($event['Availability']['is_available'] ? 'OPAQUE' : 'TRANSPARENT') . "\r\n";
+      echo  "PARTSTAT:" . ($event['Availability']['is_available'] ? 'ACCEPTED' : 'DECLINED') . "\r\n";
     }
 
     // close event
