@@ -36,33 +36,52 @@ td {
   </tr>
 
 <?php
-$count_people = 0;
-$count_groups = 0;
-foreach ($memberships as $membership):
+  // prepare data
+  $count_people = 0;
+  $count_groups = 0;
+  $names = array();
+  $groups = array();
+  $infos = array();
+  $first_group_ids = array();
+  foreach( $event['Availability'] as $availability ) {
+    if( $availability['is_available'] ) {
+      $id = $availability['id'];
+      $group_names = [];
+      foreach ($availability['Membership']['Group'] as $group)
+        $group_names[] = $group['name'];
 
-  $group_names = [];
-  foreach ($membership['Group'] as $group) {
-    $group_names[] = $group['name'];
+      $names[]  = $availability['Membership']['Profile']['first_name'] . ' ' . $availability['Membership']['Profile']['last_name'];
+      $groups[] = implode(', ', $group_names);
+      $infos[]  = $availability['info'];
+      $first_group_ids[] = isset($availability['Membership']['Group'][0]) ? $availability['Membership']['Group'][0]['id'] : Null;
+
+      $count_people ++;
+      if( isset($availability['Membership']['Group'][0]) )
+        $count_groups ++;
+    }
   }
-  if ($membership['Availability']['is_available']):
-    $count_people ++;
-    if ($membership['FirstGroup']['name']) $count_groups ++;
+
+  // sort "$groups" and"infos" by "first_group_ids" and "names"
+  array_multisort($first_group_ids, SORT_ASC, $names, SORT_ASC, $groups, $infos);
+
+  // print table to pdf
+  for( $i = 0; $i < count($names); $i++ ):
 ?>
   <tr>
-    <td><?php echo implode(', ', $group_names) ?></td>
-<!--
-    <td><?php echo $membership['FirstGroup']['name'] ?></td>
--->
-    <td><?php echo $membership['Profile']['first_name'] . ' ' . $membership['Profile']['last_name'] ?></td>
-    <td><?php echo $membership['Availability']['info'] ?></td>
+    <td><?php echo $groups[$i] ?></td>
+    <td><?php echo $names[$i]  ?></td>
+    <td><?php echo $infos[$i]  ?></td>
   </tr>
-  <?php endif; ?>
-<?php endforeach; ?>
-<?php unset($membership); ?>
-<?php unset($group_names); ?>
+<?php
+  endfor;
+  unset($groups);
+  unset($names);
+  unset($infos);
+  unset($first_group_ids);
+?>
   <tr>
-    <th>Summe: <?php echo $count_groups ?></th>
-    <th>Summe: <?php echo $count_people ?></th>
+    <th>Summe: <?php echo $count_groups; ?></th>
+    <th>Summe: <?php echo $count_people; ?></th>
   </tr>
 </table>
 

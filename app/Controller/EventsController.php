@@ -144,75 +144,46 @@ class EventsController extends AppController {
   }
 
   public function view($id = null) {
-    $this->Event->id = $id;
-    $this->Event->contain('Availability', 'Group', 'Resource', 'Mode', 'Customer');
-    $event = $this->Event->read();
-    $this->set(compact('event'));
-
-    // get memberships which belong to the current event
-    $membership_ids = [];
-    foreach ($event['Availability'] as $availability) {
-      $membership_ids[] = $availability['membership_id'];
-    }
-    $this->Event->Availability->Membership->contain('Group', 'Profile');
-    $memberships = $this->Event->Availability->Membership->find('all', array(
-      'conditions' => array('Membership.id' => $membership_ids)
-    ));
-
-    // get availabilities which belong to the current event
-    $this->Event->Availability->contain();
-    $availabilities = $this->Event->Availability->find('all', array(
-      'conditions' => array('Availability.event_id' => $id)
-    ));
-    $current_availabilities = [];
-    foreach ($availabilities as $availability) {
-      $current_availabilities[$availability['Availability']['membership_id']] = $availability['Availability'];
-    }
-    unset($availabilities);
-
-    // get kinds of groups which should be shown in event
+    // find all kind of groups that have to be shown in the availability list
     $kinds = $this->Event->Group->Kind->find('all', array(
-      'conditions' => array('Kind.show_in_availability_list' => true)
+      'fields' => array('Kind.id'),
+      'contain' => array(),
+      'conditions' => array('Kind.show_in_availability_list' => True),
     ));
     $kind_ids = [];
-    foreach ($kinds as $kind) {
+    foreach( $kinds as $kind )
       $kind_ids[] = $kind['Kind']['id'];
-    }
+    $this->set(compact('kind_ids'));
 
-    $group_ids = [];
-    $profile_names = [];
-    foreach ($memberships as $key => $val) {
-      $memberships[$key]['Group'] = [];
-      $memberships[$key]['FirstGroup'] = null;
-      $group_ids[$key] = null;
-      $profile_names[$key] = $val['Profile']['first_name'] . ' ' . $val['Profile']['first_name'];
-      // remove groups from membership which are not in '$kind_ids'
-      foreach ($val['Group'] as $group) {
-        if (in_array($group['kind_id'], $kind_ids)) {
-          $memberships[$key]['Group'][] = $group;
-          // add the group with the lowest id as 'FirstGroup'
-          if (!isset($memberships[$key]['FirstGroup']['id'])) {
-            $memberships[$key]['FirstGroup'] = $group;
-            $group_ids[$key] = $group['id'];
-          }
-        }
-      }
-      // add availability which belongs to the current event
-      $memberships[$key]['Availability'] = $current_availabilities[$val['Membership']['id']];
-    }
+    // load the event and all availabilities with related data
+    $event = $this->Event->find('first', array(
+      'conditions' => array('Event.id' => $id),
+      'contain' => array(
+        'Availability' => array(
+          'Membership' => array(
+            'Profile.first_name', 'Profile.last_name',
+            'State.name',
+            'Group' => array(
+              'fields' => array('Group.id', 'Group.name'),
+              'conditions' => array('Group.kind_id' => $kind_ids),
+            ),
+          ),
+        ),
+        'Group',
+        'Resource',
+        'Mode',
+        'Customer'
+      ),
+    ));
+    $this->set(compact('event'));
 
-    // sort 'memberships' by FirstGroup's id and profile_names
-    array_multisort($group_ids, SORT_ASC, $profile_names, SORT_ASC, $memberships);
-
-    $this->set(compact('memberships'));
-
+    // load the administrator of this event
     $this->Event->User->contain('Profile');
     $user = $this->Event->User->find('first', array(
       'conditions' => array('User.id' => $event['Event']['user_id']),
     ));
     $admin = isset($user['Profile']['id']) ? $user['Profile']['first_name'] . ' ' . $user['Profile']['last_name'] : $user['User']['username'];
     $this->set(compact('admin'));
-
   }
 
   public function add() {

@@ -88,11 +88,11 @@
 <?php endif; ?>
 
 
-
 <b>Besetzung:</b>
 <div class="table availability">
   <div class="tr">
     <div class="th">Name</div>
+    <div class="th">Status</div>
     <div class="th">Instrument(e)</div>
 <?php if ($this->Html->hasPrivileg($this_user, array('Availability'))): ?>
     <div class="th">wird anwesend sein</div>
@@ -102,51 +102,51 @@
 <?php endif; ?>
     <div class="th">Persönliche Information</div>
   </div>
-
 <?php
-foreach ($memberships as $membership):
+foreach ($event['Availability'] as $availability):
+  $id = $availability['id'];
   $group_names = [];
-  foreach ($membership['Group'] as $group)
+  foreach ($availability['Membership']['Group'] as $group)
     $group_names[] = $group['name'];
-    $id = $membership['Availability']['id'];
 ?>
   <div class="tr" id="<?php echo 'row_' . $id; ?>">
     <div class="td">
-      <?php echo $membership['Profile']['first_name']; ?>
-      <?php echo $membership['Profile']['last_name']; ?>
+      <?php echo $availability['Membership']['Profile']['first_name']; ?>
+      <?php echo $availability['Membership']['Profile']['last_name']; ?>
     </div>
+    <div class="td"><?php echo $availability['Membership']['State']['name']; ?></div>
     <div class="td"><?php echo implode(', ', $group_names); ?></div>
-<!--
-    <div class="td"><?php if (isset($membership['Group'][0]['id'])) echo $membership['Group'][0]['name']; ?></div>
-    <div class="td"><?php echo $membership['FirstGroup']['name']; ?></div>
--->
     <div class="td"><?php
-        $val = $membership['Availability']['is_available'] == false ? '0' : '1';
-        $checked = $membership['Availability']['is_available'] == false ? '' : ' checked="checked"';
+        $val = $availability['is_available'] == false ? '0' : '1';
+        $checked = $availability['is_available'] == false ? '' : ' checked="checked"';
         echo '<input id="Availability' . $id . 'is_available" type="checkbox" name="' . $id .
                 '" value="'.$val.'"'.$checked.' field-name="is_available"/>';
         echo '<label for="Availability' . $id . 'is_available">wird anwesend sein</label>';
     ?></div>
 <?php if ($this->Html->hasPrivileg($this_user, array('Availability'))): ?>
     <div class="td"><?php
-        $val = $membership['Availability']['was_available'] == false ? '0' : '1';
-        $checked = $membership['Availability']['was_available'] == false ? '' : ' checked="checked"';
+        $val = $availability['was_available'] == false ? '0' : '1';
+        $checked = $availability['was_available'] == false ? '' : ' checked="checked"';
         echo '<input id="Availability' . $id . 'was_available" type="checkbox" name="' . $id .
                 '" value="'.$val.'"'.$checked.' field-name="was_available"/>';
         echo '<label for="Availability' . $id . 'was_available">war anwesend</label>';
     ?></div>
-<?php endif; ?>
     <div class="td"><?php
-        $info = $membership['Availability']['info'];
+        $info = $availability['info'];
         echo '<input id="Availability' . $id . 'info" type="text" maxlength="50" name="' . $id .
                 '" value="' . $info . '" field-name="info" onkeydown="evalInfo(event,' . $id . ')"/>';
     ?></div>
     <div class="td icon-save"><a href="javascript:void(0)" onclick="saveInfo(<?php echo $id ?>)" title="Info Speichern">Info Speichern</a></div>
+<?php endif; ?>
   </div>
-<?php endforeach; ?>
-<?php unset($membership); ?>
-<?php unset($group_names); ?>
+<?php
+  endforeach;
+  unset($availability);
+  unset($group_names);
+  unset($id);
+?>
 </div>
+
 
 <?php
   // write the ajax paths to a hidden <div>
