@@ -60,12 +60,12 @@ class StatisticsController extends AppController {
 
     $data = array();
     $names = array(
-//      'memberships' => array(),
       'profiles'    => array(),
       'groups'      => array(),
       'modes'       => array()
     );
 
+    // fetch events and related data
     $events = $this->Event->find('all', array(
       'conditions' => array(
         'Event.start >=' => $year . '-1-1',
@@ -76,40 +76,57 @@ class StatisticsController extends AppController {
           'Membership' => array(
             'Profile' => array(
               'fields' => array('first_name', 'last_name')
-            )
+            ),
+          'Group' => array('id'),
           )
         ),
         'Group' => array(
-          'fields' => array('name')
+          'fields' => array('name', 'id')
         ),
         'Mode' => array(
           'fields' => array('name')
         )
       )
     ));
+
+    // loop through events and availabilities
     foreach ($events as $event) {
       foreach ($event['Availability'] as $availability) {
+        // add membership's profile to statistics
         if (!isset($names['memberships'][ $availability['membership_id'] ])) {
           $names['profiles'][ $availability['membership_id'] ] = $availability['Membership']['Profile'];
-/*
-          $names['memberships'][ $availability['membership_id'] ] =
-                    $availability['Membership']['Profile']['first_name'] . ' ' .
-                    $availability['Membership']['Profile']['last_name'];
-          $data[ $availability['membership_id'] ] = array();
-*/
         }
+
+        // do statistics relevant stuff only if availability is set
         if ($availability['was_available']) {
-          if (!isset($names['groups'][ $event['Event']['group_id'] ])) {
-            $names['groups'][ $event['Event']['group_id'] ] = $event['Group']['name'];
-          }
+          // add event's mode to statistics
           if (!isset($names['modes'][ $event['Event']['mode_id'] ])) {
             $names['modes'][ $event['Event']['mode_id'] ] = $event['Mode']['name'];
           }
-          if (!isset($data[ $availability['membership_id'] ][ $event['Event']['group_id'] ][ $event['Event']['mode_id'] ])) {
-            $data[ $availability['membership_id'] ][ $event['Event']['group_id'] ][ $event['Event']['mode_id'] ] = 0;
+ 
+          // collect membership's groups (ids only)
+          $membership_group_ids = array();
+          foreach( $availability['Membership']['Group'] as $group ) {
+            $membership_group_ids[] = $group['id'];
           }
-          $data[ $availability['membership_id'] ][ $event['Event']['group_id'] ][ $event['Event']['mode_id'] ] += 1;
+          unset($group);
 
+          // iterate event's related groups
+          foreach( $event['Group'] as $group ) {
+            // check if event's related group is also related to the membership
+            if( in_array($group['id'], $membership_group_ids) ) {
+              // add the group name to the statistics
+              if (!isset($names['groups'][ $group['id'] ])) {
+                $names['groups'][ $group['id'] ] = $group['name'];
+              }
+              // add and increase participation counter
+              if (!isset($data[ $availability['membership_id'] ][ $group['id'] ][ $event['Event']['mode_id'] ])) {
+                $data[ $availability['membership_id'] ][ $group['id'] ][ $event['Event']['mode_id'] ] = 0;
+              }
+              $data[ $availability['membership_id'] ][ $group['id'] ][ $event['Event']['mode_id'] ] += 1;
+            }
+          }
+          unset($membership_group_ids);
         }
       }
     }
@@ -209,10 +226,14 @@ class StatisticsController extends AppController {
 
     $this->loadModel('Musicsheet');
     $this->Musicsheet->contain('Publisher', 'Composer', 'Arranger');
-    $musicsheets = $this->Musicsheet->find('all', array(
-      'conditions' => array('Musicsheet.id' => $musicsheet_ids),
-      'order' => array('Musicsheet.title' => 'ASC')
-    ));
+    if( !empty($musicsheet_ids) ) {
+      $musicsheets = $this->Musicsheet->find('all', array(
+        'conditions' => array('Musicsheet.id' => $musicsheet_ids),
+        'order' => array('Musicsheet.title' => 'ASC')
+      ));
+    } else {
+      $musicsheets = array();
+    }
     $this->set(compact('musicsheets'));
   }
 
@@ -247,8 +268,10 @@ class StatisticsController extends AppController {
       'conditions' => $conditions
     ));
     $this->set(compact('events'));
-    foreach ($events as $event) {
-      $statistic['rows'][$event['Event']['group_id']]['data'][$event['Event']['mode_id']]['events'] += 1;
+    foreach( $events as $event ) {
+      foreach( $event['Group'] as $group ) {
+        $statistic['rows'][$group['id']]['data'][$event['Event']['mode_id']]['events'] += 1;
+      }
     }
     $this->set(compact('statistic'));
   }

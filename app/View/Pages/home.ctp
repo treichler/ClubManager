@@ -95,19 +95,25 @@ function textRotate() {
 
 <div id="upcomingEvents">
 <ul id="upcomingEventsContent">
-  <?php foreach ($events as $event):?>
+<?php foreach ($events as $event):?>
   <li class="textItem">
-    <b>
-      <?php
+    <b><?php
         echo $this->Html->getDate($event['Event']['start'], array('year' => true));
         if (!$this->Html->isSameDay($event)) echo (' - ' . $this->Html->getDate($event['Event']['stop'], array('year' => true)));
-      ?>
-    </b>
-    <?php echo h($event['Event']['name']) ?>
-    <i>(<?php echo h($event['Group']['name']) ?>)</i>
+    ?></b>
+    <?php
+        echo h($event['Event']['name']);
+        $groups = [];
+        foreach($event['Group'] as $group) {
+          $groups[] = h($group['name']);
+        }
+        unset($group);
+        if( !empty($groups) )
+          echo ' <i>(' . implode(', ', $groups) . ')</i>';
+    ?>
   </li>
-  <?php endforeach; ?>
-  <?php unset($event); ?>
+<?php endforeach; ?>
+<?php unset($event); ?>
 </ul>
 </div>
 

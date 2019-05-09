@@ -86,13 +86,10 @@ class Membership extends AppModel {
     foreach ($modes as $mode) {
       $mode_ids[] = $mode['Mode']['id'];
     }
-    // get all upcoming events, where availability is necessary
-    // TODO and past events where 'availability_checked' is not checked
+    // get all events, where availability is necessary
+    // and 'availability_checked' is not yet checked
     $events = $this->Group->Event->find('all', array('conditions' => array(
-//      'start >' => date('Y-m-d H:i:s'),
       'availabilities_checked' => false,
-// TODO if we'd like to create availabilities for past events we should clear 'availability_checked' at affected 'events'
-//      'start >' => date('Y-m-d', strtotime('-1 months')),
       'mode_id' => $mode_ids
     )));
 
@@ -106,31 +103,31 @@ class Membership extends AppModel {
       // check if membership needs availabilities
       if ($membership['State']['set_availability']) {
         // membership needs availabilities...
+        $group_ids = array();
+        foreach( $event['Group'] as $group ) {
+          $group_ids[] = $group['id'];
+        }
         // check if this membership belongs to event's group
-        // XXX this does not work...
-//        if (!empty($this->GroupsMembership->find('first', array('conditions' => array(
-//              'group_id'      => $event['Group']['id'],
-//              'membership_id' => $membership['Membership']['id']
-//            ))))) {
-        // XXX ...but this does (propably a bug in the framework)
-        $tmp = $this->GroupsMembership->find('first', array('conditions' => array(
-              'group_id'      => $event['Group']['id'],
+        $tmp = $this->GroupsMembership->find('first', array(
+            'conditions' => array(
+              'group_id'      => $group_ids,
               'membership_id' => $membership['Membership']['id']
-            )));
+            )
+        ));
         if (!empty($tmp)) {
           // check if availability has to be created
           if (empty($availability)) {
-            $availability = false;
+            $available = false;
             if (!$this->Group->Event->started($event['Event'])) {
-              $availability = $membership['State']['is_available'];
+              $available = $membership['State']['is_available'];
             }
             // create availability
             $this->Availability->create();
             $this->Availability->save(array(
               'membership_id' => $membership['Membership']['id'],
               'event_id'      => $event['Event']['id'],
-              'is_available'  => $availability,
-              'was_available' => $availability
+              'is_available'  => $available,
+              'was_available' => $available
             ));
           } else {
             // modify availability if membership's state has changed

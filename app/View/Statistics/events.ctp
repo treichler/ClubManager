@@ -88,7 +88,14 @@ $(document).ready(function() {
         echo $this->Html->getDateTime($event['Event']['start']);
         if (!$this->Html->isSameDay($event)) echo (' ' . $this->Html->getDateTime($event['Event']['stop']));
     ?></div>
-    <div class="td"><?php echo h($event['Group']['name']); ?></div>
+    <div class="td"><?php
+      $groups = [];
+      foreach($event['Group'] as $group) {
+        $groups[] = h($group['name']);
+      }
+      unset($group);
+      echo implode(', ', $groups);
+    ?></div>
     <div class="td"><?php
         echo $this->Html->link($event['Event']['name'],
         array('controller' => 'events', 'action' => 'view', $event['Event']['id']));
