@@ -161,8 +161,12 @@ class EventsController extends AppController {
       'contain' => array(
         'Availability' => array(
           'Membership' => array(
-            'Profile.first_name', 'Profile.last_name',
-            'State.name',
+            'Profile' => array(
+              'fields' => array('Profile.first_name', 'Profile.last_name'),
+            ),
+            'State' => array(
+              'fields' => array('State.id', 'State.name'),
+            ),
             'Group' => array(
               'fields' => array('Group.id', 'Group.name'),
               'conditions' => array('Group.kind_id' => $kind_ids),

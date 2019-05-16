@@ -88,12 +88,45 @@
 <?php endif; ?>
 
 
-<b>Besetzung:</b>
+<?php
+  // prepare data
+  $membership_states = array();
+  foreach( $event['Availability'] as $availability ) {
+
+    if( !isset($membership_states[ $availability['Membership']['State']['id'] ]) ) {
+      $membership_states[$availability['Membership']['State']['id']] = array(
+        'State'           => $availability['Membership']['State']['name'],
+        'Availability'    => array(),
+        'names'           => array(),
+        'groups'          => array(),
+        'first_group_ids' => array(),
+      );
+    }
+
+    $id = $availability['id'];
+    $group_names = [];
+    foreach ($availability['Membership']['Group'] as $group)
+      $group_names[] = $group['name'];
+
+    $membership_states[$availability['Membership']['State']['id']]['Availability'][]    = $availability;
+    $membership_states[$availability['Membership']['State']['id']]['names'][]           = $availability['Membership']['Profile']['first_name'] . ' ' . $availability['Membership']['Profile']['last_name'];
+    $membership_states[$availability['Membership']['State']['id']]['groups'][]          = implode(', ', $group_names);
+    $membership_states[$availability['Membership']['State']['id']]['first_group_ids'][] = isset($availability['Membership']['Group'][0]) ? $availability['Membership']['Group'][0]['id'] : Null;
+  }
+  // sort "$groups" and "infos" by "first_group_ids" and "names"
+  foreach( $membership_states as $i => $f ) {
+    array_multisort($membership_states[$i]['first_group_ids'], SORT_ASC, $membership_states[$i]['names'], SORT_ASC, $membership_states[$i]['groups'], $membership_states[$i]['Availability']);
+  }
+  // sort keys (state ids) ascending
+  ksort($membership_states);
+?>
+
+<?php foreach( $membership_states as $state ): ?>
+<h3>Besetzung (<?php echo $state['State'] ?>):</h3>
 <div class="table availability">
   <div class="tr">
-    <div class="th">Name</div>
-    <div class="th">Status</div>
-    <div class="th">Instrument(e)</div>
+    <div class="th name">Name</div>
+    <div class="th tool">Instrument(e)</div>
 <?php if ($this->Html->hasPrivileg($this_user, array('Availability'))): ?>
     <div class="th">wird anwesend sein</div>
     <div class="th">war anwesend</div>
@@ -103,49 +136,39 @@
     <div class="th">Persönliche Information</div>
   </div>
 <?php
-foreach ($event['Availability'] as $availability):
-  $id = $availability['id'];
-  $group_names = [];
-  foreach ($availability['Membership']['Group'] as $group)
-    $group_names[] = $group['name'];
+  for( $i = 0; $i < count($state['Availability']); $i++ ):
+    $id = $state['Availability'][$i]['id'];
 ?>
   <div class="tr" id="<?php echo 'row_' . $id; ?>">
-    <div class="td">
-      <?php echo $availability['Membership']['Profile']['first_name']; ?>
-      <?php echo $availability['Membership']['Profile']['last_name']; ?>
-    </div>
-    <div class="td"><?php echo $availability['Membership']['State']['name']; ?></div>
-    <div class="td"><?php echo implode(', ', $group_names); ?></div>
+    <div class="td"><?php echo $state['names'][$i]; ?></div>
+    <div class="td"><?php echo $state['groups'][$i]; ?></div>
     <div class="td"><?php
-        $val = $availability['is_available'] == false ? '0' : '1';
-        $checked = $availability['is_available'] == false ? '' : ' checked="checked"';
+        $val = $state['Availability'][$i]['is_available'] == false ? '0' : '1';
+        $checked = $state['Availability'][$i]['is_available'] == false ? '' : ' checked="checked"';
         echo '<input id="Availability' . $id . 'is_available" type="checkbox" name="' . $id .
                 '" value="'.$val.'"'.$checked.' field-name="is_available"/>';
         echo '<label for="Availability' . $id . 'is_available">wird anwesend sein</label>';
     ?></div>
 <?php if ($this->Html->hasPrivileg($this_user, array('Availability'))): ?>
     <div class="td"><?php
-        $val = $availability['was_available'] == false ? '0' : '1';
-        $checked = $availability['was_available'] == false ? '' : ' checked="checked"';
+        $val = $state['Availability'][$i]['was_available'] == false ? '0' : '1';
+        $checked = $state['Availability'][$i]['was_available'] == false ? '' : ' checked="checked"';
         echo '<input id="Availability' . $id . 'was_available" type="checkbox" name="' . $id .
                 '" value="'.$val.'"'.$checked.' field-name="was_available"/>';
         echo '<label for="Availability' . $id . 'was_available">war anwesend</label>';
     ?></div>
+
     <div class="td"><?php
-        $info = $availability['info'];
+        $info = $state['Availability'][$i]['info'];
         echo '<input id="Availability' . $id . 'info" type="text" maxlength="50" name="' . $id .
                 '" value="' . $info . '" field-name="info" onkeydown="evalInfo(event,' . $id . ')"/>';
     ?></div>
     <div class="td icon-save"><a href="javascript:void(0)" onclick="saveInfo(<?php echo $id ?>)" title="Info Speichern">Info Speichern</a></div>
 <?php endif; ?>
   </div>
-<?php
-  endforeach;
-  unset($availability);
-  unset($group_names);
-  unset($id);
-?>
+<?php endfor; ?>
 </div>
+<?php endforeach; ?>
 
 
 <?php
@@ -158,34 +181,40 @@ foreach ($event['Availability'] as $availability):
   echo "<div id='tracks_checked' style='display: none'>" . $events_path . "</div>";
 ?>
 
-<p>
-  <div>
-    <label for="availabilitiesCheckedId">Anwesenheitsliste bestätigen</label>
-    <?php
-      $checked = $event['Event']['availabilities_checked'] == false ? '' : ' checked="checked"';
-      echo '<input id="availabilitiesCheckedId" type="checkbox" name="' . $event['Event']['id'] . '" value="' .
-            $event['Event']['availabilities_checked'] . '"' . $checked . ' field-name="availabilities_checked"/>';
-    ?><br />
-  </div>
-</p>
+<style>
+[type="checkbox"]
+{
+  vertical-align:middle;
+}
+label {
+  display: inline;
+}
+</style>
 
-<p>
+<h3>Anwesenheitsliste</h3>
+<div>
+  <label for="availabilitiesCheckedId">Anwesenheitsliste bestätigen</label>
   <?php
-    echo $this->Html->link('Gespielte Musikstücke',
-    array('controller' => 'tracks', 'action' => 'index', "?" => array('event_id' => $event['Event']['id'])));
-  ?>
-</p>
+    $checked = $event['Event']['availabilities_checked'] == false ? '' : ' checked="checked"';
+    echo '<input id="availabilitiesCheckedId" type="checkbox" name="' . $event['Event']['id'] . '" value="' .
+          $event['Event']['availabilities_checked'] . '"' . $checked . ' field-name="availabilities_checked"/>';
+  ?><br />
+</div>
 
-<p>
-  <div>
-    <label for="tracksCheckedId">Liste der gespielten Musikst&uuml;cke bestätigen</label>
-    <?php
-      $checked = $event['Event']['tracks_checked'] == false ? '' : ' checked="checked"';
-      echo '<input id="tracksCheckedId" type="checkbox" name="' . $event['Event']['id'] . '" value="' .
-            $event['Event']['tracks_checked'] . '"' . $checked . ' field-name="tracks_checked"/>';
-    ?><br />
-  </div>
-</p>
+<h3>Musikst&uuml;cke</h3>
+<?php
+  echo $this->Html->link('Gespielte Musikstücke',
+  array('controller' => 'tracks', 'action' => 'index', "?" => array('event_id' => $event['Event']['id'])));
+?>
+
+<div>
+  <label for="tracksCheckedId">Liste der gespielten Musikst&uuml;cke bestätigen</label>
+  <?php
+    $checked = $event['Event']['tracks_checked'] == false ? '' : ' checked="checked"';
+    echo '<input id="tracksCheckedId" type="checkbox" name="' . $event['Event']['id'] . '" value="' .
+          $event['Event']['tracks_checked'] . '"' . $checked . ' field-name="tracks_checked"/>';
+  ?><br />
+</div>
 
 
 <script type="text/javascript">

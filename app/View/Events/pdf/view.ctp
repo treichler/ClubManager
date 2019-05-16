@@ -61,7 +61,7 @@ td {
     }
   }
 
-  // sort "$groups" and"infos" by "first_group_ids" and "names"
+  // sort "$groups" and "infos" by "first_group_ids" and "names"
   array_multisort($first_group_ids, SORT_ASC, $names, SORT_ASC, $groups, $infos);
 
   // print table to pdf
