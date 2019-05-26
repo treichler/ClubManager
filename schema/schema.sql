@@ -328,7 +328,7 @@ CREATE TABLE contactprotocols (
   name VARCHAR(50),
   report VARCHAR(100),
   profiles_selected INT COMMENT 'Holds the number of selected profiles',
-  profiles_delivered INT COMMENT 'Holds the number of profiles which where contacted',,
+  profiles_delivered INT COMMENT 'Holds the number of profiles which where contacted',
   created DATETIME DEFAULT NULL,
   modified DATETIME DEFAULT NULL
 );
