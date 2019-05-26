@@ -88,9 +88,9 @@ class ContactsController extends AppController
             !empty($this->request->data['Contact']['text'])) {
           // check ReCaptcha
           $recapcha = false;
-          if (isset($this->request->data['recaptcha_challenge_field']) && isset($this->request->data['recaptcha_challenge_field'])) {
-          App::import('Vendor', 'recaptchalib', array('file' => 'recaptchalib/recaptchalib.php'));        
-            $resp = recaptcha_check_answer (Configure::read("recatpch_settings.private_key"),
+          if( Configure::read("recaptcha_settings.public_key") && isset($this->request->data['recaptcha_challenge_field']) ) {
+            App::import('Vendor', 'recaptchalib', array('file' => 'recaptchalib/recaptchalib.php'));
+            $resp = recaptcha_check_answer (Configure::read("recaptcha_settings.private_key"),
                               $_SERVER["REMOTE_ADDR"],
                               $this->request->data['recaptcha_challenge_field'],
                               $this->request->data['recaptcha_response_field']);

@@ -110,14 +110,32 @@ class UsersController extends AppController {
 
   public function create_ticket() {
     if ($this->request->is('post')) {
-      App::import('Vendor', 'recaptchalib', array('file' => 'recaptchalib/recaptchalib.php'));        
-      $resp = recaptcha_check_answer (Configure::read("recatpch_settings.private_key"),
-                          $_SERVER["REMOTE_ADDR"],
-                          $this->request->data['recaptcha_challenge_field'],
-                          $this->request->data['recaptcha_response_field']);
-      if (!$resp->is_valid) {
-        $this->Session->setFlash('Das reCAPTCHA wurde falsch eingegeben.');
+      $is_valid = False;
+
+      // reCaptcha
+      if( Configure::read("recaptcha_settings.public_key") ) {
+        App::import('Vendor', 'recaptchalib', array('file' => 'recaptchalib/recaptchalib.php'));        
+        $resp = recaptcha_check_answer (Configure::read("recaptcha_settings.private_key"),
+                            $_SERVER["REMOTE_ADDR"],
+                            $this->request->data['recaptcha_challenge_field'],
+                            $this->request->data['recaptcha_response_field']);
+        if( !$resp->is_valid) {
+          $this->Session->setFlash('Das reCAPTCHA wurde falsch eingegeben.');
+          $is_valid = False;
+        } else {
+          $is_valid = True;
+        }
+      }
+
+      // legitimate
+      if( !$this->checkLegitimation($this->request->data) ) {
+        $this->Session->setFlash('Die Legitimation ist falsch.');
+        $is_valid = False;
       } else {
+        $is_valid = True;
+      }
+
+      if( $is_valid ) {
         if ($this->User->createTicket($this->request->data)) {
           $user = $this->User->read();
           // send the email with the ticket
@@ -188,14 +206,32 @@ class UsersController extends AppController {
 
   public function add() {
     if ($this->request->is('post')) {
-      App::import('Vendor', 'recaptchalib', array('file' => 'recaptchalib/recaptchalib.php'));        
-      $resp = recaptcha_check_answer (Configure::read("recatpch_settings.private_key"),
-                          $_SERVER["REMOTE_ADDR"],
-                          $this->request->data['recaptcha_challenge_field'],
-                          $this->request->data['recaptcha_response_field']);
-      if (!$resp->is_valid) {
-        $this->Session->setFlash('Das reCAPTCHA wurde falsch eingegeben.');
+      $is_valid = False;
+
+      // reCaptcha
+      if( Configure::read("recaptcha_settings.public_key") ) {
+        App::import('Vendor', 'recaptchalib', array('file' => 'recaptchalib/recaptchalib.php'));        
+        $resp = recaptcha_check_answer (Configure::read("recaptcha_settings.private_key"),
+                            $_SERVER["REMOTE_ADDR"],
+                            $this->request->data['recaptcha_challenge_field'],
+                            $this->request->data['recaptcha_response_field']);
+        if( !$resp->is_valid) {
+          $this->Session->setFlash('Das reCAPTCHA wurde falsch eingegeben.');
+          $is_valid = False;
+        } else {
+          $is_valid = True;
+        }
+      }
+
+      // legitimate
+      if( !$this->checkLegitimation($this->request->data) ) {
+        $this->Session->setFlash('Die Legitimation ist falsch.');
+        $is_valid = False;
       } else {
+        $is_valid = True;
+      }
+
+      if( $is_valid ) {
         $this->User->create();
         if ($this->User->save($this->request->data)) {
           $this->Session->setFlash('Benutzer wurde gespeichert. Anmelden ist nun möglich', 'default', array('class' => 'success'));
@@ -253,6 +289,21 @@ class UsersController extends AppController {
     }
     $this->Session->setFlash('Benutzer konnte nicht gelöscht werden');
     $this->redirect(array('action' => 'index'));
+  }
+
+
+//---------------------------------------------------------------------------------------
+// private methods
+//---------------------------------------------------------------------------------------
+
+  private function checkLegitimation($data) {
+    if( Configure::read("CMSystem.legitimation") ) {
+      if( isset($data['User']['legitimation']) && (Configure::read("CMSystem.legitimation") === $data['User']['legitimation']) ) {
+        return True;
+      }
+      return False;
+    }
+    return True;
   }
 
 }

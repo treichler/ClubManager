@@ -10,17 +10,25 @@
     echo $this->Form->input('email', array('label' => 'Ihre E-Mail Addresse (damit wir antworten können)'));
     echo $this->Form->input('subject', array('label' => 'Betreff'));
     echo $this->Form->input('text', array('rows' => '7', 'label' => 'Text'));
-    echo '<div id="recaptcha_div"></div>';
+
+    if( Configure::read("recaptcha_settings.public_key") )
+      echo "\n<div id=\"recaptcha_div\"></div>\n";
+
     echo $this->Form->end('Senden');
-    echo $this->Html->script('https://www.google.com/recaptcha/api/js/recaptcha_ajax.js');
+
+    if( Configure::read("recaptcha_settings.public_key") ) {
+      echo "\n";
+      echo $this->Html->script('https://www.google.com/recaptcha/api/js/recaptcha_ajax.js');
+      echo "\n" .
+        "<script type=\"text/javascript\">\n" .
+        "  $(document).ready(function(){\n" .
+        "    Recaptcha.create('" . Configure::read("recaptcha_settings.public_key") . "', 'recaptcha_div', {\n" .
+        "      theme: 'red',\n" .
+        "      callback: Recaptcha.focus_response_field});\n" .
+        "    }\n" .
+        "  );\n" .
+        "</script>";
+    }
   }
 ?>
-
-<script type="text/javascript">
-$(document).ready(function(){
-    Recaptcha.create("<?php echo Configure::read("recatpch_settings.public_key")?>", 'recaptcha_div', {
-    theme: "red",
-    callback: Recaptcha.focus_response_field});
-});
-</script>
 

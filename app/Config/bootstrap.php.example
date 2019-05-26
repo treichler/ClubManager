@@ -196,6 +196,7 @@ Configure::write('Config.language', 'ger');
 Configure::write('CMSystem', array(
   'start_year'                  => '2014',      // the go-live year
   'use_akm'                     => true,        // set true if you want to be able to download annual AKM-report (Austria)
+  'legitimation'                => 'Test123',   // if set "Registration" and "Reset Password" forms have to be legitimated with this value
   'start_page_pictures_number'  => 5,           // number of pictures to be fetched from groups and blogs
   'start_page_groups_limit'     => 2,           // number of pictures to be fetched from groups
   'stylesheet_version_number'   => '1.0',       // this is a workaround: if changed browser will be forced to reload the style-sheet
@@ -279,7 +280,7 @@ Configure::write('sms_gateway', array(
  *
  * domain name: global-key.foocompany.com
  */
-Configure::write('recatpch_settings', array(
+Configure::write('recaptcha_settings', array(
   'public_key'  => '6LdlqsESAAAAANn_JbirsAyp0mH9ZuJBDfxVc_IW',
   'private_key' => '6LdlqsESAAAAAORBwTaY99JhwSSyRbN4JPpSFM4N'
 ));

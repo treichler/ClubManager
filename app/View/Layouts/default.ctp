@@ -383,7 +383,9 @@ function initTinyNav() {
         <ul id="menu-footer-navigation" class="menu">
           <li><?php echo $this->Html->link('Startseite', "/"); ?></li>
           <li><?php echo $this->Html->link('Kontakt', array('controller' => 'contactpeople', 'action' => 'index')); ?></li>
+<?php if( Configure::read("recaptcha_settings.public_key") ): ?>
           <li><?php echo $this->Html->link('Kontaktformular', array('controller' => 'contacts', 'action' => 'contact')); ?></li>
+<?php endif; ?>
         </ul>
       </nav>
 
