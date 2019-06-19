@@ -25,10 +25,10 @@ Setup
 -----
 
 Create following files according to your requirements, take a look at the *.example files:
-* `/app/config/bootstrap.php`  (application specific settings)
-* `/app/config/core.php`       (debug-level, cache, security values,...)
-* `/app/config/database.php`   (database settings)
-* `/app/config/email.php`      (email settings)
+* `/app/Config/bootstrap.php`  (application specific settings)
+* `/app/Config/core.php`       (debug-level, cache, security values,...)
+* `/app/Config/database.php`   (database settings)
+* `/app/Config/email.php`      (email settings)
 * `/app/webroot/css/style.css` (the web-application's appearance)
 
 Also copy the directory `/app/webroot/img.example` to `/app/webroot/img`.
@@ -36,12 +36,41 @@ Also copy the directory `/app/webroot/img.example` to `/app/webroot/img`.
 
 Adapt database settings according to your provider's requirements:
 * `/schema/schema.sql`
-* `/app/config/database.php`
+* `/app/Config/database.php`
 
 
 Create database by loading:
 * `/schema/schema.sql`
 * `/schema/data.sql`
+
+
+### Avoiding attacks from bots
+
+There are three forms which could be potentially a target to bots:
+* **Registration:** `https://<link_to_your_ClubManager>/users/add`
+* **Rest Password:** `https://<link_to_your_ClubManager>/users/create_ticket`
+* **Contact Form:** `https://<link_to_your_ClubManager>/contacts/contact`
+
+To reduce the chance for bots to successfully send those forms, there are two mechanisms implemented:
+
+**Legitimation Password**
+This approach relies on a secret legitimation which is only known by club members.
+Therefore the *legitimation* variable has to be set in the ClubManager system settings in `/app/config/bootstrap.php`.
+The Legitimation Password works only for *Registration* and *Reset Password* forms.
+
+**~~Recaptcha (Google)~~**
+This is currently work in progress.
+~~This approach uses Google's ReCaptcha and protects the three previously listed forms.
+To get it up and running you have to create an account where you get your public and private key.
+Write these keys to Settings for ReCaptcha in `/app/config/bootstrap.php`~~
+
+
+First Run
+---------
+
+`https://<link_to_your_ClubManager>/privilegs`
+
+the first user to be created `admin`
 
 
 ClubManager's appearance
