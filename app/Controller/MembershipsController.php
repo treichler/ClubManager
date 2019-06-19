@@ -3,8 +3,8 @@
 class MembershipsController extends AppController {
 
   public function isAuthorized($user) {
-    // only admins are allowed to access 'add', 'edit' and 'delete'
-    if (($this->action === 'add' || $this->action === 'edit' || $this->action === 'delete') &&
+    // only admins are allowed to access 'index', 'add', 'edit' and 'delete'
+    if (($this->action === 'index' || $this->action === 'add' || $this->action === 'edit' || $this->action === 'delete') &&
         array_has_key_val($this->getUser()['Privileg'], 'name', 'Administrator')) {
       return true;
     }

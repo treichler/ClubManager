@@ -157,14 +157,13 @@
                 '" value="'.$val.'"'.$checked.' field-name="was_available"/>';
         echo '<label for="Availability' . $id . 'was_available">war anwesend</label>';
     ?></div>
-
+<?php endif; ?>
     <div class="td"><?php
         $info = $state['Availability'][$i]['info'];
         echo '<input id="Availability' . $id . 'info" type="text" maxlength="50" name="' . $id .
                 '" value="' . $info . '" field-name="info" onkeydown="evalInfo(event,' . $id . ')"/>';
     ?></div>
     <div class="td icon-save"><a href="javascript:void(0)" onclick="saveInfo(<?php echo $id ?>)" title="Info Speichern">Info Speichern</a></div>
-<?php endif; ?>
   </div>
 <?php endfor; ?>
 </div>
