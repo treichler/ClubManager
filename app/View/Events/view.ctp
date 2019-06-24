@@ -69,20 +69,14 @@
 
 <?php if ($this->Html->hasPrivileg($this_user, array('Contact email', 'Contact sms'))): ?>
 <p>
-<b>Mitglieder Benachrichtigen:</b>
-<br/><i>Wenn die Anwesenheitsliste geändert wurde, muss die Seite neu geladen werden, damit die aktuelle Auswahl richtig an das SMS- und E-Mail-Modul übergeben wird.</i><br/>
+<b>Anwesende Mitglieder Benachrichtigen:</b>
 <?php
-  $membership_ids = [];
-  foreach ($event['Availability'] as $availability) {
-    if($availability['was_available'])
-      $membership_ids[] = $availability['membership_id'];
-  }
   $links = [];
   if ($this->Html->hasPrivileg($this_user, array('Contact sms')))
-    $links[] = $this->Html->link('SMS', array('controller' => 'contacts', 'action' => 'sms', '?' => array('membership_ids' => $membership_ids)));
+    $links[] = $this->Html->link('SMS', array('controller' => 'contacts', 'action' => 'sms', '?' => array('event_id' => $event['Event']['id'])));
   if ($this->Html->hasPrivileg($this_user, array('Contact email')))
-    $links[] =  $this->Html->link('E-Mail', array('controller' => 'contacts', 'action' => 'email', '?' => array('membership_ids' => $membership_ids)));
-  echo implode(' | ', $links);
+    $links[] =  $this->Html->link('E-Mail', array('controller' => 'contacts', 'action' => 'email', '?' => array('event_id' => $event['Event']['id'])));
+  echo implode(', ', $links);
 ?>
 </p>
 <?php endif; ?>

@@ -362,15 +362,20 @@ class ContactsController extends AppController
     }
     $this->set(compact('profiles'));
 
-    // preselect the meberships
-    if(isset($this->params['url']['membership_ids'])) {
-      $selected = [];
-      $this->Contact->Profile->Membership->contain();
-      $selected_members = $this->Contact->Profile->Membership->find('all', array(
-        'conditions' => array('Membership.id' => $this->params['url']['membership_ids'])
+    // preselect the memberships according to availability list
+    if(isset($this->params['url']['event_id'])) {
+      $event = $this->Contact->Profile->Membership->Availability->Event->find('first', array(
+        'conditions' => array('Event.id' => $this->params['url']['event_id']),
+        'contain' => array(
+          'Availability' => array(
+            'Membership' => array( 'fields' => array('Membership.profile_id') )
+          )
+        )
       ));
-      foreach ($selected_members as $selected_member) {
-        $selected['Profile'][] = array('id' => $selected_member['Membership']['profile_id']);
+      $selected = [];
+      foreach ($event['Availability'] as $availability) {
+        if( $availability['is_available'] )
+          $selected['Profile'][] = array('id' => $availability['Membership']['profile_id']);
       }
       $this->request->data = $selected;
     }
