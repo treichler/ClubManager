@@ -3,6 +3,7 @@
 <?php // This file contains PHP 
   echo $this->Html->script('availabilityAjax');
   echo $this->Html->script('jquery-ui-1.8.18.min');
+  $now = new DateTime();
 ?>
 
 <h1>Eigene Termine</h1>
@@ -52,11 +53,28 @@
     if ($availability['Event']['expiry'] == 0) $class = ' information';
     if ($availability['Event']['finished']) $class = ' finished';
     $class = ' class="tr' . $class . '"';
-//    if ($class) $class = ' class="' . $class . '"';
+
     // prepare info field
     $event_info = h($availability['Event']['info']);
     if ($availability['Event']['info'] && $availability['Event']['location']) $event_info .= '<br />';
     if ($availability['Event']['location']) $event_info .= 'Ort: ' . h($availability['Event']['location']);
+
+    // prepare availability's remaining days
+    $start = new DateTime($availability['Event']['start']);
+    $start->setTime(23, 59, 59);
+    $remaining_days = floor(($start->getTimestamp() - $now->getTimestamp()) / (60*60*24) - $availability['Event']['expiry']);
+    $expiry_message = 'Bereits Abgelaufen';
+    if ($remaining_days >= 0) {
+      if ($remaining_days == 0) {
+        $expiry_message = 'Läuft heute ab';
+      } else {
+        if ($remaining_days == 1) {
+          $expiry_message = 'Läuft morgen ab';
+        } else {
+          $expiry_message = 'Läuft in ' . $remaining_days . ' Tagen ab';
+        }
+      }
+    }
   ?>
   <div id="<?php echo 'row_' . $availability['Availability']['id']; ?>"<?php echo $class; ?>>
     <div class="td"><?php
@@ -73,7 +91,7 @@
         $val = $availability['Availability']['is_available'] == false ? '0' : '1';
         $checked = $availability['Availability']['is_available'] == false ? '' : ' checked="checked"';
         echo '<input id="Availability' . $id . 'is_available" type="checkbox" name="' . $id .
-                '" value="' . $val . '"' . $checked . ' field-name="is_available"/>';
+                '" value="' . $val . '"' . $checked . ' field-name="is_available" title="' . $expiry_message . '"/>';
         echo '<label for="Availability' . $id . 'is_available">Anwesenheit</label>';
     ?></div>
     <div class="td"><?php
@@ -81,19 +99,11 @@
         echo '<input id="Availability' . $id . 'info" type="text" maxlength="50" name="' . $id .
                 '" value="' . $info . '" field-name="info" onkeydown="evalInfo(event,' . $id . ')"/>';
     ?></div>
-    <div class="td icon-save"><a href="javascript:void(0)" onclick="saveInfo(<?php echo $id ?>)" title="Info Speichern">Info Speichern</a></div>
+    <div class="td icon-save"><a href="javascript:void(0)" onclick="saveInfo(<?php echo $id ?>)" title="<?php echo $expiry_message ?>">Info Speichern</a></div>
   </div>
   <?php endforeach; ?>
   <?php unset($availability); ?>
 </div>
-
-<?php
-  // write the ajax paths to a hidden <div>
-  $availabilities_path = Router::url(array('controller' => 'availabilities'), true) . "/";
-  echo "<div id='is_available' style='display: none'>" . $availabilities_path . "</div>";
-  echo "<div id='was_available' style='display: none'>" . $availabilities_path . "</div>";
-  echo "<div id='info' style='display: none'>" . $availabilities_path . "</div>";
-?>
 
 
 <script type="text/javascript">
@@ -120,9 +130,6 @@ function calendarPublicate(val) {
       type: 'POST',
       dataType: 'html',
       data: 'command=' + (val ? 'create' : 'delete'),
-//      dataType: 'json',
-//      async: false,
-//      data: '{"Calendar" : {"command" : "create"}}',
       success: function(data, textStatus, jqXHR){
         if (data == 'deleted') {
           alert('Der Link zum Kalender wurde gelöscht');
@@ -132,7 +139,6 @@ function calendarPublicate(val) {
           showCalendar(_path, data);
         }
       },
-//      error: function(){alert("Übertragungsfehler")}
     })
   }
 }
@@ -141,10 +147,7 @@ function showCalendar(path, uuid) {
   if (uuid != false) {
     $('.calendar').detach();
     $('#calendar').append(
-//      "<button class='link' onclick='$(\"p#personal_link\").toggle(\"slow\")'>Adresse zeigen</button> " +
       "<button class='calendar'onclick='calendarPublicate(false)'>Adresse l&ouml;schen</button> " +
-//      "<p class='link' style=\"display: none\">" + path + uuid + "</p>"
-//      "<p id='personal_link'><tt>" + path + uuid  + '.ics' + "</tt></p>"
       "<table id='personal_link'><tr><td>Standard:</td><td><tt>" + path + uuid  + '.ics' + "</tt></td></tr>" +
       "<tr><td>Google:</td><td><tt>" + path + uuid  + ".ics?client=gCal" + "</tt></td></tr></table>"
     );
@@ -159,7 +162,6 @@ function showCalendar(path, uuid) {
 
 function saveInfo(id) {
   var input = $('#Availability' + id + 'info')
-//  alert(input.attr('value'));
   isAvailable(id, 'info', _availabilities_path, input.attr('value'));
 }
 

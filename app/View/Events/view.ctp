@@ -14,7 +14,7 @@
       $expiry_message = 'heute';
     } else {
       if ($remaining_days == 1) {
-        $expiry_message = 'noch ' . $remaining_days . ' Tag';
+        $expiry_message = 'bis morgen';
       } else {
         $expiry_message = 'noch ' . $remaining_days . ' Tage';
       }
@@ -22,8 +22,6 @@
   } else {
     $expiry_message = 'bereits abgelaufen';
   }
-
-//  $event['Event']['expiry'];
 ?>
 
 <h1><?php echo h($event['Event']['name']); ?></h1>
@@ -164,34 +162,14 @@
 <?php endforeach; ?>
 
 
-<?php
-  // write the ajax paths to a hidden <div>
-  $availabilities_path = Router::url(array('controller' => 'availabilities'), true) . "/";
-  $events_path = Router::url(array('controller' => 'events', 'action' => 'index'), true) . "/";
-  echo "<div id='is_available' style='display: none'>" . $availabilities_path . "</div>";
-  echo "<div id='was_available' style='display: none'>" . $availabilities_path . "</div>";
-  echo "<div id='availabilities_checked' style='display: none'>" . $events_path . "</div>";
-  echo "<div id='tracks_checked' style='display: none'>" . $events_path . "</div>";
-?>
-
-<style>
-[type="checkbox"]
-{
-  vertical-align:middle;
-}
-label {
-  display: inline;
-}
-</style>
-
 <h3>Anwesenheitsliste</h3>
-<div>
-  <label for="availabilitiesCheckedId">Anwesenheitsliste bestätigen</label>
+<div class="input checkbox">
   <?php
     $checked = $event['Event']['availabilities_checked'] == false ? '' : ' checked="checked"';
     echo '<input id="availabilitiesCheckedId" type="checkbox" name="' . $event['Event']['id'] . '" value="' .
           $event['Event']['availabilities_checked'] . '"' . $checked . ' field-name="availabilities_checked"/>';
-  ?><br />
+  ?>
+  <label for="availabilitiesCheckedId">Anwesenheitsliste bestätigen</label>
 </div>
 
 <h3>Musikst&uuml;cke</h3>
@@ -199,16 +177,14 @@ label {
   echo $this->Html->link('Gespielte Musikstücke',
   array('controller' => 'tracks', 'action' => 'index', "?" => array('event_id' => $event['Event']['id'])));
 ?>
-
-<div>
-  <label for="tracksCheckedId">Liste der gespielten Musikst&uuml;cke bestätigen</label>
+<div class="input checkbox">
   <?php
     $checked = $event['Event']['tracks_checked'] == false ? '' : ' checked="checked"';
     echo '<input id="tracksCheckedId" type="checkbox" name="' . $event['Event']['id'] . '" value="' .
           $event['Event']['tracks_checked'] . '"' . $checked . ' field-name="tracks_checked"/>';
-  ?><br />
+  ?>
+  <label for="tracksCheckedId">Liste der gespielten Musikst&uuml;cke bestätigen</label>
 </div>
-
 
 <script type="text/javascript">
 var _availabilities_path = '<?php echo Router::url(array('controller' => 'availabilities'), true) . "/"; ?>';
