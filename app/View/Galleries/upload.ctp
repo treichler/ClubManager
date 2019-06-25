@@ -6,8 +6,6 @@
 <?php echo $this->Html->script('FileAPI/FileAPI.min'); ?>
 
 
-<!-- ******************************************************************************** -->
-
 <h1>Fotos hochladen</h1>
 
 <p>
@@ -79,9 +77,7 @@ function upload() {
     imageTransform: {
       width: min_width,
       height: min_height,
-//      rotate: 45,
       preview: true,
-//      type: 'image/png',
       type: 'image/jpeg',
       quality: 0.95
     }
@@ -95,12 +91,10 @@ function upload() {
 var files = [];
 
 FileAPI.event.on(choose, 'change', function (evt){
-
-//  b.forEach(function(x){ a.push(x); })
-//  files = FileAPI.getFiles(evt); // Retrieve file list
+  // Retrieve file list
   FileAPI.getFiles(evt).forEach(function(file){
     files.push(file);
-  }); // Retrieve file list
+  });
 
   fileFilterAndPreview(files);
 });
@@ -148,77 +142,4 @@ function removeFile(index) {
 }
 </script>
 
-
-<!--
-
-<div id="container">
-  <div id="filelist"></div>
-  <br />
-  <button id="pickfiles">Dateien ausw&auml;hlen</button>
-  <button id="uploadfiles">Dateien hochladen</button>
-  <button id="stopupload">Hochladen stoppen</button>
-</div>
-
--->
-
-<script type="text/javascript">
-/*
-
-$(document).ready(function(){
-  uploader.init();
-  $('#uploadfiles').click(function(e){ uploader.start(); });
-  $('#stopupload').click(function(e){ uploader.stop(); });
-});
-
-var uploader = new plupload.Uploader({
-  runtimes : 'html5,flash,silverlight,html4',
-  browse_button : 'pickfiles',
-  drop_element : 'container',
-  container: 'container',
-  max_file_size : '10mb',
-  url : '<?php echo Router::url(array(), true); ?>',
-  resize : {
-    width : <?php echo Configure::read('photo_geometry.width') ?>,
-    height : <?php echo Configure::read('photo_geometry.height') ?>,
-    quality : 90,
-    crop : true
-  },
-  flash_swf_url : '<?php echo $this->webroot; ?>js/Moxie.swf',
-  silverlight_xap_url : '<?php echo $this->webroot; ?>js/Moxie.xap',
-  filters : [
-    {title : "Image files", extensions : "jpg,gif,png"}
-  ]
-});
-
-uploader.bind('FilesAdded', function(up, files) {
-  for (var i in files) {
-    $('#filelist').append('<div id="' + files[i].id + '">' + files[i].name + ' (' + plupload.formatSize(files[i].size) + ') <b></b><a href="javascript:void(0)" onclick="deleteFile(\'' + files[i].id + '\')">l&ouml;schen</a></div>');
-  }
-});
-
-uploader.bind('UploadProgress', function(up, file) {
-  $('#' + file.id + ' b').html('<span>' + file.percent + '%</span>');
-  $('#' + file.id + ' a').remove();
-});
-
-uploader.bind('FileUploaded', function(up, file) {
-  $('#' + file.id + ' b').html('<span>100%</span>');
-});
-
-uploader.bind('UploadComplete', function(up, files) {
-  $('#pickfiles').remove();
-  $('#uploadfiles').remove();
-  $('#stopupload').remove();
-  $('#container input').remove();
-  $('#container').append('<p>Dateien wurden hochgeladen.</p>')
-});
-
-function deleteFile(id) {
-  file = uploader.getFile(id);
-  uploader.removeFile(file);
-  $('#' + id).remove();
-}
-
-*/
-</script>
 
