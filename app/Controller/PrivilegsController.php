@@ -3,11 +3,11 @@
 class PrivilegsController extends AppController {
 
   public function isAuthorized($user) {
-    // only users with privileg 'Administrator' and the user 'admin'
+    // only users with privileg 'Administrator' and the primary admin
     // are allowed to access 'index' and 'assign'
     if (($this->action === 'index' || $this->action === 'assign') &&
         (array_has_key_val($this->getUser()['Privileg'], 'name', 'Administrator') ||
-         $user['username'] === 'admin')) {
+         (Configure::read('CMSystem.primary_admin') && (Configure::read('CMSystem.primary_admin') === 'admin')) )) {
       return true;
     }
   }

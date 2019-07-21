@@ -68,9 +68,9 @@ Write these keys to Settings for ReCaptcha in `/app/config/bootstrap.php`~~
 First Run
 ---------
 
-`https://<link_to_your_ClubManager>/privilegs`
-
-the first user to be created `admin`
+* Register a new user (e.g. *admin*)
+* In the file `/app/Config/bootstrap.php` set the *primary_admin* variable with the username (e.g. *admin*)
+* Call the privilege's settings to adjust user's administrative access: `https://<link_to_your_ClubManager>/privilegs`
 
 
 ClubManager's appearance
