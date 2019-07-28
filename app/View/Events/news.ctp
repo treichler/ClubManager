@@ -103,24 +103,6 @@ $('#iCalShowHide').click(function(){
     return content;
   }
 
-  // click function
-  $(".map-location").click(function(event) {
-    lat = parseFloat(event.target.attributes['lat'].value);
-    lng = parseFloat(event.target.attributes['lng'].value);
-    if (isNaN(lat) || isNaN(lng))
-      return false;
-
-    // scroll to center of map
-    obj = $("#map-canvas");
-    $('html,body').animate({ scrollTop: obj.offset().top - ( $(window).height() - obj.outerHeight(true) ) / 2  }, 200);
-
-    // set marker and center map to coordinate
-    marker.setLatLng( {lat : lat, lng : lng} );
-    var info = formatPopupContent( event.target.attributes['event_name'].value, event.target.attributes['event_location'].value);
-    marker.setPopupContent( info );
-    map.setView( {lat : lat, lng : lng} )
-  });
-
   // club's home data
   latitude  = <?php echo Configure::read('club.latitude'); ?>;
   longitude = <?php echo Configure::read('club.longitude'); ?>;
@@ -141,6 +123,49 @@ $('#iCalShowHide').click(function(){
 
   // put a popup text to the marker
   marker.bindPopup( formatPopupContent(name, building) ).openPopup();
+
+  // create circle
+  var circle = L.circle([0, 0], {
+      color: 'red',
+      fillColor: 'red',
+      fillOpacity: 0.2,
+      radius: 0
+  });
+
+  // set circle
+  function setCircle(lat, lng, radius) {
+    if( isNaN(radius) || radius <= 0 ) {
+      circle.remove();
+      return;
+    }
+    circle.setLatLng( {lat : lat, lng : lng} );
+    circle.setRadius( radius );
+    circle.addTo(map);
+  }
+
+  // click function
+  $(".map-location").click(function(event) {
+    lat = parseFloat(event.target.attributes['lat'].value);
+    lng = parseFloat(event.target.attributes['lng'].value);
+    radius = parseFloat(event.target.attributes['rad'].value);
+
+    // set circle
+    setCircle(lat, lng, radius);
+
+    if (isNaN(lat) || isNaN(lng))
+      return false;
+
+    // scroll to center of map
+    obj = $("#map-canvas");
+    $('html,body').animate({ scrollTop: obj.offset().top - ( $(window).height() - obj.outerHeight(true) ) / 2  }, 200);
+
+    // set marker and center map to coordinate
+    marker.setLatLng( {lat : lat, lng : lng} );
+    var info = formatPopupContent( event.target.attributes['event_name'].value, event.target.attributes['event_location'].value);
+    marker.setPopupContent( info );
+    map.setView( {lat : lat, lng : lng} )
+  });
+
 </script>
 <?php // endif; ?>
 

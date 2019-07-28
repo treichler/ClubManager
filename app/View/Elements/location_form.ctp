@@ -32,6 +32,14 @@
     return {lat : lat, lng : lng};
   }
 
+  // get radius from form
+  function getRadius () {
+    r = parseFloat( document.getElementById('LocationRadius').value );
+    if( isNaN(r) )
+      return 0;
+    return r;
+  }
+
   // default position (club's home)
   latitude  = <?php echo Configure::read('club.latitude'); ?>;
   longitude = <?php echo Configure::read('club.longitude'); ?>;
@@ -51,6 +59,31 @@
   // load layer
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
+  // create circle
+  var circle = L.circle([latitude, longitude], {
+      color: 'red',
+      fillColor: 'red',
+      fillOpacity: 0.2,
+      radius: 0
+  });
+
+  // set circle's radius
+  function setRadius(radius) {
+    circle.setRadius( radius );
+    if( radius > 0 )
+      circle.addTo(map);
+    else
+      circle.remove();
+  }
+
+  // initially set circle's radius
+  setRadius( getRadius() );
+
+  // bind radius input change event to set the circle's radius
+  document.getElementById('LocationRadius').addEventListener('input', function (evt) {
+    setRadius( getRadius() );
+  });
+
   // set draggable marker to default destination
   var marker = L.marker( [latitude, longitude], {draggable: 'true'} ).addTo(map);
 
@@ -61,6 +94,7 @@
       draggable: 'true'
     }).bindPopup(position).update();
     setLatLng(position);
+    circle.setLatLng(position);
   });
 </script>
 
