@@ -91,7 +91,14 @@
       continue;
 ?>
 <h3><?php echo h($event['Event']['name']); ?></h3>
-<div><?php echo h($event['Group']['name']); ?></div>
+<div><?php
+      $groups = [];
+      foreach($event['Group'] as $group) {
+        $groups[] = h($group['name']);
+      }
+      unset($group);
+      echo implode(', ', $groups);
+  ?></div>
 <div><?php echo $event['Event']['start']; ?></div>
 <div><?php echo $event['Event']['stop']; ?></div>
 
