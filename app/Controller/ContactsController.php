@@ -171,7 +171,7 @@ class ContactsController extends AppController
         // send email if there are receivers
         if (!empty($to)) {
           $email = new CakeEmail('default');
-          $email->from(array($this->getUser()['User']['email'] => $this->getUser()['User']['name']))
+          $email->replyTo(array($this->getUser()['User']['email'] => $this->getUser()['User']['name']))
                 ->to($to)
                 ->subject($this->request->data['Contact']['subject'])
                 ->send($this->request->data['Contact']['text']);
