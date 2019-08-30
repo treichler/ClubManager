@@ -34,9 +34,7 @@ class ProfilesController extends AppController {
   public function index()
   {
     $this->Profile->contain();
-    $this->set('profiles', $this->Profile->find('all', array(
-      'order' => array('Profile.last_name' => 'asc')
-    )));
+    $this->set('profiles', $this->Profile->find('all'));
   }
 
   public function attachment($id = null)

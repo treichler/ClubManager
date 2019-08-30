@@ -2,26 +2,25 @@
 
 <?php // This file contains PHP ?>
 
-<h1>Veranstalter / Kunden</h1>
-
 <?php echo $this->Html->script('jquery.tablesorter.min'); ?>
 
 <script type="text/javascript">
 $(document).ready(function() {
   // call the tablesorter plugin
   $("table").tablesorter({
-    // sort on the second column, order asc
-    sortList: [[1,0]]
+    // sort on the first column, order asc
+    sortList: [[0,0]]
   });
 });
 </script>
+
+<h1>Veranstalter / Kunden</h1>
 
 <p><?php echo $this->Html->link('Neuer Veranstalter', array('action' => 'add')); ?></p>
 
 <table class="tablesorter">
 <thead>
   <tr>
-    <th>ID</th>
     <th>Name</th>
     <th>Straße</th>
     <th>Postleitzahl</th>
@@ -35,7 +34,6 @@ $(document).ready(function() {
     $event_count = count($customer['Event']);
 ?>
   <tr>
-    <td><?php echo $customer['Customer']['id']; ?></td>
     <td><?php echo h($customer['Customer']['name']); ?></td>
     <td><?php echo h($customer['Customer']['street']); ?></td>
     <td><?php echo $customer['Customer']['postal_code']; ?></td>

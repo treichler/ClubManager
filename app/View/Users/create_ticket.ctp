@@ -21,7 +21,7 @@ der E-Mail Adresse ein neues Ticket generieren, welches wieder für eine Stunde 
   if( Configure::read("CMSystem.legitimation") )
     echo $this->Form->input('legitimation', array('label' => 'Legitimation (bei Administrator erhältlich)'));
 
-  echo $this->Form->input('email');
+  echo $this->Form->input('email',  array('label' => 'E-Mail'));
 
   if( Configure::read("recaptcha_settings.public_key") )
     echo "\n<div id=\"recaptcha_div\"></div>\n";

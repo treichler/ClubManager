@@ -2,17 +2,31 @@
 
 <?php // This file contains PHP ?>
 
+<?php echo $this->Html->script('jquery.tablesorter.min'); ?>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  // call the tablesorter plugin
+  $("table").tablesorter({
+    // sort on the first column, order asc
+    sortList: [[0,0]]
+  });
+});
+</script>
+
 <h1>Musik Verlage</h1>
 
 <?php echo $this->Html->link('Neuer Verlag', array('controller' => 'publishers', 'action' => 'add')); ?>
 
-<table>
+<table class="tablesorter">
+<thead>
   <tr>
     <th>Name</th>
     <th>Details</th>
   </tr>
-
-  <?php foreach ($publishers as $publisher): ?>
+</thead>
+<tbody>
+<?php foreach ($publishers as $publisher): ?>
   <tr>
     <td><?php echo $publisher['Publisher']['name']; ?></td>
     <td><?php echo $publisher['Publisher']['details']; ?></td>
@@ -28,7 +42,8 @@
                   'title' => 'Verlag löschen'));
     ?></td>
   </tr>
-  <?php endforeach; ?>
-  <?php unset($publisher) ?>
+<?php endforeach; ?>
+</tbody>
+<?php unset($publisher) ?>
 </table>
 

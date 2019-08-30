@@ -23,9 +23,7 @@ class MusicsheetsController extends AppController
 
 
   public function index() {
-    $this->set('musicsheets', $this->Musicsheet->find('all', array(
-      'order' => array('Musicsheet.title' => 'asc')
-    )));
+    $this->set('musicsheets', $this->Musicsheet->find('all'));
   }
 
   public function add() {

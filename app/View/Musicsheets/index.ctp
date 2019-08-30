@@ -2,11 +2,24 @@
 
 <?php // This file contains PHP ?>
 
+<?php echo $this->Html->script('jquery.tablesorter.min'); ?>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  // call the tablesorter plugin
+  $("table").tablesorter({
+    // sort on the first column, order asc
+    sortList: [[0,0]]
+  });
+});
+</script>
+
 <h1>Musikst&uuml;cke</h1>
 
 <?php echo $this->Html->link('Neues Musikstück', array('controller' => 'musicsheets', 'action' => 'add')); ?>
 
-<table>
+<table class="tablesorter">
+<thead>
   <tr>
     <th>Titel</th>
     <th>Details</th>
@@ -15,8 +28,9 @@
     <th>Verlag</th>
     <th>Archiv</th>
   </tr>
-
-  <?php
+</thead>
+<tbody>
+<?php
     foreach ($musicsheets as $musicsheet):
       $composers = [];
       foreach ($musicsheet['Composer'] as $composer) {
@@ -46,7 +60,8 @@
                   'title' => 'Musikstück löschen'));
     ?></td>
   </tr>
-  <?php endforeach; ?>
-  <?php unset($musicsheet) ?>
+<?php endforeach; ?>
+</tbody>
+<?php unset($musicsheet) ?>
 </table>
 

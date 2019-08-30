@@ -8,8 +8,8 @@
 $(document).ready(function() {
   // call the tablesorter plugin
   $("table").tablesorter({
-    // sort on the second column, order asc
-    sortList: [[1,0]]
+    // sort on the first column, order asc
+    sortList: [[0,0]]
   });
 });
 </script>
@@ -21,7 +21,6 @@ $(document).ready(function() {
 <table class="tablesorter">
 <thead>
   <tr>
-    <th>ID</th>
     <th>Ort</th>
     <th>L&auml;ngengrad</th>
     <th>Breitengrad</th>
@@ -36,7 +35,6 @@ $(document).ready(function() {
     $event_count = count($location['Event']);
 ?>
   <tr>
-    <td><?php echo $location['Location']['id']; ?></td>
     <td><?php echo $location['Location']['name']; ?></td>
     <td><?php echo $location['Location']['longitude']; ?></td>
     <td><?php echo $location['Location']['latitude']; ?></td>
