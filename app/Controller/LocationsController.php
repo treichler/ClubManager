@@ -29,9 +29,7 @@ class LocationsController extends AppController
 
   public function index() {
 //    $this->Location->contain();
-    $locations = $this->Location->find('all', array(
-      'order' => array('Location.name' => 'asc')
-    ));
+    $locations = $this->Location->find('all');
     $this->set(compact('locations'));
   }
 

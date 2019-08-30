@@ -59,8 +59,7 @@ class MembershipsController extends AppController {
     }
     $this->Membership->Profile->contain('User');
     $profiles = $this->Membership->Profile->find('all', array(
-      'conditions' => array('Profile.id' => $profile_ids),
-      'order'      => array('Profile.last_name' => 'asc')
+      'conditions' => array('Profile.id' => $profile_ids)
     ));
     $this->set('contacts', $profiles);
   }

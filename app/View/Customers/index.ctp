@@ -4,9 +4,22 @@
 
 <h1>Veranstalter / Kunden</h1>
 
+<?php echo $this->Html->script('jquery.tablesorter.min'); ?>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  // call the tablesorter plugin
+  $("table").tablesorter({
+    // sort on the second column, order asc
+    sortList: [[1,0]]
+  });
+});
+</script>
+
 <p><?php echo $this->Html->link('Neuer Veranstalter', array('action' => 'add')); ?></p>
 
-<table>
+<table class="tablesorter">
+<thead>
   <tr>
     <th>ID</th>
     <th>Name</th>
@@ -15,6 +28,8 @@
     <th>Ort</th>
     <th>Veranstaltungen</th>
   </tr>
+</thead>
+<tbody>
 <?php
   foreach ($customers as $customer):
     $event_count = count($customer['Event']);
@@ -41,6 +56,7 @@
     ?></td><? endif; ?>
   </tr>
 <?php endforeach; ?>
+</tbody>
 <?php unset($kind); ?>
 </table>
 

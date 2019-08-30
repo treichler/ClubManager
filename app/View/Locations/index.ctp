@@ -2,11 +2,24 @@
 
 <?php // This file contains PHP ?>
 
+<?php echo $this->Html->script('jquery.tablesorter.min'); ?>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  // call the tablesorter plugin
+  $("table").tablesorter({
+    // sort on the second column, order asc
+    sortList: [[1,0]]
+  });
+});
+</script>
+
 <h1>Orte</h1>
 
 <p><?php echo $this->Html->link('Neuer Ort', array('action' => 'add')); ?></p>
 
-<table>
+<table class="tablesorter">
+<thead>
   <tr>
     <th>ID</th>
     <th>Ort</th>
@@ -16,6 +29,8 @@
     <th>Karte</th>
     <th>Veranstaltungen</th>
   </tr>
+</thead>
+<tbody>
 <?php
   foreach ($locations as $location):
     $event_count = count($location['Event']);
@@ -43,6 +58,7 @@
     ?></td><? endif; ?>
   </tr>
 <?php endforeach; ?>
+</tbody>
 <?php unset($kind); ?>
 </table>
 
