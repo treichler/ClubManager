@@ -59,12 +59,7 @@ class Event extends AppModel {
       } else {
         $tmp = $event['Event']['availabilities_checked'];
         $event['Event']['availabilities_checked'] = ($val == 'true') ? true : false;
-        // keep resources
-        $resources = array('Resource' => []);
-        foreach ($event['Resource'] as $resource) {
-          $resources['Resource'][] = $resource['id'];
-        }
-        $event['Resource'] = $resources;
+        $this->keepHabtmRelations($event);
         if ($this->started($event['Event']) && $this->save($event)) {
           $response = $event['Event']['availabilities_checked'] ? 'true' : 'false';
           $state = 'alert';
@@ -98,12 +93,7 @@ class Event extends AppModel {
       } else {
         $tmp = $event['Event']['tracks_checked'];
         $event['Event']['tracks_checked'] = ($val == 'true') ? true : false;
-        // keep resources
-        $resources = array('Resource' => []);
-        foreach ($event['Resource'] as $resource) {
-          $resources['Resource'][] = $resource['id'];
-        }
-        $event['Resource'] = $resources;
+        $this->keepHabtmRelations($event);
         if ($this->started($event['Event']) && $this->save($event)) {
           $response = $event['Event']['tracks_checked'] ? 'true' : 'false';
           $state = 'alert';
@@ -301,6 +291,23 @@ class Event extends AppModel {
     // delete availabilities
     $this->Availability->deleteAll(array('Availability.event_id' => $this->id), false);
     return true;
+  }
+
+  // workaround to keep HABTM relation according to model
+  // is just called by availabilitiesChecked() and tracksChecked()
+  private function keepHabtmRelations( &$event ) {
+    // keep groups
+    $groups = array('Group' => []);
+    foreach ($event['Group'] as $group) {
+      $groups['Group'][] = $group['id'];
+    }
+    $event['Group'] = $groups;
+    // keep resources
+    $resources = array('Resource' => []);
+    foreach ($event['Resource'] as $resource) {
+      $resources['Resource'][] = $resource['id'];
+    }
+    $event['Resource'] = $resources;
   }
 
 }
