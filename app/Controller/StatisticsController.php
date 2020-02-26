@@ -265,7 +265,8 @@ class StatisticsController extends AppController {
     );
     $this->Event->contain('Group', 'Mode');
     $events = $this->Event->find('all', array(
-      'conditions' => $conditions
+      'conditions' => $conditions,
+      'order' => array('Event.start' => 'asc')
     ));
     $this->set(compact('events'));
     foreach( $events as $event ) {

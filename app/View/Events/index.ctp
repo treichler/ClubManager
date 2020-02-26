@@ -66,6 +66,11 @@
           array('controller' => 'events', 'action' => 'view', $event['Event']['id'], 'ext' => 'pdf'),
           array('title' => 'Anwesenheitsliste herunterladen'));
     ?></div>
+<?php
+  // the event's creator and users with the privileg 'Administrator' are allowed to access 'edit' and 'delete'
+  if( $this_user['User']['id'] == $event['Event']['user_id'] ||
+      $this->Html->hasPrivileg($this_user, array('Administrator')) ):
+?>
     <div class="td icon-edit"><?php
         echo $this->Html->link('bearbeiten',
         array('controller' => 'events', 'action' => 'edit', $event['Event']['id']),
@@ -78,6 +83,7 @@
               'confirm' => 'Soll der Termin "' .
               $event['Event']['name'] . '" tatsächlich gelöscht werden?'));
     ?></div>
+<?php endif; ?>
   </div>
   <?php endforeach; ?>
   <?php unset($event); ?>

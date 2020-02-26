@@ -26,8 +26,18 @@
 
 <h1><?php echo h($event['Event']['name']); ?></h1>
 
-<p><?php echo $this->Html->link('Anwesenheitsliste herunterladen', array(
-  'controller' => 'events', 'action' => 'view', $event['Event']['id'], 'ext' => 'pdf')); ?></p>
+<p><?php
+  echo $this->Html->link('Anwesenheitsliste herunterladen', array(
+    'controller' => 'events', 'action' => 'view', $event['Event']['id'], 'ext' => 'pdf'
+  ));
+  // the event's creator and users with the privileg 'Administrator' are allowed to access 'edit'
+  if( $this_user['User']['id'] == $event['Event']['user_id'] ||
+      $this->Html->hasPrivileg($this_user, array('Administrator')) ) {
+    echo ', ' . $this->Html->link('Termin bearbeiten', array(
+      'controller' => 'events', 'action' => 'edit', $event['Event']['id']
+    ));
+  }
+?></p>
 
 <ul>
   <li><b>Beginn:</b> <?php echo ($this->Html->getDateTime($event['Event']['start'], array('year' => true))); ?></li>
