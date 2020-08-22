@@ -68,34 +68,8 @@
 
     echo  "BEGIN:VEVENT\r\n";
 
-    // organizer
-    if (isset($calendar_settings['organizer'])) {
-      echo  "ORGANIZER;CN=\"" . $calendar_settings['organizer'] . "\"";
-      if (isset($calendar_settings['organizer_mail'])) {
-        echo  ":MAILTO:" . $calendar_settings['organizer_mail'];
-      }
-      echo  "\r\n";
-    } elseif (isset($event['Event']['User']['name'])) {
-      echo  "ORGANIZER;CN=\"" . $event['Event']['User']['name'] . "\"";
-      if (isset($event['Event']['User']['email'])) {
-        echo  ":MAILTO:" . $event['Event']['User']['email'];
-      }
-      echo  "\r\n";
-    }
-
-    // class
-    if ($calendar_settings['force_class_public'] || !isset($event['Event']['Mode']['is_public'])) {
-      echo  "CLASS:PUBLIC\r\n";
-    } else {
-      echo  "CLASS:" . ($event['Event']['Mode']['is_public'] ? 'PUBLIC' : 'PRIVATE') . "\r\n";
-    }
-
-    // category
-    if (isset($event['Event']['Mode']['name'])) {
-      echo  "CATEGORIES:" . $event['Event']['Mode']['name'] . "\r\n";
-    } elseif (isset($event['Mode']['name'])) {
-      echo  "CATEGORIES:" . $event['Mode']['name'] . "\r\n";
-    }
+    // UID
+    echo  "UID:" . $event['Event']['id'] . "\r\n";
 
     // timestamp
     echo  "DTSTAMP:" . $stamp->format('Ymd') . 'T' . $stamp->format('His') . "\r\n";
@@ -135,7 +109,7 @@
 
     // description
     if ($calendar_settings['show_description'] && isset($event['Event']['info']) && $event['Event']['info']) {
-      echo  "DESCRIPTION:" . prepareString($event['Event']['info']) . "\r\n";
+      echo  "DESCRIPTION:" . prepareString($event['Event']['info'], 75-12-2) . "\r\n";
     }
 
     // status
@@ -143,6 +117,35 @@
       echo  "STATUS:"   . ($event['Availability']['is_available'] ? 'CONFIRMED' : 'TENTATIVE') . "\r\n";
       echo  "TRANSP:"   . ($event['Availability']['is_available'] ? 'OPAQUE' : 'TRANSPARENT') . "\r\n";
       echo  "PARTSTAT:" . ($event['Availability']['is_available'] ? 'ACCEPTED' : 'DECLINED') . "\r\n";
+    }
+
+    // organizer
+    if (isset($calendar_settings['organizer'])) {
+      echo  "ORGANIZER;CN=\"" . $calendar_settings['organizer'] . "\"";
+      if (isset($calendar_settings['organizer_mail'])) {
+        echo  ":MAILTO:" . $calendar_settings['organizer_mail'];
+      }
+      echo  "\r\n";
+    } elseif (isset($event['Event']['User']['name'])) {
+      echo  "ORGANIZER;CN=\"" . $event['Event']['User']['name'] . "\"";
+      if (isset($event['Event']['User']['email'])) {
+        echo  ":MAILTO:" . $event['Event']['User']['email'];
+      }
+      echo  "\r\n";
+    }
+
+    // class
+    if ($calendar_settings['force_class_public'] || !isset($event['Event']['Mode']['is_public'])) {
+      echo  "CLASS:PUBLIC\r\n";
+    } else {
+      echo  "CLASS:" . ($event['Event']['Mode']['is_public'] ? 'PUBLIC' : 'PRIVATE') . "\r\n";
+    }
+
+    // category
+    if (isset($event['Event']['Mode']['name'])) {
+      echo  "CATEGORIES:" . $event['Event']['Mode']['name'] . "\r\n";
+    } elseif (isset($event['Mode']['name'])) {
+      echo  "CATEGORIES:" . $event['Mode']['name'] . "\r\n";
     }
 
     // close event
@@ -153,14 +156,19 @@
   echo  "END:VCALENDAR\r\n";
 
 
-  function prepareString($str) {
+  function prepareString($str, $max_len = 50) {
     $str = str_replace("\\", "\\\\", $str);
     $str = str_replace(",", "\,", $str);
     $str = str_replace(";", "\;", $str);
     $str = str_replace("\r", "", $str);
     $str = str_replace("\t", " ", $str);
     $str = str_replace("\n", "\\n", $str);
-    return $str;
+    if (strlen($str) <= $max_len) {
+      return $str;
+    }
+    $str =  $str . " ";
+    $str = substr($str, 0, $max_len - 3);
+    return substr($str, 0, strrpos($str, ' ')) . "...";
   }
 
 ?>
