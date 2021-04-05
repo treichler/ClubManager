@@ -25,6 +25,7 @@ $(document).ready(function() {
     <th>Straße</th>
     <th>Postleitzahl</th>
     <th>Ort</th>
+    <th>AKM Kopfquote</th>
     <th>Veranstaltungen</th>
   </tr>
 </thead>
@@ -38,6 +39,7 @@ $(document).ready(function() {
     <td><?php echo h($customer['Customer']['street']); ?></td>
     <td><?php echo $customer['Customer']['postal_code']; ?></td>
     <td><?php echo h($customer['Customer']['town']); ?></td>
+    <td><?php echo $this->Html->showBoolean( $customer['Customer']['akm_flat_rate'], array('bold' => true)); ?></td>
     <td><?php echo $event_count; ?></td>
     <td class="icon-edit"><?php
         echo $this->Html->link('bearbeiten',

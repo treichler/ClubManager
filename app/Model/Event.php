@@ -137,8 +137,6 @@ class Event extends AppModel {
       } else {
         $this->data['Event']['tracks_checked'] = false;
       }
-      // set quota to default value
-      $this->data['Event']['quota'] = $mode['Mode']['quota_default'];
     }
 
     // handle new entries

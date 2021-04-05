@@ -9,6 +9,8 @@
       <adr_strasse><?php echo Configure::read('club.street') ?></adr_strasse>
       <adr_plz><?php echo Configure::read('club.postal_code') ?></adr_plz>
       <adr_ort><?php echo Configure::read('club.town') ?></adr_ort>
+      <aussteller_name></aussteller_name>        <!-- Name des Programmausstellers, wenn vorhanden -->
+      <aussteller_adresse></aussteller_adresse>  <!-- Anschrift des Programmausstellers, wenn vorhanden -->
     </allgemeines>
 
     <musikstuecke>
@@ -38,6 +40,7 @@
         <aks_arrangeur><?php echo implode(', ', $arrangers) ?></aks_arrangeur>
         <aks_anz_auffuehrungen>1</aks_anz_auffuehrungen>
         <aks_jahr><?php echo $year ?></aks_jahr>
+        <aks_akm_id></aks_akm_id> <!-- AKM ID des Werkes, wird von der AKM vergeben -->
       </musikstueck>
 <?php
         endforeach;
@@ -69,7 +72,9 @@
         <akv_ort><?php echo h($event['Event']['location']); ?></akv_ort>
         <akv_veranstalter><?php echo h($event['Customer']['name']); ?></akv_veranstalter>
         <akv_veranstalter_adresse><?php echo h($event['Customer']['address']); ?></akv_veranstalter_adresse>
-        <akv_kopfquote><?php echo $event['Event']['quota'] ? 1 : 0 ?></akv_kopfquote>
+        <akv_kopfquote><?php echo $event['Customer']['akm_flat_rate'] ? 1 : 0 ?></akv_kopfquote>
+        <akv_fremd_id></akv_fremd_id> <!-- Verweis auf die Veranstaltung in einer übergeordneten EDV -->
+        <akv_status></akv_status>     <!-- Status der Verarbeitung der Veranstaltung -->
       </veranstaltung>
 <?php
       endforeach;

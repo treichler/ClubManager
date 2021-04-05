@@ -191,7 +191,6 @@ CREATE TABLE events (
   info TEXT,
   expiry INT COMMENT 'Number of days to calculate the deadline of an event.\
                       Usually derived from \'modes\'',
-  quota TINYINT(1) COMMENT 'Set true if the event\'s fee is measured by quota.',
   availabilities_checked TINYINT(1),
   tracks_checked TINYINT(1),
   created DATETIME DEFAULT NULL,
@@ -238,6 +237,7 @@ CREATE TABLE customers (
   street VARCHAR(50),
   postal_code VARCHAR(10),
   town VARCHAR(50),
+  akm_flat_rate TINYINT(1) COMMENT 'Set true if customer gets AKM flat-rate.',
   created DATETIME DEFAULT NULL,
   modified DATETIME DEFAULT NULL
 ) COMMENT 'The events\' customers respectively organisers';

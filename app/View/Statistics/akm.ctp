@@ -43,11 +43,13 @@
     }
 */
     $customer = '';
+    $akm_flat_rate = False;
     if ($event['Event']['customer_id']) {
       $customer = $event['Customer']['name'];
       if ($event['Customer']['address']) {
         $customer .= ', ' . $event['Customer']['address'];
       }
+      $akm_flat_rate = $event['Customer']['akm_flat_rate'];
     }
     $report = false;
     if ($event['Event']['tracks_checked'] && count($event['Track']) > 0 && $customer) {
@@ -71,7 +73,7 @@
         array('controller' => 'tracks', 'action' => 'index', "?" => array('event_id' => $event['Event']['id'])),
         array('title' => 'Musikstücke bearbeiten'));
     ?></td>
-    <td><?php echo $this->Html->showBoolean($event['Event']['quota'], array('bold' => true)); ?></td>
+    <td><?php echo $this->Html->showBoolean($akm_flat_rate, array('bold' => true)); ?></td>
     <td><?php echo $customer; ?></td>
     <td><?php echo $this->Html->showBoolean($report, array('bold' => true)); ?></td>
   </tr>
