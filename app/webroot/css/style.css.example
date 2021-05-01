@@ -300,6 +300,56 @@ max-width: 940px;
 
 
 /* ---------------------------------------------------------------------- */
+/* Title picture upload preview
+/* ---------------------------------------------------------------------- */
+#preview {
+  position: relative;
+
+  height: 380px;
+  overflow: hidden;
+
+  border: 5px;
+  border-color: black;
+  border-style: dashed;
+  margin: 0px;
+}
+
+#preview canvas {
+  position: absolute;
+}
+
+#preview div {
+  position: absolute;
+  text-align: center;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  top: 0;
+  bottom: 0;
+  margin-top: auto;
+  margin-bottom: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  -webkit-user-select: none; /* Safari */        
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+}
+
+#preview div div {
+  position: relative;
+  display: initial;
+  padding: 10px;
+  color: black;
+  background: white;
+  opacity: 0.8;
+}
+
+
+/* ---------------------------------------------------------------------- */
 /* gallery upload
 /* ---------------------------------------------------------------------- */
 

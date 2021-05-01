@@ -24,7 +24,7 @@ class ImageProcess {
         return true;
 */
       case 'image/jpeg':
-        imageJPEG($this->processed_image, $file);
+        imageJPEG($this->processed_image, $file, 95);
         return true;
       case 'image/png':
         imagePNG($this->processed_image, $file);

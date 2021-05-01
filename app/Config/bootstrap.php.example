@@ -206,6 +206,7 @@ Configure::write('CMSystem', array(
   'tmp_dir'                     => ini_get('upload_tmp_dir'),
 ));
 
+
 /**
  * Club specific data
  */
@@ -226,6 +227,7 @@ Configure::write('club', array(
 //  'youtube'       => 'foo-bar',               // link to club's youtube site
 ));
 
+
 /**
  * Pagination settings
  */
@@ -242,9 +244,10 @@ Configure::write('paginate', array(
  * !!! Be aware of changing this settings during production !!!
  */
 Configure::write('image_landscape_geometry', array(
-  'width'  => 940,
-  'height' => 380
+  'width'  => 1600,
+  'height' => 640
 ));
+
 
 /**
  * Geometry of gallery's photos
@@ -252,15 +255,16 @@ Configure::write('image_landscape_geometry', array(
  * !!! Be aware of changing this settings during production !!!
  */
 Configure::write('photo_geometry', array(
-  'orig_width'       => 1600,    // picture will be resized on client side to "orig_width" X "orig_height"
-  'orig_height'      => 1000,    // uploaded to server and stored as original picture.
+  'orig_width'       => 1600,   // picture will be resized on client side to "orig_width" X "orig_height"
+  'orig_height'      => 1000,   // uploaded to server and stored as original picture.
 //-------------------------------------------------------------------------------------------------------------------------------
-  'width'            => 930,    // picture will be resized on server side to "width" X "height"
-  'height'           => 500,    // overlayed with a watermark and stored as photo.
+  'width'            => 930,    // picture will be shown in gallery with this resolution
+  'height'           => 500,    //
 //-------------------------------------------------------------------------------------------------------------------------------
   'thumbnail_width'  => 132,    // thumbnail width in pixel
   'thumbnail_height' => 99      // thumbnail height in pixel
 ));
+
 
 /**
  * Settings for SMS-gateway
@@ -273,6 +277,7 @@ Configure::write('sms_gateway', array(
   'validity'    => 4320,        // Duration in minutes how long the SMS should be retransmited in case of any delivery problems
   'testMode'    => false,       // true: Test mode is activated, no SMS will be delivered; false: Normal operation
 ));
+
 
 /**
  * TODO remove ReCaptcha and use something different...
@@ -287,6 +292,7 @@ Configure::write('recaptcha_settings', array(
   'private_key' => '6LdlqsESAAAAAORBwTaY99JhwSSyRbN4JPpSFM4N'
 ));
 */
+
 
 // FIXME this function should be implemented by a helper
 function array_has_key_val($elements, $key, $val) {

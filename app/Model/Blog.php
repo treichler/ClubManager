@@ -110,7 +110,7 @@ class Blog extends AppModel {
     foreach ($results as $key => $val) {
       if (isset($val['Blog']['body'])) {
 //        $result[$key]['Blog']['body'] = $purifier->purify($val['Blog']['body']);
-        $results[$key]['Blog']['body'] = strip_tags($val['Blog']['body'], '<h3><h4><h5><h6><p><strong><em><a><ul><ol><li><blockquote>');
+        $results[$key]['Blog']['body'] = strip_tags($val['Blog']['body'], '<h3><h4><h5><h6><p><strong><em><a><ul><ol><li><blockquote><iframe>');
       }
     }
     return $results;
@@ -143,6 +143,12 @@ class Blog extends AppModel {
     // Prepare attached picture
     if(isset($this->data[$this->name]['file']['name']) && $this->data[$this->name]['file']['name']) {
       $file = $this->data[$this->name]['file'];
+
+      // resize the uploaded image
+      $Im = new ImageProcess($file['tmp_name']);
+      $Im->landscape(Configure::read('image_landscape_geometry.width'), Configure::read('image_landscape_geometry.height'));
+      $Im->saveProcessedImage($file['tmp_name']);
+      unset($Im);
     } elseif (isset($this->data[$this->name]['file_resized'])) {
       // Save client side resized image:
       // create temporary image file from base64 data
@@ -164,12 +170,6 @@ class Blog extends AppModel {
     }
     // Save attached picture
     if(isset($file)) {
-      // resize the uploaded image
-      $Im = new ImageProcess($file['tmp_name']);
-      $Im->landscape(Configure::read('image_landscape_geometry.width'), Configure::read('image_landscape_geometry.height'));
-      $Im->saveProcessedImage($file['tmp_name']);
-      unset($Im);
-
       $storage = [];
       if (isset($this->data[$this->name]['storage_id']))
         $storage = $this->Storage->findById($this->data[$this->name]['storage_id']);
