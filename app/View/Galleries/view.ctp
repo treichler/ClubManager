@@ -2,7 +2,7 @@
 
 <?php // This file contains PHP ?>
 
-<?php echo $this->Html->script('galleria-1.4.2.min'); ?>
+<?php echo $this->Html->script('galleria-1.6.1.min'); ?>
 
 <h1><?php echo h($gallery['Gallery']['title']); ?></h1>
 

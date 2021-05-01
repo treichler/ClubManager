@@ -43,7 +43,7 @@
       $css_link .= '?v=' . Configure::read('CMSystem.stylesheet_version_number');
     }
     echo '<link rel="stylesheet" type="text/css" href="' . $css_link . '" />';
-    echo $this->Html->script('jquery-1.7.1.min');
+    echo $this->Html->script('jquery-3.6.0.min');
     echo $this->fetch('meta');
     echo $this->fetch('css');
     echo $this->fetch('script');

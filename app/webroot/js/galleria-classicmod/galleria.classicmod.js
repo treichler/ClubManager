@@ -15,6 +15,7 @@
 
 Galleria.addTheme({
     name: 'classicmod',
+    version: 1.6,
     author: 'Jan-Philip Gehrcke, Galleria',
     css: 'galleria.classicmod.css',
     defaults: {
