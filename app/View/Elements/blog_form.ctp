@@ -2,10 +2,10 @@
 
 <?php // This file holds the common form elements for add.ctp and edit.ctp
   echo $this->Html->script('image_upload_preview');
-
-  echo $this->Html->script('ckeditor');
+  echo $this->Html->script('ckeditor/ckeditor');
 
   echo $this->Form->input('title', array('label' => 'Titel'));
+  echo $this->Form->input('file', array('type' => 'file', 'label' => 'Titelbild'));
   echo $this->Form->input('body', array('rows' => '3', 'label' => 'Text', 'class' => 'ckeditor'));
 
   // extract current tags
@@ -23,8 +23,6 @@
     'value' => implode(', ',$tags)
   ));
   unset($tag, $tags);
-
-  echo $this->Form->input('file', array('type' => 'file', 'label' => 'Titelbild'));
 
   echo $this->Form->input('time_stamp', array(
     'label' => 'Datum, das zum Eintrag passt',
