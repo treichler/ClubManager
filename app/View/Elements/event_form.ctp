@@ -239,55 +239,5 @@ $("#diffHour").keyup(function(event) {
   calculateStop();
 });
 
-
-//-----------------------
-// Customer's function
-//-----------------------
-
-// update customer_id field
-$("#CustomerName").change(function(event) {
-  id = objectIndexOf(_customers, $("#CustomerName").attr('value'));
-  if(id <= 0) {
-    id = '';
-    $('#EventCustomerId').attr("name", "" );
-    $('#CustomerName').attr("name", "data[new][Customer][name]" );
-  }
-  else {
-    $('#EventCustomerId').attr("name", "data[Event][customer_id]" );
-    $('#CustomerName').attr("name", "" );
-  }
-  $('#EventCustomerId').attr( 'value', id );
-});
-
-
-//-----------------------
-// Location's function
-//-----------------------
-
-// update location_id field
-$("#LocationName").change(function(event) {
-  id = objectIndexOf(_locations, $("#LocationName").attr('value'));
-  if(id <= 0) {
-    id = '';
-    $('#EventLocationId').attr("name", "" );
-    $('#LocationName').attr("name", "data[new][Location][name]" );
-  }
-  else {
-    $('#EventLocationId').attr("name", "data[Event][location_id]" );
-    $('#LocationName').attr("name", "" );
-  }
-  $('#EventLocationId').attr( 'value', id );
-});
-
-
-// return the index of the hash-value
-function objectIndexOf(associativeArray, value) {
-  for(var key in associativeArray) {
-    if(associativeArray[key]==value)
-      return key;
-  }
-  return -1;
-}
-
 </script>
 
