@@ -1,7 +1,7 @@
 <!-- File: /app/View/Events/view.ctp -->
 
 <?php // This file contains PHP 
-  echo $this->Html->script('jquery-ui-1.8.18.min');
+  echo $this->Html->script('jquery-ui-1.13.0.min');
   echo $this->Html->script('availabilityAjax');
 
   $now = new DateTime();

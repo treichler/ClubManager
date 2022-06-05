@@ -2,7 +2,7 @@
 
 <?php // This file contains PHP 
   echo $this->Html->script('availabilityAjax');
-  echo $this->Html->script('jquery-ui-1.8.18.min');
+  echo $this->Html->script('jquery-ui-1.13.0.min');
   $now = new DateTime();
 ?>
 
