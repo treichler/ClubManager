@@ -214,7 +214,7 @@ $(document).ready(function(){
 
 function saveInfo(id) {
   var input = $('#Availability' + id + 'info')
-  isAvailable(id, 'info', _availabilities_path, input.attr('value'));
+  isAvailable(id, 'info', _availabilities_path, input.val());
 }
 
 function evalInfo(e,id) {
