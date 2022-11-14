@@ -165,7 +165,7 @@ class EventsController extends AppController {
               'fields' => array('Profile.first_name', 'Profile.last_name'),
             ),
             'State' => array(
-              'fields' => array('State.id', 'State.name'),
+              'fields' => array('State.id', 'State.name', 'State.is_member'),
             ),
             'Group' => array(
               'fields' => array('Group.id', 'Group.name'),
@@ -179,6 +179,18 @@ class EventsController extends AppController {
         'Customer'
       ),
     ));
+    // Only event's owner and users with privilege 'Administrator' or 'Availabilities'
+    // are expected to see all related members
+    if( !($this->Event->isOwnedBy($id, $this->getUser()['User']['id']) ||
+          array_has_key_val($this->getUser()['Privileg'], 'name', 'Administrator') ||
+          array_has_key_val($this->getUser()['Privileg'], 'name', 'Availability')) ) {
+      // remove non-members (State.is_member == false)
+      foreach ($event['Availability'] as $key => $val) {
+        if ( !$val['is_available'] && isset($val['Membership']['State']['is_member']) && !$val['Membership']['State']['is_member'] ) {
+          unset($event['Availability'][$key]);
+        }
+      }
+    }
     $this->set(compact('event'));
 
     // load the administrator of this event

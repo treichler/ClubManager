@@ -99,8 +99,8 @@ CREATE TABLE salutations (
 
 CREATE TABLE memberships (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Primary key',
-  profile_id INT(11) NOT NULL COMMENT 'Foreign key to states',
-  state_id INT(11) NOT NULL COMMENT 'Foreign key to states',
+  profile_id INT(11) NOT NULL COMMENT 'Foreign key to profile',
+  state_id INT(11) NOT NULL COMMENT 'Foreign key to state',
   calendar_link VARCHAR(50),
   created DATETIME DEFAULT NULL,
   modified DATETIME DEFAULT NULL
