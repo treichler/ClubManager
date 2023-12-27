@@ -12,7 +12,7 @@
   echo $this->Form->input('show_official_start', array('label' => 'Offiziellen Beginn zeigen'));
 ?>
 
-<div>
+<div class="input select">
 <label for="leadTime">Vorlaufzeit</label>
 <select id="leadTime">
   <option value=""></option>
@@ -51,7 +51,7 @@
   ));
 ?>
 
-<div>
+<div class="input text">
 <label for="diffHour">Stundendifferenz</label>
 <input maxlength="4" type="text" value="0" id="diffHour"/>
 </div>

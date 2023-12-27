@@ -9,7 +9,7 @@ class MusicsheetsController extends AppController
     // TODO club members are allowed to call 'index' and 'view'
 //    if (($this->action === 'add' || $this->action === 'edit' || $this->action === 'delete') &&
 //        array_has_key_val($privilegs['Privileg'], 'name', 'Music database'))
-    if ($this->action === 'index')
+    if ($this->action === 'index' || $this->action === 'view')
       return true;
 
     // users with privileg 'Music database' are allowed to call 'add', 'edit' and 'delete'
@@ -19,11 +19,19 @@ class MusicsheetsController extends AppController
   }
 
 
+  public $components = array('RequestHandler');
   public $helpers = array('Html', 'Form');
 
 
   public function index() {
     $this->set('musicsheets', $this->Musicsheet->find('all'));
+  }
+
+  public function view($id = null) {
+    $this->Musicsheet->id = $id;
+    $this->Musicsheet->contain();
+    $musicsheet = $this->Musicsheet->read();
+    $this->set(compact('musicsheet'));
   }
 
   public function add() {

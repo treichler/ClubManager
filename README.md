@@ -94,6 +94,8 @@ Some Handy Links
 
 [TCPDF](http://www.tcpdf.org/) - PHP class for generating PDF documents
 
+[Html5-QRCode](https://github.com/mebjas/html5-qrcode) - QR Code reader
+
 [CKEditor](http://ckeditor.com/) - Web text editor
 
 [s3Slider](http://www.serie3.info/s3slider/) - A jQuery-based image slider
