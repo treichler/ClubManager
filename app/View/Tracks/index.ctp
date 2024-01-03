@@ -66,11 +66,11 @@ function deleteTrack(id) {
       data: 'whatever',
       success: function(raw_data, textStatus, jqXHR){
         var data = jQuery.parseJSON(raw_data);
-        if (data.state == 'true') {
+        if (data.state == true) {
           target = $('#tracksTableRowId' + id);
           target.hide('slow', function(){ target.remove(); });
         } else {
-          if (data.state === 'false')
+          if (data.state == false)
             alert(data.message);
           else
             alert('Oops, something weired happened.');
@@ -98,7 +98,7 @@ $('#AddTrack').click(function() {
       data: data,
       success: function(raw_data, textStatus, jqXHR){
         var data = jQuery.parseJSON(raw_data);
-        if (data.state === "true") {
+        if (data.state == true) {
           a = "<tr id=\"tracksTableRowId" + data.data.Track.id + "\">" +
                 "<td>" + data.data.Musicsheet.title + "</td>" +
                 "<td>" + data.data.Track.timestamp + "</td>" +
@@ -107,7 +107,7 @@ $('#AddTrack').click(function() {
           target = $('#tracksTableId');
           target.append(a);
         } else {
-          if (data.state === 'false')
+          if (data.state == false)
             alert(data.message);
           else
             alert('Oops, something weired happened.');

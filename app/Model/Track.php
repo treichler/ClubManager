@@ -9,8 +9,8 @@ class Track extends AppModel {
 
   public function afterFind($results, $primary = false) {
     foreach ($results as $key => $val) {
-      $created = new DateTime($results[$key]['Track']['created']);
-      $results[$key]['Track']['timestamp'] = $created->format('d.m. H:i');
+      $timestamp = new DateTime($results[$key]['Track']['modified']);
+      $results[$key]['Track']['timestamp'] = $timestamp->format('d.m.Y H:i');
     }
     return $results;
   }

@@ -17,6 +17,15 @@ class TracksController extends AppController {
     if (($this->action === 'add' || $this->action === 'delete') &&
         array_has_key_val($privilegs['Privileg'], 'name', 'Track'))
       return true;
+
+    // Auth fails
+    if($this->request->is('ajax')) {
+      $this->response->type('json');
+      $this->response->statusCode(401);
+      $this->response->body(json_encode(array('state' => False, 'message' => 'Unauthorized')));
+      $this->response->send();
+      $this->_stop();
+    }
   }
 
 
@@ -70,35 +79,38 @@ class TracksController extends AppController {
       $event = $this->Track->Event->findById($this->request->data['Track']['event_id']);
       if ($event['Event']['tracks_checked']) {
         $response = json_encode(array(
-          'state' => 'false',
+          'state' => False,
           'message' => 'Hinzufügen nicht möglich, da die Liste der gespielten Musikstück bereits bestätigt wurde.'
         ));
       } else {
-        $this->Track->create();
-        if ($this->Track->save($this->request->data)) {
-          $this->Track->contain('Musicsheet.title');
-          $response = json_encode(array('state' => 'true', 'data' => $this->Track->read()));
+        // check if track already exists
+        $this->Track->contain();
+        $track = $this->Track->find('first', array(
+          'conditions' => array(
+            'Track.event_id' => $this->data['Track']['event_id'],
+            'Track.musicsheet_id' => $this->data['Track']['musicsheet_id']
+          )
+        ));
+        if( isset($track['Track']['id']) ) {
+          // track already exists --> only update 'modified' timestamp
+          $this->Track->id = $track['Track']['id'];
+          $now = new DateTime();
+          $track_is_saved = $this->Track->saveField( 'modified', $now->format('Y-m-d H:i:s') );
         } else {
-          $response = json_encode(array('state' => 'false', 'message' => 'Musikstück konnte nicht gespeichert werden.'));
+          // create new track
+          $this->Track->create();
+          $track_is_saved = $this->Track->save($this->request->data);
+        }
+        // check track's saving status
+        if( $track_is_saved ) {
+          $this->Track->contain('Musicsheet.title');
+          $response = json_encode(array('state' => True, 'data' => $this->Track->read()));
+        } else {
+          $response = json_encode(array('state' => False, 'message' => 'Musikstück konnte nicht gespeichert werden.'));
         }
       }
-
-/*
-      $this->Blog->create();
-      if ($this->Blog->save($this->request->data))
-      {
-        $this->Session->setFlash('Blog wurde gespeichert.');
-//        $this->Session->setFlash(print_r($this->request->data));
-        $this->redirect(array('action' => 'index'));
-      }
-      else
-      {
-        $this->Session->setFlash('Blog konnte nicht gespeichert werden.');
-      }
-*/
-
     } else {
-      $response = json_encode(array('state' => 'false', 'message' => 'Nothing to do.'));
+      $response = json_encode(array('state' => False, 'message' => 'Nothing to do.'));
     }
     $this->response->type('json');
     $this->response->body($response);
@@ -115,15 +127,15 @@ class TracksController extends AppController {
     $track = $this->Track->findById($id);
     if ($track['Event']['tracks_checked']) {
       $response = json_encode(array(
-        'state' => 'false',
+        'state' => False,
         'message' => 'Löschen nicht möglich, da die Liste der gespielten Musikstück bereits bestätigt wurde.'
       ));
     } else {
       if ($this->request->is('ajax')) {
         if ($this->Track->delete($id)) {
-          $response = json_encode(array('state' => 'true'));
+          $response = json_encode(array('state' => True));
         } else {
-          $response = json_encode(array('state' => 'false', 'message' => 'Seite konnte nicht gelöscht werden'));
+          $response = json_encode(array('state' => False, 'message' => 'Seite konnte nicht gelöscht werden'));
         }
       }
     }

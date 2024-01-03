@@ -622,6 +622,14 @@ div.table.event div.tr div.td:first-child { max-width: 100px; }
 div.table div.tr div.td { padding: 6px; }
 
 
+/* ---------------------------------------------------------------------- */
+/* QR Code scanner
+/* ---------------------------------------------------------------------- */
+#QRreader { width: 418px; }
+#checkContainer input, #checkContainer select { width: 420px; }
+#checkContainer .submit { margin: 10px 0px 10px 0px }
+
+
 /*------------------------------------------------------------------------*/
 /*  Logo
 /*------------------------------------------------------------------------*/

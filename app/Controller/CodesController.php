@@ -14,9 +14,9 @@ class CodesController extends AppController {
     }
 
     // users with privileg 'Track' are allowed to call 'add' and 'delete'
-    if (($this->action === 'add' || $this->action === 'delete') &&
-        array_has_key_val($privilegs['Privileg'], 'name', 'Track'))
-      return true;
+//    if (($this->action === 'add' || $this->action === 'delete') &&
+//        array_has_key_val($privilegs['Privileg'], 'name', 'Track'))
+//      return true;
   }
 
 
