@@ -273,13 +273,13 @@ class EventsController extends AppController {
     $this->set(compact('users'));
 
     // add drop down lists to the instant variable
-    $this->fetchDropDownLists();
+    $this->fetchDropDownLists( $event['Event']['mode_id'] );
 
     if ($this->request->is('get')) {
       $this->request->data = $event;
     } else {
 //      $this->request->data['Event']['group_id'] = $event['Event']['group_id'];
-      $this->request->data['Event']['mode_id'] = $event['Event']['mode_id'];
+//      $this->request->data['Event']['mode_id'] = $event['Event']['mode_id'];
 //      $this->request->data['Event']['user_id'] = $event['Event']['user_id'];
       if ($this->Event->save($this->request->data)) {
         $this->Session->setFlash('Termin wurde aktualisiert.', 'default', array('class' => 'success'));
@@ -300,7 +300,7 @@ class EventsController extends AppController {
     }
   }
 
-  private function fetchDropDownLists() {
+  private function fetchDropDownLists( $mode_id = null ) {
     // fetch groups where the user is allowed to add events
     $user = $this->getUser();
     $privileg_ids = [];
@@ -332,7 +332,17 @@ class EventsController extends AppController {
     $this->set(compact('locations'));
 
     // add all event modes to the instant variable
-    $modes = $this->Event->Mode->find('list',array('fields'=>array('id','name')));
+    if( $mode_id ) {
+      // if 'mode_id' is provided only fetch modes with similar availability-setting
+      $this->Event->Mode->id = $mode_id;
+      $mode = $this->Event->Mode->read();
+      $modes = $this->Event->Mode->find('list', array(
+        'fields' => array('id', 'name'),
+        'conditions' => array('Mode.set_availability' => $mode['Mode']['set_availability'])
+      ));
+    }
+    else
+      $modes = $this->Event->Mode->find('list',array('fields'=>array('id','name')));
     $this->set(compact('modes'));
 
     // add all resources to the instant variable
