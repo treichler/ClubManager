@@ -224,9 +224,26 @@ CREATE TABLE events_resources (
 
 CREATE TABLE resources (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Primary key',
+  category_id INT(11),
+  membership_id INT(11) COMMENT 'Resource might be permanently lent by club-member',
+  repository_id INT(11) COMMENT 'Place where ressource is usually kept',
   name VARCHAR(50),
   is_location TINYINT(1) COMMENT 'Set true if ressource is a location e.g. a room.',
   info TEXT,
+  created DATETIME DEFAULT NULL,
+  modified DATETIME DEFAULT NULL
+);
+
+CREATE TABLE categories (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Primary key',
+  name VARCHAR(50),
+  created DATETIME DEFAULT NULL,
+  modified DATETIME DEFAULT NULL
+);
+
+CREATE TABLE repositories (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Primary key',
+  name VARCHAR(50),
   created DATETIME DEFAULT NULL,
   modified DATETIME DEFAULT NULL
 );

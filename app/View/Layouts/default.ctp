@@ -200,6 +200,8 @@ function initTinyNav() {
       <li <?php echo (($this->params['controller'] == 'pages' && $title_for_layout == 'Administration') ||
                       ($this->params['controller'] == 'contacts' && $this->params['action'] != 'contact') ||
                       $this->params['controller'] == 'resources' ||
+                      $this->params['controller'] == 'categories' ||
+                      $this->params['controller'] == 'repositories' ||
                       ($this->params['controller'] == 'groups' && !($this->params['action'] == 'index' || $this->params['action'] == 'view')) ||
                       $this->params['controller'] == 'memberships' ||
                       $this->params['controller'] == 'statistics' ||
@@ -245,8 +247,16 @@ function initTinyNav() {
           <?php endif; ?>
 
           <?php if ($this->Html->hasPrivileg($this_user, array('Resource create', 'Resource modify', 'Resource delete'))): ?>
-          <li <?php echo ($this->params['controller'] == 'resources') ? 'class="current"' : ''; ?>>
+          <li <?php echo ($this->params['controller'] == 'resources' || $this->params['controller'] == 'categories' || $this->params['controller'] == 'repositories') ? 'class="current"' : ''; ?>>
             <?php echo $this->Html->link('Ressourcen', array('controller' => 'resources', 'action' => 'index')); ?>
+            <ul>
+              <li <?php echo ($this->params['controller'] == 'categories') ? 'class="current"' : ''; ?>>
+                <?php echo $this->Html->link('Kategorien', array('controller' => 'categories', 'action' => 'index')); ?>
+              </li>
+              <li <?php echo ($this->params['controller'] == 'repositories') ? 'class="current"' : ''; ?>>
+                <?php echo $this->Html->link('Aufbewahrungsplätze', array('controller' => 'repositories', 'action' => 'index')); ?>
+              </li>
+            </ul>
           </li>
           <?php endif; ?>
 

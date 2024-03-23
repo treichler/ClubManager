@@ -116,7 +116,9 @@ $('#iCalShowHide').click(function(){
   });
 
   // load layer
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
 
   // set marker to home destination
   var marker = L.marker([latitude, longitude]).addTo(map);

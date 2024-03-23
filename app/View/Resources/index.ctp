@@ -23,7 +23,9 @@ $(document).ready(function() {
   <tr>
     <th>Bezeichnung</th>
     <th>Details</th>
-    <th>Raum</th>
+    <th>Kategorie</th>
+    <th>Aufbewahrungsplatz</th>
+    <th>Dauerausleihe</th>
   </tr>
 </thead>
 <tbody>
@@ -31,7 +33,11 @@ $(document).ready(function() {
   <tr>
     <td><?php echo $resource['Resource']['name'] ?></td>
     <td><?php echo $resource['Resource']['info'] ?></td>
-    <td><?php echo $this->Html->showBoolean( $resource['Resource']['is_location'], array('bold' => true)); ?></td>
+    <td><?php if( $resource['Resource']['category_id'] ) echo $resource['Category']['name'] ?></td>
+    <td><?php if( $resource['Resource']['repository_id'] ) echo $resource['Repository']['name'] ?></td>
+    <td><?php if( $resource['Resource']['membership_id'] )
+                echo $resource['Membership']['Profile']['first_name'] . ' ' . 
+                     $resource['Membership']['Profile']['last_name'] ?></td>
     <td class="icon-edit"><?php
         echo $this->Html->link('bearbeiten',
             array('controller' => 'resources', 'action' => 'edit', $resource['Resource']['id']),

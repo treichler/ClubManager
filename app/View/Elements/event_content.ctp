@@ -46,12 +46,11 @@ foreach ($events as $event):
   if ($now->getTimestamp() - $stop->getTimestamp() > $intervall)
     continue;
 
-  // get ressources (which are locations)
+  // get ressources
   $resources = [];
   if (isset($event['Resource'])) {
     foreach ($event['Resource'] as $resource) {
-//      if ($resource['is_location'])
-        $resources[] = h($resource['name']);
+      $resources[] = h($resource['name']);
     }
   }
 

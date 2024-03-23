@@ -55,8 +55,16 @@ foreach ($memberships as $membership):
 var ages = <?php echo json_encode($ages); ?>;
 var ages_max = Math.max.apply(Math, ages);
 var ages_min = Math.min.apply(Math, ages);
+var ages_sum = 0;
+for(var i = 0; i < ages.length; i ++) ages_sum += ages[i];
+var ages_avg = ages_sum / ages.length;
 var ages_length = ages.length;
-$('#histogram').before("<ul><li>Minimum: " + ages_min + " Jahre</li><li>Maximum: " + ages_max + " Jahre</li><li>Anzahl der Bewertungen: " + ages_length + "</li></ul>");
+$('#histogram').before("<ul>" +
+  "<li>Minimum: " + ages_min + " Jahre</li>" +
+  "<li>Maximum: " + ages_max + " Jahre</li>" +
+  "<li>Durchschnitt: " + Math.round(ages_avg * 100) / 100 + " Jahre</li>" +
+  "<li>Anzahl der Bewertungen: " + ages_length + "</li>" +
+"</ul>");
 
 // A formatter for counts.
 var formatCount = d3.format(",.0f");
