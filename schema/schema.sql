@@ -153,6 +153,7 @@ CREATE TABLE groups (
   kind_id INT COMMENT 'Foreign key to kind of group',
   name VARCHAR(50),
   info TEXT,
+  sorting INT(11),
   show_members TINYINT(1),
   created DATETIME DEFAULT NULL,
   modified DATETIME DEFAULT NULL
@@ -225,10 +226,9 @@ CREATE TABLE events_resources (
 CREATE TABLE resources (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Primary key',
   category_id INT(11),
+  repository_id INT(11) COMMENT 'Place where resource is usually kept',
   membership_id INT(11) COMMENT 'Resource might be permanently lent by club-member',
-  repository_id INT(11) COMMENT 'Place where ressource is usually kept',
   name VARCHAR(50),
-  is_location TINYINT(1) COMMENT 'Set true if ressource is a location e.g. a room.',
   info TEXT,
   created DATETIME DEFAULT NULL,
   modified DATETIME DEFAULT NULL

@@ -170,6 +170,7 @@ class EventsController extends AppController {
             'Group' => array(
               'fields' => array('Group.id', 'Group.name'),
               'conditions' => array('Group.kind_id' => $kind_ids),
+              'order' => array('Group.sorting' => 'asc')
             ),
           ),
         ),

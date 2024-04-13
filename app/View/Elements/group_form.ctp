@@ -5,6 +5,7 @@
   echo $this->Html->script('ckeditor/ckeditor');
   echo $this->Form->input('kind_id', array('label' => 'Art der Gruppe', 'empty'=>true));
   echo $this->Form->input('name', array('label' => 'Bezeichnung der Gruppe'));
+  echo $this->Form->input('sorting', array('label' => 'Reihenfolge/Sortierung'));
   echo $this->Form->input('file', array('type' => 'file', 'label' => 'Bild der Gruppe'));
   echo $this->Form->input('info', array('rows' => '3', 'label' => 'Text', 'class' => 'ckeditor'));
   echo $this->Form->input('show_members', array('label' => 'Aktive Mitglieder öffentlich zeigen'));

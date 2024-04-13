@@ -2,33 +2,40 @@
 
 <?php // This file contains PHP ?>
 
+<?php echo $this->Html->script('jquery.tablesorter.min'); ?>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  // call the tablesorter plugin
+  $("table").tablesorter({
+    // sort on the first column, order asc
+    sortList: [[0,0]]
+  });
+});
+</script>
+
 <h1>Gruppen</h1>
 
-<p>
-<?php
-  echo $this->Html->link('Gruppe hinzufügen',
-  array('controller' => 'groups', 'action' => 'add'));
-?>
-</p>
+<p><?php echo $this->Html->link('Gruppe hinzufügen', array('controller' => 'groups', 'action' => 'add')); ?></p>
 
-<table>
+<table class="tablesorter">
+<thead>
   <tr>
-    <th>id</th>
-    <th>privileg_id</th>
     <th>Type</th>
     <th>Name</th>
+    <th>Sortierung</th>
     <th>Mitlieder sind öffentlich</th>
   </tr>
-
-  <?php foreach($groups as $group): ?>
+</thead>
+<tbody>
+<?php foreach($groups as $group): ?>
   <tr>
-    <td><?php echo $group['Group']['id'] ?></td>
-    <td><?php echo $group['Group']['privileg_id'] ?></td>
     <td><?php echo $group['Kind']['name'] ?></td>
     <td><?php
         echo $this->Html->link($group['Group']['name'],
         array('controller' => 'groups', 'action' => 'details', $group['Group']['id']));
     ?></td>
+    <td><?php echo $group['Group']['sorting'] ?></td>
     <td><?php echo $this->Html->showBoolean($group['Group']['show_members'], array('bold' => true)); ?></td>
     <td class="icon-edit"><?php
         echo $this->Html->link('bearbeiten',
@@ -42,8 +49,8 @@
                   'title' => 'Gruppe löschen'));
     ?></td><?php endif; ?>
   </tr>
-  <?php endforeach; ?>
-  <?php unset($group); ?>
-
+<?php endforeach; ?>
+</tbody>
+<?php unset($group); ?>
 </table>
 
