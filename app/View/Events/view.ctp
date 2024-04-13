@@ -97,11 +97,11 @@
 
     if( !isset($membership_states[ $availability['Membership']['State']['id'] ]) ) {
       $membership_states[$availability['Membership']['State']['id']] = array(
-        'State'           => $availability['Membership']['State']['name'],
-        'Availability'    => array(),
-        'names'           => array(),
-        'groups'          => array(),
-        'first_group_ids' => array(),
+        'State'               => $availability['Membership']['State']['name'],
+        'Availability'        => array(),
+        'names'               => array(),
+        'groups'              => array(),
+        'first_group_sorting' => array(),
       );
     }
 
@@ -113,11 +113,11 @@
     $membership_states[$availability['Membership']['State']['id']]['Availability'][]    = $availability;
     $membership_states[$availability['Membership']['State']['id']]['names'][]           = $availability['Membership']['Profile']['first_name'] . ' ' . $availability['Membership']['Profile']['last_name'];
     $membership_states[$availability['Membership']['State']['id']]['groups'][]          = implode(', ', $group_names);
-    $membership_states[$availability['Membership']['State']['id']]['first_group_ids'][] = isset($availability['Membership']['Group'][0]) ? $availability['Membership']['Group'][0]['id'] : Null;
+    $membership_states[$availability['Membership']['State']['id']]['first_group_sorting'][] = isset($availability['Membership']['Group'][0]) ? $availability['Membership']['Group'][0]['sorting'] : Null;
   }
-  // sort "$groups" and "infos" by "first_group_ids" and "names"
+  // sort "$groups" and "infos" by "first_group_sorting" and "names"
   foreach( $membership_states as $i => $f ) {
-    array_multisort($membership_states[$i]['first_group_ids'], SORT_ASC, $membership_states[$i]['names'], SORT_ASC, $membership_states[$i]['groups'], $membership_states[$i]['Availability']);
+    array_multisort($membership_states[$i]['first_group_sorting'], SORT_ASC, $membership_states[$i]['names'], SORT_ASC, $membership_states[$i]['groups'], $membership_states[$i]['Availability']);
   }
   // sort keys (state ids) ascending
   ksort($membership_states);
