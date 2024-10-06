@@ -42,7 +42,7 @@ td {
   $names = array();
   $groups = array();
   $infos = array();
-  $first_group_ids = array();
+  $first_group_sorting = array();
   foreach( $event['Availability'] as $availability ) {
     if( $availability['is_available'] ) {
       $id = $availability['id'];
@@ -53,7 +53,7 @@ td {
       $names[]  = $availability['Membership']['Profile']['first_name'] . ' ' . $availability['Membership']['Profile']['last_name'];
       $groups[] = implode(', ', $group_names);
       $infos[]  = $availability['info'];
-      $first_group_ids[] = isset($availability['Membership']['Group'][0]) ? $availability['Membership']['Group'][0]['id'] : Null;
+      $first_group_sorting[] = isset($availability['Membership']['Group'][0]) ? $availability['Membership']['Group'][0]['sorting'] : Null;
 
       $count_people ++;
       if( isset($availability['Membership']['Group'][0]) )
@@ -61,8 +61,8 @@ td {
     }
   }
 
-  // sort "$groups" and "infos" by "first_group_ids" and "names"
-  array_multisort($first_group_ids, SORT_ASC, $names, SORT_ASC, $groups, $infos);
+  // sort "$groups" and "infos" by "first_group_sorting" and "names"
+  array_multisort($first_group_sorting, SORT_ASC, $names, SORT_ASC, $groups, $infos);
 
   // print table to pdf
   for( $i = 0; $i < count($names); $i++ ):
@@ -77,7 +77,7 @@ td {
   unset($groups);
   unset($names);
   unset($infos);
-  unset($first_group_ids);
+  unset($first_group_sorting);
 ?>
   <tr>
     <th>Summe: <?php echo $count_groups; ?></th>

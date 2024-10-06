@@ -171,7 +171,7 @@ class GroupsController extends AppController {
     } else {
       if ($this->Group->save($this->request->data)) {
         $this->Session->setFlash('Gruppe wurde aktualisiert.', 'default', array('class' => 'success'));
-        $this->redirect(array('action' => 'details', $this->request->data['Group']['id']));
+        $this->redirect(array('action' => 'organize'));
       } else {
         $this->Session->setFlash('Gruppe konnte nicht aktualisiert werden.');
       }
