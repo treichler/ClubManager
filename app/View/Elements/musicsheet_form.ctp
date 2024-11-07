@@ -283,7 +283,7 @@ function deleteComposer(index){
 
 // update publisher_id field
 $("#PublisherName").change(function(event) {
-  id = objectIndexOf(_publishers, $("#PublisherName").attr('value'));
+  id = objectIndexOf(_publishers, this.value);
   if(id <= 0) {
     id = '';
     $('#MusicsheetPublisherId').attr("name", "" );

@@ -69,10 +69,15 @@ class Musicsheet extends AppModel {
           // use existing publisher
           $this->data['Musicsheet']['publisher_id'] = $publisher['Publisher']['id'];
         } else {
-          // create new publisher
-          $this->Publisher->create();
-          if($this->Publisher->save($this->data['new']))
-            $this->data['Musicsheet']['publisher_id'] = $this->Publisher->id;
+          if (empty($this->data['new']['Publisher']['name'])) {
+            // clear publisher
+            $this->data['Musicsheet']['publisher_id'] = 0;
+          } else {
+            // create new publisher
+            $this->Publisher->create();
+            if($this->Publisher->save($this->data['new']))
+              $this->data['Musicsheet']['publisher_id'] = $this->Publisher->id;
+          }
         }
       } // END: handle new publisher
 
