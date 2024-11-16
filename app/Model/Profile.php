@@ -111,7 +111,7 @@ class Profile extends AppModel {
       // resize the uploaded image
       $portrait_type = 'image/jpeg';
       $portrait_extension = 'jpg';
-      $Im->portrait();
+      $Im->portrait(Configure::read('portrait_geometry.width'), Configure::read('portrait_geometry.height'));
       $portrait_file = tempnam(Configure::read('CMSystem.tmp_dir'), 'portrait');
       $Im->saveProcessedImage($portrait_file, $portrait_type);
       chmod($portrait_file, 0644);

@@ -267,6 +267,17 @@ Configure::write('photo_geometry', array(
 
 
 /**
+ * Geometry of profile's portaits
+ *
+ * !!! Be aware of changing this settings during production !!!
+ */
+Configure::write('portrait_geometry', array(
+  'width'            => 120,    //
+  'height'           => 160,    //
+));
+
+
+/**
  * Settings for SMS-gateway
  */
 Configure::write('sms_gateway', array(
