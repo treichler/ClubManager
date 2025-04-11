@@ -50,31 +50,52 @@ class Group extends AppModel {
       $this->data['Membership'] = array('Membership' => $this->data['Membership']['Membership']);
     }
 
-    // Save attached picture
-    if($this->data[$this->name]['file']['name']) {
-      // resize the uploaded image
-      $Im = new ImageProcess($this->data[$this->name]['file']['tmp_name']);
-      $Im->landscape(Configure::read('image_landscape_geometry.width'), Configure::read('image_landscape_geometry.height'));
-      $Im->saveProcessedImage($this->data[$this->name]['file']['tmp_name']);
-      unset($Im);
+    // Prepare attached picture
+    if(isset($this->data[$this->name]['file']['name']) && $this->data[$this->name]['file']['name']) {
+      $file = $this->data[$this->name]['file'];
 
+      // resize the uploaded image
+      $Im = new ImageProcess($file['tmp_name']);
+      $Im->landscape(Configure::read('image_landscape_geometry.width'), Configure::read('image_landscape_geometry.height'));
+      $Im->saveProcessedImage($file['tmp_name']);
+      unset($Im);
+    } elseif (isset($this->data[$this->name]['file_resized'])) {
+      // Save client side resized image:
+      // create temporary image file from base64 data
+      $temp_file = tempnam(Configure::read('CMSystem.tmp_dir'), 'temp_file');
+      $fh = fopen($temp_file, 'wb');
+      stream_filter_append($fh, 'convert.base64-decode');
+      fwrite($fh, $this->data[$this->name]['file_resized']['data']);
+      fclose($fh);
+      chmod($temp_file, 0644);
+
+      $file = array(
+        'tmp_name'       => $temp_file,
+        'name'           => $this->data[$this->name]['file_resized']['name'],
+        'error'          => UPLOAD_ERR_OK,
+        'size'           => $this->data[$this->name]['file_resized']['size'],
+        'type'           => $this->data[$this->name]['file_resized']['type'],
+        'temporary_file' => true
+      );
+    }
+    // Save attached picture
+    if(isset($file)) {
       $storage = [];
       if (isset($this->data[$this->name]['storage_id']))
         $storage = $this->Storage->findById($this->data[$this->name]['storage_id']);
       if ($storage == []) {
         // create new storage
         $this->Storage->create();
-        $this->Storage->save(array('file' => $this->data[$this->name]['file'],
+        $this->Storage->save(array('file' => $file,
                                    'folder' => $this->name));
         $storage['Storage']['id'] = $this->Storage->id;
       } else {
         $this->Storage->save(array('id' => $storage['Storage']['id'],
                                    'folder' => $this->name,
-                                   'file' => $this->data[$this->name]['file']));
+                                   'file' => $file));
       }
       $this->data[$this->name]['storage_id'] = $storage['Storage']['id'];
     }
-
     return true;
   }
 
