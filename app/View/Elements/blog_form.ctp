@@ -6,7 +6,7 @@
 
   echo $this->Form->input('title', array('label' => 'Titel'));
   echo $this->Form->input('file', array('type' => 'file', 'label' => 'Titelbild'));
-  echo $this->Form->input('body', array('rows' => '3', 'label' => 'Text', 'class' => 'ckeditor'));
+  echo $this->Form->input('body', array('rows' => '3', 'label' => 'Text -- Absatzformat und Bilder werden nicht dargestellt', 'class' => 'ckeditor'));
 
   // extract current tags
   $tags = array();

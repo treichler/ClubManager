@@ -14,7 +14,11 @@ text-align: left;
 }
 
 .high_priority {
-background-color: #ffafaf;
+/* background-color: #ffafaf; */
+}
+
+div, td {
+border: 1px solid black;
 }
 
 div.spacing {
@@ -30,6 +34,7 @@ text-align: center;
 font-size: 14;
 font-weight: bold;
 line-height: 1.5;
+background-color: #ffafaf;
 }
 
 </style>

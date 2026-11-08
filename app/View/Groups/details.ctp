@@ -23,9 +23,9 @@
   }
 ?>
 
-<p><?php echo $group['Group']['info']?></p>
+<div><?php echo $group['Group']['info']?></div>
 
-<h4>Zugeordnete Personen (<?php echo count($memberships) ?>)</h4>
+<h2 style="clear:both;">Zugeordnete Personen (<?php echo count($memberships) ?>)</h2>
 
 <?php
   function array_has_key($arr, $key) {

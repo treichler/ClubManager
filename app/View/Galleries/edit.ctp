@@ -23,7 +23,7 @@
 <table>
   <tr>
     <th>Bild</th>
-    <th>Titel</th>
+    <th>Titel / Link</th>
     <th>Titelbild</th>
     <th>Hochgeladen von</th>
     <th>Urheber</th>
@@ -38,7 +38,10 @@
         echo $this->Form->input('Photo.' . $i . '.gallery_id', array('type' => 'hidden', 'value' => $photo['gallery_id']));
         echo '<img src="' . Router::url(array('controller' => 'photos', 'action' => 'thumb', $photo['id']), true) . '" />';
       ?></td>
-    <td><?php echo $this->Form->input('Photo.' . $i . '.title', array('label' => false, 'value' => $photo['title'])); ?></td>
+    <td>
+      <?php echo $this->Form->input('Photo.' . $i . '.title', array('label' => false, 'value' => $photo['title'])); ?>
+      <pre><?php echo Router::url(array('controller' => 'photos', 'action' => 'photo', $photo['id'])); ?></pre>
+    </td>
     <td><?php
         echo '<input name="data[Gallery][photo_id]" type="radio" value="' . $photo['id'] .
              '" id="GalleryPhotoId' . $photo['id'] . '" ' .

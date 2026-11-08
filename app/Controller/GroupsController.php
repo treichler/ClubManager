@@ -75,7 +75,8 @@ class GroupsController extends AppController {
       ));
       $this->set(compact('memberships'));
       $kinds = $this->Group->Kind->find('list', array(
-        'conditions' => array('Kind.is_official' => true),
+//        'conditions' => array('Kind.is_official' => true),
+        'conditions' => array('Kind.show_in_availability_list' => true),
       ));
       $this->set(compact('kinds'));
     }

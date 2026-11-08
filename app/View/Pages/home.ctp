@@ -25,6 +25,10 @@ function setupRotator() {
 }
 
 function textRotate() {
+  // parse start/stop timestamp as UTC 
+//  start = new Date(events[i].Event.start + 'Z');
+//  stop  = new Date(events[i].Event.stop + 'Z');
+
   var current = $('#upcomingEventsContent > .current');
   if (current.next().length == 0) {
     current.removeClass('current').fadeOut(1000);

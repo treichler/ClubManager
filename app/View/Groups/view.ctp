@@ -11,7 +11,7 @@
   }
 ?>
 
-<p><?php echo $group['Group']['info']?></p>
+<div><?php echo $group['Group']['info']?></div>
 
 <?php
   function array_has_key($arr, $key) {
@@ -27,7 +27,7 @@
 
 <?php if (isset($memberships)): ?>
 
-<h4>Mitwirkende</h4>
+<h2 style="clear:both;">Mitwirkende</h2>
 
 <div class="gallery">
 <?php
@@ -51,6 +51,14 @@
         }
         echo implode($group_names, ', ');
       } else {
+        $group_names = [];
+        foreach ($membership['Group'] as $g) {
+          if (array_has_key($kinds, $g['kind_id']))
+            $group_names[] = $g['name'];
+        }
+if (!empty($group_names))
+        echo implode($group_names, ', ');
+else
         echo $membership['State']['name'];
       }
     ?></div>
